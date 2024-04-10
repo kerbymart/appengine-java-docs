@@ -4,14 +4,14 @@ This repository contains the legacy documentation for Google App Engine Java, a 
 
 ## Contents
 
-- [Introduction](./topics/Introduction.md)
-- [Quickstarts](./topics/Quickstarts.md)
-  - [Hello, World! in 5 minutes](./topics/Hello--World!-in-5-minutes.md)
-  - [Creating a Guestbook](./topics/Creating-a-Guestbook.md)
-- [Guides](./topics/Guides.md)
-- [APIs Reference](./topics/APIs-Reference.md)
-- [Concepts](./topics/Concepts.md)
-- [Resources](./topics/Resources.md)
+- [Introduction](./Writerside/topics/Introduction.md)
+- [Quickstarts](./Writerside/topics/Quickstarts.md)
+  - [Hello, World! in 5 minutes](./Writerside/topics/Hello--World!-in-5-minutes.md)
+  - [Creating a Guestbook](./Writerside/topics/Creating-a-Guestbook.md)
+- [Guides](./Writerside/topics/Guides.md)
+- [APIs Reference](./Writerside/topics/APIs-Reference.md)
+- [Concepts](./Writerside/topics/Concepts.md)
+- [Resources](./Writerside/topics/Resources.md)
 
 ## Contributing
 
