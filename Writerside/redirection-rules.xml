@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "https://resources.jetbrains.com/writerside/1.0/redirection-rules.dtd">
+<rules>
+    <!-- format is as follows
+    <rule id="<unique id>">
+        <accepts>page.html</accepts>
+    </rule>
+    -->
+    <rule id="1e4bd615">
+        <description>Created after removal of "Google App Engine Docs1" from Google App Engine Java Documentation
+        </description>
+        <accepts>Google-App-Engine-Docs1.html</accepts>
+    </rule>
+    <rule id="43ce348">
+        <description>Created after removal of "Empty MD Topic" from Google App Engine Java Documentation</description>
+        <accepts>Empty-MD-Topic.html</accepts>
+    </rule>
+</rules>

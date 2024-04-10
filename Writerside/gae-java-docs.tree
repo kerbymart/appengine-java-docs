@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="gae-java-docs"
+                  name="Google App Engine Java Documentation"
+                  start-page="Google-App-Engine-Docs.md">
+
+    <toc-element topic="Google-App-Engine-Docs.md">
+    </toc-element>
+    <toc-element topic="Quickstarts.md">
+        <toc-element topic="Hello--World!-in-5-minutes.md"/>
+        <toc-element topic="Creating-a-Guestbook.md">
+            <toc-element topic="Introduction.md"/>
+            <toc-element topic="Setup.md"/>
+            <toc-element topic="Creating-the-Project.md"/>
+            <toc-element topic="Adding-Application-Code-and-UI.md"/>
+            <toc-element topic="Storing-Data-in-Datastore.md"/>
+            <toc-element topic="Uploading-Your-Application.md"/>
+        </toc-element>
+    </toc-element>
+    <toc-element topic="Guides.md">
+        <toc-element topic="Developing-Java-Apps-on-App-Engine.md">
+            <toc-element topic="Download-the-Google-App-Engine-SDK.md"/>
+            <toc-element topic="Testing-and-Debugging.md">
+                <toc-element topic="The-Java-Development-Server.md"/>
+                <toc-element topic="Local-Unit-Testing.md">
+                    <toc-element topic="Local-Unit-Testing-for-Java.md"/>
+                    <toc-element topic="Local-Unit-Testing-Javadoc.md"/>
+                </toc-element>
+            </toc-element>
+            <toc-element topic="Monitoring-Your-App.md">
+                <toc-element topic="Monitoring-Latency-with-Stackdriver-Trace.md"/>
+                <toc-element topic="Capabilities-Java-API-Overview.md"/>
+                <toc-element topic="What-is-Stackdriver-Monitoring.md"/>
+            </toc-element>
+        </toc-element>
+        <toc-element topic="Managing-and-Configuring-Your-App.md">
+            <toc-element topic="Uploading-and-Managing-a-Java-App.md"/>
+            <toc-element topic="Using-the-Google-Cloud-Platform-Console-for-App-Engine.md"/>
+            <toc-element topic="Access-Control.md"/>
+            <toc-element topic="Using-Custom-Domains-and-SSL.md"/>
+            <toc-element topic="Managing-App-Resources.md"/>
+            <toc-element topic="Integrating-with-Google-Analytics.md"/>
+            <toc-element topic="Configuring-appengine-web.xml.md"/>
+            <toc-element topic="DoS-Protection-Service-for-Java.md"/>
+            <toc-element topic="The-Deployment-Descriptor_-web.xml.md"/>
+            <toc-element topic="Configuring-Your-Java-App-with-YAML-Files.md">
+                <toc-element topic="Java-Backends-Configuration.md"/>
+                <toc-element topic="Java-Index-Configuration-Using-YAML.md"/>
+                <toc-element topic="Java-Task-Scheduling-with-Cron-Using-YAML.md"/>
+                <toc-element topic="Java-Task-Queue-Configuration.md"/>
+                <toc-element topic="Java-DoS-Protection-Service-Using-YAML.md"/>
+            </toc-element>
+        </toc-element>
+        <toc-element topic="Storing-Data.md">
+            <toc-element topic="Storing-Data-in-Java.md"/>
+            <toc-element topic="Google-Cloud-Datastore.md">
+                <toc-element topic="Java-Datastore-API.md"/>
+                <toc-element topic="Entities--Properties--and-Keys.md"/>
+                <toc-element topic="Datastore-Queries.md"/>
+                <toc-element topic="Geospatial-Queries.md"/>
+                <toc-element topic="Projection-Queries.md"/>
+                <toc-element topic="Datastore-Indexes.md"/>
+                <toc-element topic="Transactions.md"/>
+                <toc-element topic="Structuring-Data-for-Strong-Consistency.md"/>
+                <toc-element topic="Metadata.md"/>
+                <toc-element topic="Datastore-Statistics-in-Java.md"/>
+                <toc-element topic="Async-Datastore-API.md"/>
+                <toc-element topic="Datastore-Callbacks.md"/>
+                <toc-element topic="Managing-Datastore-from-the-Google-Cloud-Platform-Console.md"/>
+                <toc-element topic="Java-Datastore-Index-Configuration.md"/>
+            </toc-element>
+            <toc-element topic="Using-Google-Cloud-SQL.md"/>
+            <toc-element topic="Google-Cloud-Storage.md">
+                <toc-element topic="Using-Google-Cloud-Storage.md"/>
+                <toc-element topic="Understanding-Storage-Features.md"/>
+                <toc-element topic="Getting-Started.md"/>
+            </toc-element>
+            <toc-element topic="Superseded-Storage-Solutions.md">
+                <toc-element topic="Blobstore.md">
+                    <toc-element topic="Blobstore-Java-API-Overview.md"/>
+                </toc-element>
+                <toc-element topic="JDO-for-Cloud-Datastore.md">
+                    <toc-element topic="Using-JDO-2.3-with-App-Engine.md"/>
+                    <toc-element topic="Using-JDO-3.0-with-App-Engine.md"/>
+                    <toc-element topic="Defining-Data-Classes-with-JDO.md"/>
+                    <toc-element topic="Creating--Getting-and-Deleting-Data-in-JDO.md"/>
+                    <toc-element topic="Entity-Relationships-in-JDO.md"/>
+                    <toc-element topic="Datastore-Queries-in-JDO.md"/>
+                </toc-element>
+                <toc-element topic="JPA-for-Cloud-Datastore.md">
+                    <toc-element topic="Overview-JPA-1-0.md"/>
+                    <toc-element topic="Using-JPA-with-App-Engine.md"/>
+                </toc-element>
+            </toc-element>
+
+        </toc-element>
+        <toc-element topic="Authenticating-Users.md">
+            <toc-element topic="OAuth-API-for-Java.md"/>
+            <toc-element topic="Users-Java-API-Overview.md"/>
+        </toc-element>
+        <toc-element topic="Caching-Application-Data.md">
+            <toc-element topic="Memcache-Java-API-Overview.md"/>
+            <toc-element topic="Using-JCache.md"/>
+        </toc-element>
+        <toc-element topic="Connecting-to-and-from-Your-App.md">
+            <toc-element topic="Issuing-HTTP-S-Requests.md">
+                <toc-element topic="URL-Fetch-Java-API-Overview.md"/>
+                <toc-element topic="App-Identity-Java-API-Overview.md"/>
+                <toc-element topic="Using-java.net.md"/>
+            </toc-element>
+            <toc-element topic="Sockets-Java-API-Overview.md"/>
+            <toc-element topic="Creating-a-Persistent-Connection-for-JavaScript-Clients.md">
+                <toc-element topic="Channel-Java-API-Overview.md"/>
+                <toc-element topic="Channel-API-Javascript-Reference-(Java).md"/>
+            </toc-element>
+        </toc-element>
+        <toc-element topic="Images-Java-API-Overview.md"/>
+        <toc-element topic="Mobile-Backends.md">
+            <toc-element topic="Google-App-Engine-Support-in-Android-Studio.md"/>
+            <toc-element topic="Google-Cloud-Endpoints.md">
+                <toc-element topic="Overview.md"/>
+                <toc-element topic="Getting-Started-Cloud-Endpoints.md">
+                    <toc-element topic="Getting-Started-Overview.md"/>
+                    <toc-element topic="Backend-API-Tutorial-Cloud-Endpoints.md">
+                        <toc-element topic="Backend-API-Tutorial-Setup.md"/>
+                        <toc-element topic="Backend-API-Tutorial.md"/>
+                        <toc-element topic="Creating-a-Simple-Hello-World-Backend-API.md"/>
+                        <toc-element topic="Creating-the-Hello-Endpoints-Complete-Sample-Backend-API.md"/>
+                        <toc-element topic="Hello-Endpoints-Code-Walkthrough.md"/>
+                    </toc-element>
+                    <toc-element topic="Web-Client-Tutorial.md">
+                        <toc-element topic="Web-(JavaScript)-Client-Tutorial.md"/>
+                        <toc-element topic="Web-Client-Tutorial-Setup.md"/>
+                        <toc-element topic="Adding-the-Client-UI.md"/>
+                        <toc-element topic="Adding-JavaScript.md"/>
+                        <toc-element topic="Adding-a-Simple-POST.md"/>
+                        <toc-element topic="Adding-Auth-Support-to-the-Client.md"/>
+                    </toc-element>
+                    <toc-element topic="Android-Client-Code-Sample.md"/>
+                </toc-element>
+                <toc-element topic="Coding-the-API.md">
+                    <toc-element topic="Endpoint-Annotations.md"/>
+                    <toc-element topic="Multiclass-APIs.md"/>
+                    <toc-element topic="Using-Auth-with-Endpoints.md"/>
+                    <toc-element topic="Required-Files-and-Configuration.md"/>
+                    <toc-element topic="API-Parameter-and-Return-Types.md"/>
+                    <toc-element topic="Exceptions-and-HTTP.md"/>
+                    <toc-element topic="Javadoc-Reference.md"/>
+                </toc-element>
+                <toc-element topic="Testing-and-Deploying-an-API-Backend.md"/>
+            </toc-element>
+            <toc-element topic="Generating-Client-Libraries-Cloud-Endpoints.md">
+                <toc-element topic="Generating-Client-Libraries.md"/>
+                <toc-element topic="Generating-Libraries-and-Discovery-Docs-with-the-Endpoints-Tool.md"/>
+            </toc-element>
+            <toc-element topic="Using-Endpoints-in-Clients.md">
+                <toc-element topic="Using-Endpoints-in-a-JavaScript-Client.md"/>
+                <toc-element topic="Using-Endpoints-in-an-Android-Client.md"/>
+                <toc-element topic="Using-Endpoints-in-an-iOS-Client.md"/>
+            </toc-element>
+        </toc-element>
+        <toc-element topic="Namespace-enabled-Apps.md">
+            <toc-element topic="Namespaces-Java-API.md"/>
+            <toc-element topic="Implementing-Multitenancy-Using-Namespaces.md"/>
+        </toc-element>
+        <toc-element topic="Sending-Email.md">
+            <toc-element topic="Using-the-App-Engine-Mail-API.md">
+                <toc-element topic="Mail-Java-API-Overview.md"/>
+                <toc-element topic="Sending-mail-with-JavaMail.md"/>
+                <toc-element topic="Receiving-Email.md"/>
+                <toc-element topic="Receiving-Bounce-Notification.md"/>
+            </toc-element>
+            <toc-element topic="Sending-Email-with-SendGrid.md"/>
+            <toc-element topic="Sending-Email-with-Mailgun.md"/>
+        </toc-element>
+        <toc-element topic="Sending-and-Receiving-Chat-and-SMS-Messages.md">
+            <toc-element topic="XMPP-Java-API-Overview.md"/>
+            <toc-element topic="SMS-and-Voice-Services-via-Twilio.md"/>
+        </toc-element>
+        <toc-element topic="Scheduling-Work-Outside-of-User-Requests.md">
+            <toc-element topic="Scheduled-Tasks-With-Cron-for-Java.md"/>
+            <toc-element topic="Task-Queue-API.md">
+                <toc-element topic="Task-Queue-Java-API-Overview.md"/>
+<!--                <toc-element topic="Java-Task-Queue-Configuration.md"/>-->
+                <toc-element topic="Using-Push-Queues-in-Java.md"/>
+                <toc-element topic="Using-Pull-Queues-in-Java.md"/>
+                <toc-element topic="Task-Queue-REST-APIAlpha.md">
+                    <toc-element topic="API-Reference.md"/>
+                    <toc-element topic="About-Authorization.md"/>
+                    <toc-element topic="The-Task-Queue-REST-API.md"/>
+                    <toc-element topic="The-Task-Queue-REST-API-Performance-Tips.md"/>
+                    <toc-element topic="Standard-Query-Parameters.md"/>
+                    <toc-element topic="Taskqueues.md">
+                        <toc-element topic="Taskqueues_-get.md"/>
+                    </toc-element>
+                    <toc-element topic="Tasks.md">
+                        <toc-element topic="Tasks_-delete.md"/>
+                        <toc-element topic="Tasks_-get.md"/>
+                        <toc-element topic="Tasks_-insert.md"/>
+                        <toc-element topic="Tasks_-lease.md"/>
+                        <toc-element topic="Tasks_-list.md"/>
+                        <toc-element topic="Tasks_-patch.md"/>
+                        <toc-element topic="Tasks_-update.md"/>
+                    </toc-element>
+                </toc-element>
+            </toc-element>
+        </toc-element>
+        <toc-element topic="Searchable-Document-Indexes.md">
+            <toc-element topic="Documents-and-Indexes.md"/>
+            <toc-element topic="Query-Strings.md"/>
+            <toc-element topic="Query-and-Sorting-Options.md"/>
+            <toc-element topic="Handling-Search-Results.md"/>
+            <toc-element topic="Faceted-Search.md"/>
+            <toc-element topic="Search-Best-Practices.md"/>
+            <toc-element topic="Using-the-Java-Development-Server.md"/>
+        </toc-element>
+        <toc-element topic="Reading-and-Writing-Application-Logs.md"/>
+        <toc-element topic="Converting-Backends-to-Modules.md"/>
+
+    </toc-element>
+    <toc-element topic="APIs-Reference.md">
+        <toc-element topic="Java-App-Engine-API-Reference.md"/>
+        <toc-element topic="The-JRE-Class-White-List.md"/>
+        <toc-element topic="Development-Tools.md">
+            <toc-element topic="Google-Plugin-for-Eclipse.md"/>
+            <toc-element topic="Using-Apache-Maven.md"/>
+            <toc-element topic="Using-Apache-Ant.md"/>
+            <toc-element topic="Using-the-Eclipse-Web-Tools-Platform-with-Google-App-Engine.md"/>
+            <toc-element topic="Appstats-for-Java.md"/>
+            <toc-element topic="Remote-API.md">
+                <toc-element topic="Remote-API-Javadoc.md"/>
+                <toc-element topic="Remote-API-for-Java.md"/>
+            </toc-element>
+        </toc-element>
+        <toc-element topic="Glossary-of-App-Engine-Terms.md"/>
+    </toc-element>
+    <toc-element topic="Concepts.md">
+        <toc-element topic="App-Engine-Modules-in-Java.md"/>
+        <toc-element topic="Java-Runtime-Environment.md"/>
+        <toc-element topic="Handling-Requests.md"/>
+        <toc-element topic="Routing-Requests-to-Modules.md"/>
+        <toc-element topic="How-Applications-Scale.md"/>
+    </toc-element>
+    <toc-element topic="Resources.md">
+        <toc-element topic="Pricing-and-Quotas.md">
+            <toc-element topic="App-Engine-Pricing.md"/>
+            <toc-element topic="Quotas.md"/>
+        </toc-element>
+        <toc-element topic="Java-Release-Notes.md"/>
+    </toc-element>
+</instance-profile>
