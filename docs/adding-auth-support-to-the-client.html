@@ -1,0 +1,420 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.302113082"><title>Adding Auth Support to the Client | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"creating-a-web-client-id","level":0,"title":"Creating a web client ID","anchor":"#creating-a-web-client-id"},{"id":"adding-the-web-client-id-to-the-backend-api","level":0,"title":"Adding the web client ID to the backend API","anchor":"#adding-the-web-client-id-to-the-backend-api"},{"id":"adding-ui-components-to-support-auth","level":0,"title":"Adding UI components to support auth","anchor":"#adding-ui-components-to-support-auth"},{"id":"adding-auth-support-in-javascript","level":0,"title":"Adding auth support in JavaScript","anchor":"#adding-auth-support-in-javascript"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Adding Auth Support to the Client | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/adding-auth-support-to-the-client.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Adding Auth Support to the Client | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/adding-auth-support-to-the-client.html#webpage",
+    "url": "writerside-documentation/adding-auth-support-to-the-client.html",
+    "name": "Adding Auth Support to the Client | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Adding-Auth-Support-to-the-Client" data-main-title="Adding Auth Support to the Client" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Mobile-Backends.md|Mobile Backends///Google-Cloud-Endpoints.md|Google Cloud Endpoints///Getting-Started-Cloud-Endpoints.md|Getting Started///Web-Client-Tutorial.md|Web Client Tutorial"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Adding-Auth-Support-to-the-Client" id="Adding-Auth-Support-to-the-Client.md">Adding Auth Support to the Client</h1><ol class="list _decimal" id="z6zwgwr_3" type="1"><li class="list__item" id="z6zwgwr_10"><p id="z6zwgwr_14"><span id="z6zwgwr_15">Creating a web client ID</span></p></li><li class="list__item" id="z6zwgwr_11"><p id="z6zwgwr_16"><span id="z6zwgwr_17">Adding the web client ID to the backend API</span></p></li><li class="list__item" id="z6zwgwr_12"><p id="z6zwgwr_18"><span id="z6zwgwr_19">Adding UI components to support auth</span></p></li><li class="list__item" id="z6zwgwr_13"><p id="z6zwgwr_20"><span id="z6zwgwr_21">Adding auth support in JavaScript</span></p></li></ol><p id="z6zwgwr_4">In this part of the tutorial, you'll add UI components and JavaScript to support a simple GET request to a backend API method that is protected by OAuth. To do this, we need to:</p><ul class="list _bullet" id="z6zwgwr_5"><li class="list__item" id="z6zwgwr_22"><p id="z6zwgwr_26">Register your client app with <a href="https://web.archive.org/web/20160424225449/https://console.cloud.google.com/" id="z6zwgwr_27" data-external="true" rel="noopener noreferrer" target="_blank">Google Cloud Platform Console</a> so it works with your project.</p></li><li class="list__item" id="z6zwgwr_23"><p id="z6zwgwr_28">Add the client ID to your backend API's whitelist</p></li><li class="list__item" id="z6zwgwr_24"><p id="z6zwgwr_29">Add the UI sign-in component and the UI component to send the &quot;auth-ed&quot; request</p></li><li class="list__item" id="z6zwgwr_25"><p id="z6zwgwr_30">Add Javascript to <code class="code" id="z6zwgwr_31">base.js</code>: add the client ID, support sign-in and to support the UI in making an &quot;auth-ed&quot; GET, .</p></li></ul><section class="chapter"><h2 id="creating-a-web-client-id" data-toc="creating-a-web-client-id">Creating a web client ID</h2><p id="z6zwgwr_32">The web client ID must be added to the backend API's whitelist in order for your client to access a method protected by OAuth.</p><p id="z6zwgwr_33">To create a web client ID, follow the instructions provided under <a href="https://web.archive.org/web/20160424225449/https://cloud.google.com/appengine/docs/java/endpoints/auth#Creating_a_web_client_ID" id="z6zwgwr_34" data-external="true" rel="noopener noreferrer" target="_blank">Creating an OAuth 2.0 web client ID</a>.</p></section><section class="chapter"><h2 id="adding-the-web-client-id-to-the-backend-api" data-toc="adding-the-web-client-id-to-the-backend-api">Adding the web client ID to the backend API</h2><p id="z6zwgwr_35">In order for your web client to be recognized by the backend API, you must add the web client ID obtained above to the backend's list of client IDs. This is described in <a href="https://web.archive.org/web/20160424225449/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/backend/auth#adding_an_oauth_20-protected_method" id="z6zwgwr_36" data-external="true" rel="noopener noreferrer" target="_blank">Adding an OAuth 2.0-protected method</a>.</p></section><section class="chapter"><h2 id="adding-ui-components-to-support-auth" data-toc="adding-ui-components-to-support-auth">Adding UI components to support auth</h2><ol class="list _decimal" id="z6zwgwr_37" type="1"><li class="list__item" id="z6zwgwr_38"><p id="z6zwgwr_41">We'll need to add a sign-in button for user sign-in. In the <code class="code" id="z6zwgwr_43">index.html</code> file you added previously in the tutorial, immediately under the <code class="code" id="z6zwgwr_44">Hello Endpoints!</code> line, add the following lines:</p><div class="code-block" data-lang="none">
+&lt;a class=&quot;brand&quot; href=&quot;#&quot;&gt;Hello Endpoints!&lt;/a&gt;
+&lt;div class=&quot;nav-collapse collapse pull-right&quot;&gt;
+    &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn&quot; id=&quot;signinButton&quot;&gt;Sign in&lt;/a&gt;
+&lt;/div&gt;
+</div></li><li class="list__item" id="z6zwgwr_39"><p id="z6zwgwr_45">We'll need a button to send a request to the auth-protected backend API method. Immediately under the <span class="control" id="z6zwgwr_47">Multiply Greetings</span> form, add the following lines:</p><div class="code-block" data-lang="none">
+&lt;form onsubmit=&quot;return false;&quot;&gt;
+    &lt;h2&gt;Authenticated Greeting&lt;/h2&gt;
+    &lt;div&gt;&lt;input id=&quot;authedGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; disabled value=&quot;Submit&quot;&gt;&lt;/div&gt;
+&lt;/form&gt;
+</div></li><li class="list__item" id="z6zwgwr_40"><p id="z6zwgwr_48">When you are finished, your <code class="code" id="z6zwgwr_50">index.html</code> file should look like this:</p><div class="code-block" data-lang="none">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello Endpoints!&lt;/title&gt;
+    &lt;script async src=&quot;/js/base.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap-responsive.css&quot;&gt;
+    &lt;style&gt;
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        blockquote {
+            margin-bottom: 10px;
+            border-left-color: #bbb;
+        }
+        form {
+            margin-top: 10px;
+        }
+        form label {
+          width: 90px;
+          display: inline-block;
+        }
+        .form-signin input[type=&quot;text&quot;] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        }
+        .row {
+            margin-left: 0px;
+            margin-top: 10px;
+            overflow: scroll;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;navbar navbar-inverse navbar-fixed-top&quot;&gt;
+    &lt;div class=&quot;navbar-inner&quot;&gt;
+        &lt;div class=&quot;container&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;btn btn-navbar&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.nav-collapse&quot;&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;a class=&quot;brand&quot; href=&quot;#&quot;&gt;Hello Endpoints!&lt;/a&gt;
+            &lt;div class=&quot;nav-collapse collapse pull-right&quot;&gt;
+                &lt;a href=&quot;javascript:void(0);&quot; class=&quot;btn&quot; id=&quot;signinButton&quot;&gt;Sign in&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;container&quot;&gt;
+
+    &lt;output id=&quot;outputLog&quot;&gt;&lt;/output&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;Get Greeting&lt;/h2&gt;
+        &lt;div&gt;&lt;label for=&quot;id&quot;&gt;Greeting ID:&lt;/label&gt;&lt;input id=&quot;id&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;input id=&quot;getGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;List Greetings&lt;/h2&gt;
+        &lt;div&gt;&lt;input id=&quot;listGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;Multiply Greetings&lt;/h2&gt;
+        &lt;div&gt;&lt;label for=&quot;greeting&quot;&gt;Greeting:&lt;/label&gt;&lt;input id=&quot;greeting&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;label for=&quot;count&quot;&gt;Count:&lt;/label&gt;&lt;input id=&quot;count&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;input id=&quot;multiplyGreetings&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;Authenticated Greeting&lt;/h2&gt;
+        &lt;div&gt;&lt;input id=&quot;authedGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; disabled value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+    &lt;script&gt;
+        function init() {
+            google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
+        }
+    &lt;/script&gt;
+    &lt;script src=&quot;https://apis.google.com/js/client.js?onload=init&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div></li></ol></section><section class="chapter"><h2 id="adding-auth-support-in-javascript" data-toc="adding-auth-support-in-javascript">Adding auth support in JavaScript</h2><ol class="list _decimal" id="z6zwgwr_51" type="1"><li class="list__item" id="z6zwgwr_54"><p id="z6zwgwr_67">In the <code class="code" id="z6zwgwr_70">base.js</code> file you added previously in the tutorial, under the lines that set the namespace, add the following lines, replacing the value <code class="code" id="z6zwgwr_71">your-client-ID</code> with the value obtained above when you <span id="z6zwgwr_72">registered</span> your client app:</p><div class="code-block" data-lang="none">
+/**
+ * Client ID of the application (from the APIs Console).
+ * @type {string}
+ */
+google.appengine.samples.hello.CLIENT_ID =
+    'your-client-ID';
+
+/**
+ * Scopes used by the application.
+ * @type {string}
+ */
+google.appengine.samples.hello.SCOPES =
+    'https://www.googleapis.com/auth/userinfo.email';
+</div><p id="z6zwgwr_69">The email scopes value as shown is needed by OAuth.</p></li><li class="list__item" id="z6zwgwr_55"><p id="z6zwgwr_73">In <code class="code" id="z6zwgwr_75">base.js</code>, add the sign-in button and auth'ed request button to the list of buttons to be enabled:</p><div class="code-block" data-lang="none">
+/**
+ * Enables the button callbacks in the UI.
+ */
+google.appengine.samples.hello.enableButtons = function() {
+  var getGreeting = document.querySelector('#getGreeting');
+  getGreeting.addEventListener('click', function(e) {
+    google.appengine.samples.hello.getGreeting(
+        document.querySelector('#id').value);
+  });
+
+  var listGreeting = document.querySelector('#listGreeting');
+  listGreeting.addEventListener('click',
+      google.appengine.samples.hello.listGreeting);
+
+  var multiplyGreetings = document.querySelector('#multiplyGreetings');
+  multiplyGreetings.addEventListener('click', function(e) {
+    google.appengine.samples.hello.multiplyGreeting(
+        document.querySelector('#greeting').value,
+        document.querySelector('#count').value);
+  });
+
+  var authedGreeting = document.querySelector('#authedGreeting');
+  authedGreeting.addEventListener('click',
+      google.appengine.samples.hello.authedGreeting);
+
+  var signinButton = document.querySelector('#signinButton');
+  signinButton.addEventListener('click', google.appengine.samples.hello.auth);
+};
+</div></li><li class="list__item" id="z6zwgwr_56"><p id="z6zwgwr_76">In <code class="code" id="z6zwgwr_79">base.js</code>, modify the <code class="code" id="z6zwgwr_80">init</code> function to load the OAuth library, and add user sign-in to the callback function to be executed after libraries are successfully loaded:</p><div class="code-block" data-lang="none">
+/**
+ * Initializes the application.
+ * @param {string} apiRoot Root of the API's path.
+ */
+google.appengine.samples.hello.init = function(apiRoot) {
+  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
+  // when they have completed.
+  var apisToLoad;
+  var callback = function() {
+    if (--apisToLoad == 0) {
+      google.appengine.samples.hello.enableButtons();
+      google.appengine.samples.hello.signin(true,
+          google.appengine.samples.hello.userAuthed);
+    }
+  }
+
+  apisToLoad = 2; // must match number of calls to gapi.client.load()
+  gapi.client.load('helloworld', 'v1', callback, apiRoot);
+  gapi.client.load('oauth2', 'v2', callback);
+};
+</div><p id="z6zwgwr_78">Notice that all of the libraries you want to load are loaded before your callback is invoked. Notice also how the <code class="code" id="z6zwgwr_81">apisToLoad</code> value is incremented to reflect the count of libraries to load.</p></li><li class="list__item" id="z6zwgwr_57"><p id="z6zwgwr_82">The <code class="code" id="z6zwgwr_84">signin</code> function shown above, which invokes the OAuth library's <code class="code" id="z6zwgwr_85">authorize</code> function, is executed upon page load. We'll define this next by adding the following lines above the <code class="code" id="z6zwgwr_86">getGreeting</code> function:</p><div class="code-block" data-lang="none">
+/**
+ * Handles the auth flow, with the given value for immediate mode.
+ * @param {boolean} mode Whether or not to use immediate mode.
+ * @param {Function} callback Callback to call on completion.
+ */
+google.appengine.samples.hello.signin = function(mode, callback) {
+  gapi.auth.authorize({client_id: google.appengine.samples.hello.CLIENT_ID,
+      scope: google.appengine.samples.hello.SCOPES, immediate: mode},
+      callback);
+};
+</div></li><li class="list__item" id="z6zwgwr_58"><p id="z6zwgwr_87">Add the logic for the authorization form that is invoked when the user clicks the sign-in button:</p><div class="code-block" data-lang="none">
+/**
+ * Presents the user with the authorization popup.
+ */
+google.appengine.samples.hello.auth = function() {
+  if (!google.appengine.samples.hello.signedIn) {
+    google.appengine.samples.hello.signin(false,
+        google.appengine.samples.hello.userAuthed);
+  } else {
+    google.appengine.samples.hello.signedIn = false;
+    document.querySelector('#signinButton').textContent = 'Sign in';
+    document.querySelector('#authedGreeting').disabled = true;
+  }
+};
+</div><p id="z6zwgwr_89">The <code class="code" id="z6zwgwr_90">signedIn</code> boolean is initially set to false because our client logic happens to need it.</p></li><li class="list__item" id="z6zwgwr_59"><p id="z6zwgwr_91">Add the logic that loads the auth-related application UI. The <code class="code" id="z6zwgwr_93">signedIn</code>boolean is initially set to false for our client logic.This function is called during page load:</p><div class="code-block" data-lang="none">
+/**
+ * Whether or not the user is signed in.
+ * @type {boolean}
+ */
+google.appengine.samples.hello.signedIn = false;
+
+/**
+ * Loads the application UI after the user has completed auth.
+ */
+google.appengine.samples.hello.userAuthed = function() {
+  var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
+    if (!resp.code) {
+      google.appengine.samples.hello.signedIn = true;
+      document.querySelector('#signinButton').textContent = 'Sign out';
+      document.querySelector('#authedGreeting').disabled = false;
+    }
+  });
+};
+</div></li><li class="list__item" id="z6zwgwr_60"><p id="z6zwgwr_94">Finally, add the function that is invoked when the user clicks on the Authenticated Greeting button to send a request to the backend API:</p><div class="code-block" data-lang="none">
+/**
+ * Greets the current user via the API.
+ */
+google.appengine.samples.hello.authedGreeting = function(id) {
+  gapi.client.helloworld.greetings.authed().execute(
+      function(resp) {
+        google.appengine.samples.hello.print(resp);
+      });
+};
+</div></li><li class="list__item" id="z6zwgwr_61"><p id="z6zwgwr_96">When you are finished, your <code class="code" id="z6zwgwr_98">base.js</code> file should look like this:</p><div class="code-block" data-lang="none">
+/**
+ * @fileoverview
+ * Provides methods for the Hello Endpoints sample UI and interaction with the
+ * Hello Endpoints API.
+ */
+
+/** google global namespace for Google projects. */
+var google = google || {};
+
+/** appengine namespace for Google Developer Relations projects. */
+google.appengine = google.appengine || {};
+
+/** samples namespace for App Engine sample code. */
+google.appengine.samples = google.appengine.samples || {};
+
+/** hello namespace for this sample. */
+google.appengine.samples.hello = google.appengine.samples.hello || {};
+/**
+ * Client ID of the application (from the APIs Console).
+ * @type {string}
+ */
+google.appengine.samples.hello.CLIENT_ID =
+    'your-client-ID';
+
+/**
+ * Scopes used by the application.
+ * @type {string}
+ */
+google.appengine.samples.hello.SCOPES =
+    'https://www.googleapis.com/auth/userinfo.email';
+/**
+ * Whether or not the user is signed in.
+ * @type {boolean}
+ */
+google.appengine.samples.hello.signedIn = false;
+
+/**
+ * Loads the application UI after the user has completed auth.
+ */
+google.appengine.samples.hello.userAuthed = function() {
+  var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
+    if (!resp.code) {
+      google.appengine.samples.hello.signedIn = true;
+      document.querySelector('#signinButton').textContent = 'Sign out';
+      document.querySelector('#authedGreeting').disabled = false;
+    }
+  });
+};
+/**
+ * Handles the auth flow, with the given value for immediate mode.
+ * @param {boolean} mode Whether or not to use immediate mode.
+ * @param {Function} callback Callback to call on completion.
+ */
+google.appengine.samples.hello.signin = function(mode, callback) {
+  gapi.auth.authorize({client_id: google.appengine.samples.hello.CLIENT_ID,
+      scope: google.appengine.samples.hello.SCOPES, immediate: mode},
+      callback);
+};
+/**
+ * Presents the user with the authorization popup.
+ */
+google.appengine.samples.hello.auth = function() {
+  if (!google.appengine.samples.hello.signedIn) {
+    google.appengine.samples.hello.signin(false,
+        google.appengine.samples.hello.userAuthed);
+  } else {
+    google.appengine.samples.hello.signedIn = false;
+    document.querySelector('#signinButton').textContent = 'Sign in';
+    document.querySelector('#authedGreeting').disabled = true;
+  }
+};
+/**
+ * Prints a greeting to the greeting log.
+ * param {Object} greeting Greeting to print.
+ */
+google.appengine.samples.hello.print = function(greeting) {
+  var element = document.createElement('div');
+  element.classList.add('row');
+  element.innerHTML = greeting.message;
+  document.querySelector('#outputLog').appendChild(element);
+};
+
+/**
+ * Gets a numbered greeting via the API.
+ * @param {string} id ID of the greeting.
+ */
+google.appengine.samples.hello.getGreeting = function(id) {
+  gapi.client.helloworld.greetings.getGreeting({'id': id}).execute(
+      function(resp) {
+        if (!resp.code) {
+          google.appengine.samples.hello.print(resp);
+        }
+      });
+};
+
+/**
+ * Lists greetings via the API.
+ */
+google.appengine.samples.hello.listGreeting = function() {
+  gapi.client.helloworld.greetings.listGreeting().execute(
+      function(resp) {
+        if (!resp.code) {
+          resp.items = resp.items || [];
+          for (var i = 0; i &lt; resp.items.length; i++) {
+            google.appengine.samples.hello.print(resp.items[i]);
+          }
+        }
+      });
+};
+
+/**
+ * Gets a greeting a specified number of times.
+ * @param {string} greeting Greeting to repeat.
+ * @param {string} count Number of times to repeat it.
+ */
+google.appengine.samples.hello.multiplyGreeting = function(
+    greeting, times) {
+  gapi.client.helloworld.greetings.multiply({
+      'message': greeting,
+      'times': times
+    }).execute(function(resp) {
+      if (!resp.code) {
+        google.appengine.samples.hello.print(resp);
+      }
+    });
+};
+/**
+ * Greets the current user via the API.
+ */
+google.appengine.samples.hello.authedGreeting = function(id) {
+  gapi.client.helloworld.greetings.authed().execute(
+      function(resp) {
+        google.appengine.samples.hello.print(resp);
+      });
+};
+/**
+ * Enables the button callbacks in the UI.
+ */
+google.appengine.samples.hello.enableButtons = function() {
+  var getGreeting = document.querySelector('#getGreeting');
+  getGreeting.addEventListener('click', function(e) {
+    google.appengine.samples.hello.getGreeting(
+        document.querySelector('#id').value);
+  });
+
+  var listGreeting = document.querySelector('#listGreeting');
+  listGreeting.addEventListener('click',
+      google.appengine.samples.hello.listGreeting);
+
+  var multiplyGreetings = document.querySelector('#multiplyGreetings');
+  multiplyGreetings.addEventListener('click', function(e) {
+    google.appengine.samples.hello.multiplyGreeting(
+        document.querySelector('#greeting').value,
+        document.querySelector('#count').value);
+  });
+
+  var authedGreeting = document.querySelector('#authedGreeting');
+  authedGreeting.addEventListener('click',
+      google.appengine.samples.hello.authedGreeting);
+
+  var signinButton = document.querySelector('#signinButton');
+  signinButton.addEventListener('click', google.appengine.samples.hello.auth);
+};
+/**
+ * Initializes the application.
+ * @param {string} apiRoot Root of the API's path.
+ */
+google.appengine.samples.hello.init = function(apiRoot) {
+  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
+  // when they have completed.
+  var apisToLoad;
+  var callback = function() {
+    if (--apisToLoad == 0) {
+      google.appengine.samples.hello.enableButtons();
+      google.appengine.samples.hello.signin(true,
+          google.appengine.samples.hello.userAuthed);
+    }
+  }
+
+  apisToLoad = 2; // must match number of calls to gapi.client.load()
+  gapi.client.load('helloworld', 'v1', callback, apiRoot);
+  gapi.client.load('oauth2', 'v2', callback);
+};
+</div></li><li class="list__item" id="z6zwgwr_62"><p id="z6zwgwr_99">Rebuild your project with the new client:</p><div class="code-block" data-lang="none">
+mvn clean install
+</div></li><li class="list__item" id="z6zwgwr_63"><p id="z6zwgwr_101">Upload and deploy the project and client code:</p><div class="code-block" data-lang="none">
+mvn appengine:update
+</div></li><li class="list__item" id="z6zwgwr_64"><p id="z6zwgwr_103">Visit the App Engine URL: <code class="code" id="z6zwgwr_105">https://&lt;your-app-id&gt;.appspot.com/</code> to display the UI:</p><figure id="z6zwgwr_104"><img alt="Hello-Endpoints" src="https://web.archive.org/web/20160424225449im_/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/images/hello3.png" title="Hello-Endpoints"></figure></li><li class="list__item" id="z6zwgwr_65"><p id="z6zwgwr_106">Click <span class="control" id="z6zwgwr_107">Sign In</span>.</p></li><li class="list__item" id="z6zwgwr_66"><p id="z6zwgwr_108">Under <span class="control" id="z6zwgwr_109">Authenticated Greeting</span>, click <span class="control" id="z6zwgwr_110">Submit</span> to display your login name.</p></li></ol><p id="z6zwgwr_52">And that's it! You've successfully accessed a backend API protected by OAuth.</p><p id="z6zwgwr_53">This completes the Getting Started for web clients.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="adding-a-simple-post.html" class="navigation-links__prev">Adding a Simple POST</a><a href="android-client-code-sample.html" class="navigation-links__next">Android Client Code Sample</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

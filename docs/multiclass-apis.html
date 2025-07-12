@@ -1,0 +1,158 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.974172001"><title>Multiclass APIs | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"using-apiclass-for-properties-that-can-differ-between-classes","level":0,"title":"Using @ApiClass for Properties that Can Differ Between Classes","anchor":"#using-apiclass-for-properties-that-can-differ-between-classes"},{"id":"annotation-inheritance","level":0,"title":"Annotation Inheritance","anchor":"#annotation-inheritance"},{"id":"inheritance-and-precedence-rules","level":0,"title":"Inheritance and Precedence Rules","anchor":"#inheritance-and-precedence-rules"},{"id":"common-use-cases-for-annotation-inheritance","level":0,"title":"Common Use Cases for Annotation Inheritance","anchor":"#common-use-cases-for-annotation-inheritance"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Multiclass APIs | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/multiclass-apis.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Multiclass APIs | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/multiclass-apis.html#webpage",
+    "url": "writerside-documentation/multiclass-apis.html",
+    "name": "Multiclass APIs | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Multiclass-APIs" data-main-title="Multiclass APIs" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Mobile-Backends.md|Mobile Backends///Google-Cloud-Endpoints.md|Google Cloud Endpoints///Coding-the-API.md|Coding the API"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Multiclass-APIs" id="Multiclass-APIs.md">Multiclass APIs</h1><ol class="list _decimal" id="-75piyy_3" type="1"><li class="list__item" id="-75piyy_14"><p id="-75piyy_18"><span id="-75piyy_19">Using @ApiClass for Properties that Can Differ Between Classes</span></p></li><li class="list__item" id="-75piyy_15"><p id="-75piyy_20"><span id="-75piyy_22">Annotation Inheritance</span></p><ol class="list _decimal" id="-75piyy_21" type="1"><li class="list__item" id="-75piyy_23"><p id="-75piyy_27"><span id="-75piyy_28">Using Java Inheritance</span></p></li><li class="list__item" id="-75piyy_24"><p id="-75piyy_29"><span id="-75piyy_30">Using @ApiReference Inheritance</span></p></li><li class="list__item" id="-75piyy_25"><p id="-75piyy_31"><span id="-75piyy_32">Overriding Inherited Configuration</span></p></li><li class="list__item" id="-75piyy_26"><p id="-75piyy_33"><span id="-75piyy_34">Inheriting @ApiMethod Annotations</span></p></li></ol></li><li class="list__item" id="-75piyy_16"><p id="-75piyy_35"><span id="-75piyy_36">Inheritance and Precedence Rules</span></p></li><li class="list__item" id="-75piyy_17"><p id="-75piyy_37"><span id="-75piyy_38">Common Use Cases for Annotation Inheritance</span></p></li></ol><p id="-75piyy_4">If a single API is particularly complex, you may wish to implement it from multiple Java classes. To make different classes part of the same API, simply give each class the same <code class="code" id="-75piyy_39">name</code> and <code class="code" id="-75piyy_40">version</code> strings in their <a href="https://web.archive.org/web/20160424225413/https://cloud.google.com/appengine/docs/java/endpoints/annotations#api_api-scoped_annotations" id="-75piyy_41" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-75piyy_43">@Api</code> annotation</a>. For example, the following two classes will both be part of the <code class="code" id="-75piyy_42">tictactoe</code> API:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeA {  }
+
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeB {  }
+</div><p id="-75piyy_6">The API configuration is specified through the <code class="code" id="-75piyy_44">@Api</code> annotation properties. However, for multiple classes in the same API, the <code class="code" id="-75piyy_45">@Api</code> requirements extend beyond simply having the same <code class="code" id="-75piyy_46">name</code> and <code class="code" id="-75piyy_47">version</code> strings in the <code class="code" id="-75piyy_48">@Api</code> annotation for each class. In fact, your backend API will not work if there are <span class="emphasis" id="-75piyy_49">any</span> differences in the API configurations specified in the classes' <code class="code" id="-75piyy_50">@Api</code> properties. Any difference in the <code class="code" id="-75piyy_51">@Api</code> properties for classes in a multiclass API result in an &quot;ambiguous&quot; API configuration, which will not work in Endpoints.</p><p id="-75piyy_7"><span class="control" id="-75piyy_52">Note:</span> for a way to specify different properties for classes without using <code class="code" id="-75piyy_53">@Api</code> properties, see <span id="-75piyy_54">Using <code class="code" id="-75piyy_55">@ApiClass</code> for Properties that Can Differ Between Classes</span>.</p><p id="-75piyy_8">There are several ways to create a unambiguous multiclass API:</p><ul class="list _bullet" id="-75piyy_9"><li class="list__item" id="-75piyy_56"><p id="-75piyy_59">Manually ensure that all classes in a single API have the exact same <code class="code" id="-75piyy_60">@Api</code> annotation properties. We won't describe this further, since it is self-evident.</p></li><li class="list__item" id="-75piyy_57"><p id="-75piyy_61">Use annotation inheritance through <span id="-75piyy_62">Java inheritance</span>. In this inheritance, all classes in a single API inherit the same API configuration from a common <code class="code" id="-75piyy_63">@Api</code>-annotated base class.</p></li><li class="list__item" id="-75piyy_58"><p id="-75piyy_64">Use annotation inheritance through the <span id="-75piyy_65"><code class="code" id="-75piyy_66">@ApiReference</code></span> annotation on all classes in a single API to have them reference the same API configuration from a common @Api-annotated class.</p></li></ul><section class="chapter"><h2 id="using-apiclass-for-properties-that-can-differ-between-classes" data-toc="using-apiclass-for-properties-that-can-differ-between-classes">Using <code class="code" id="-75piyy_74">@ApiClass</code> for Properties that Can Differ Between Classes</h2><p id="-75piyy_68">While all properties in the <code class="code" id="-75piyy_75">@Api</code> annotation must match for all classes in an API, you can additionally use the <code class="code" id="-75piyy_76">@ApiClass</code> annotation to provides properties that do not need to be exactly the same between classes. For example:</p><div class="code-block" data-lang="none">
+// API methods implemented in this class allow only &quot;clientIdA&quot;.
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+@ApiClass(clientIds = { &quot;clientIdA&quot; })
+class TicTacToeA {  }
+
+// API methods implemented in this class provide unauthenticated access.
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeB {  }
+</div><p id="-75piyy_70">where <code class="code" id="-75piyy_77">TicTacToeA</code> limits access using a whitelist of client IDs containing the allowed client ID, and <code class="code" id="-75piyy_78">TicTacToeB</code> does not limit acccess.</p><p id="-75piyy_71">All properties provided by the <code class="code" id="-75piyy_79">@ApiClass</code> annotation have an equivalent property in the <code class="code" id="-75piyy_80">@Api</code> annotation. Note that the <code class="code" id="-75piyy_81">@Api</code> equivalent property acts as the API-wide default. If there is an API-wide default for that same property, specified in <code class="code" id="-75piyy_82">@Api</code>, the class-specific <code class="code" id="-75piyy_83">@ApiClass</code> property will override the API-wide default.</p><p id="-75piyy_72">The following examples illustrate the overriding of <code class="code" id="-75piyy_84">@Api</code> properties by the class specific <code class="code" id="-75piyy_85">@ApiClass</code> equivalents:</p><div class="code-block" data-lang="none">
+// For this class &quot;boards&quot; overrides &quot;games&quot;.
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;, resource = &quot;games&quot;)
+@ApiClass(resource = &quot;boards&quot;)
+class TicTacToeBoards {  }
+
+// For this class &quot;scores&quot; overrides &quot;games&quot;.
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;, resource = &quot;games&quot;)
+@ApiClass(resource = &quot;scores&quot;)
+class TicTacToeScores {  }
+
+// For this class, the API-wide default &quot;games&quot; is used as the resource.
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;, resource = &quot;games&quot;)
+class TicTacToeGames {  }
+</div></section><section class="chapter"><h2 id="annotation-inheritance" data-toc="annotation-inheritance">Annotation Inheritance</h2><p id="-75piyy_86">The <code class="code" id="-75piyy_91">@Api</code> and <code class="code" id="-75piyy_92">@ApiClass</code> annotation properties can be inherited from from other classes, and individual properties can be overridden either through <span id="-75piyy_93">Java Inheritance</span> or <span id="-75piyy_94"><code class="code" id="-75piyy_95">@ApiReference</code> inheritance</span></p><section class="chapter"><h3 id="using-java-inheritance" data-toc="using-java-inheritance">Using Java Inheritance</h3><p id="-75piyy_96">A class that extends another class with <code class="code" id="-75piyy_104">@Api</code> or <code class="code" id="-75piyy_105">@ApiClass</code> annotations will behave as if annotated with the same properties. For example:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeBase {  }
+
+// TicTacToeA and TicTacToeB both behave as if they have the same @Api annotation as
+// TicTacToeBase
+class TicTacToeA extends TicTacToeBase {  }
+class TicTacToeB extends TicTacToeBase {  }
+</div><p id="-75piyy_98">Annotations are only inherited through Java subclassing, not through interface implementation. For example:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+interface TicTacToeBase {  }
+// Does *not* behave as if annotated.
+class TicTacToeA implements TicTacToeBase {  }
+</div><p id="-75piyy_100">As a result, <span class="emphasis" id="-75piyy_106">there is no support for any sort of multiple inheritance</span> of Endpoints annotations.</p><p id="-75piyy_101">Inheritance works for <code class="code" id="-75piyy_107">@ApiClass</code> too:</p><div class="code-block" data-lang="none">
+@ApiClass(resource = &quot;boards&quot;)
+class BoardsBase {  }
+
+// TicTacToeBoards behaves as if annotated with the @ApiClass from BoardsBase.
+// Thus, the &quot;resource&quot; property will be &quot;boards&quot;.
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;, resource = &quot;scores&quot;)
+class TicTacToeBoards extends BoardsBase {  }
+</div><p id="-75piyy_103">where <code class="code" id="-75piyy_108">TicTacToeBoards</code> inherits the <code class="code" id="-75piyy_109">resource</code> property value <code class="code" id="-75piyy_110">boards</code> from <code class="code" id="-75piyy_111">BoardsBase</code>, thus overriding the <code class="code" id="-75piyy_112">resource</code> property setting (<code class="code" id="-75piyy_113">scores</code>) in its <code class="code" id="-75piyy_114">@Api</code> annotation. Remember that if any class has specified the resource property in the <code class="code" id="-75piyy_115">@Api</code> annotation, all of the classes need to specify that same setting in the <code class="code" id="-75piyy_116">@Api</code> annotation; this inheritance technique lets you override that <code class="code" id="-75piyy_117">@Api</code> property.</p></section><section class="chapter"><h3 id="using-apireference-inheritance" data-toc="using-apireference-inheritance">Using @ApiReference Inheritance</h3><p id="-75piyy_118">The <code class="code" id="-75piyy_122">@ApiReference</code> annotation provides an alternate way to specify annotation inheritance. A class that uses <code class="code" id="-75piyy_123">@ApiReference</code> to specify another class with <code class="code" id="-75piyy_124">@Api</code> or <code class="code" id="-75piyy_125">@ApiClass</code> annotations will behave as if annotated with the same properties. For example:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeBase {  }
+
+// TicTacToeA behaves as if it has the same @Api annotation as TicTacToeBase
+@ApiReference(TicTacToeBase.class)
+class TicTacToeA {  }
+</div><p id="-75piyy_120">If both Java inheritance and the <code class="code" id="-75piyy_126">@ApiReference</code> are used, the annotations will inherit through the <code class="code" id="-75piyy_127">@ApiReference</code> annotation only. <code class="code" id="-75piyy_128">@Api</code> and <code class="code" id="-75piyy_129">@ApiClass</code> annotations on the class inherited through Java inheritance will be ignored. For example:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeBaseA {  }
+@Api(name = &quot;tictactoe&quot;, version = &quot;v2&quot;)
+class TicTacToeBaseB {  }
+
+// TicTacToe will behave as if annotated the same as TicTacToeBaseA, not TicTacToeBaseB.
+// The value of the &quot;version&quot; property will be &quot;v1&quot;.
+@ApiReference(TicTacToeBaseA.class)
+class TicTacToe extends TicTacToeBaseB {  }
+</div></section><section class="chapter"><h3 id="overriding-inherited-configuration" data-toc="overriding-inherited-configuration">Overriding Inherited Configuration</h3><p id="-75piyy_130">Whether inheriting configuration using Java inheritance or <code class="code" id="-75piyy_136">@ApiReference</code>, the inherited configuration can be overridden using a new <code class="code" id="-75piyy_137">@Api</code> or <code class="code" id="-75piyy_138">@ApiClass</code> annotation. Only configuration properties specified in the new annotation are overridden. Properties that are unspecified are still inherited. For example:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v2&quot;)
+class TicTacToe {  }
+
+// Checkers will behave as if annotated with name = &quot;checkers&quot; and version = &quot;v2&quot;
+@Api(name = &quot;checkers&quot;)
+class Checkers extends TicTacToe {  }
+</div><p id="-75piyy_132">Overriding inheritance works for <code class="code" id="-75piyy_139">@ApiClass</code> too:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+@ApiClass(resource = &quot;boards&quot;, clientIds = { &quot;c1&quot; })
+class Boards {  }
+
+// Scores will behave as if annotated with resource = &quot;scores&quot; and clientIds = { &quot;c1&quot; }
+@ApiClass(resource = &quot;scores&quot;)
+class Scores {  }
+</div><p id="-75piyy_134">Overriding also works when inheriting through <code class="code" id="-75piyy_140">@ApiReference</code>:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v2&quot;)
+class TicTacToe {  }
+
+// Checkers will behave as if annotated with name = &quot;checkers&quot; and version = &quot;v2&quot;
+@ApiReference(TicTacToe.class)
+@Api(name = &quot;checkers&quot;)
+class Checkers {  }
+</div></section><section class="chapter"><h3 id="inheriting-apimethod-annotations" data-toc="inheriting-apimethod-annotations">Inheriting @ApiMethod Annotations</h3><p id="-75piyy_141">The <code class="code" id="-75piyy_146">@ApiMethod</code> annotation can be inherited from overridden methods. For example:</p><div class="code-block" data-lang="none">
+class TicTacToeBase {
+  @ApiMethod(httpMethod = &quot;POST&quot;)
+  public Game setGame(Game game) {  }
+}
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToe extends TicTacToeBase {
+  // setGame behaves as if annotated with the @ApiMethod from TicTacToeBase.setGame.
+  // Thus the &quot;httpMethod&quot; property will be &quot;POST&quot;.
+  @Override
+  public Game setGame(Game game) {  }
+}
+</div><p id="-75piyy_143">Similarly to <code class="code" id="-75piyy_147">@Api</code> and <code class="code" id="-75piyy_148">@ApiClass</code> annotation inheritance, if multiple methods overriding each other have <code class="code" id="-75piyy_149">@ApiMethod</code> annotations, individual properties can be overridden. For example:</p><div class="code-block" data-lang="none">
+class TicTacToeBase {
+  @ApiMethod(httpMethod = &quot;POST&quot;, clientIds = { &quot;c1&quot; })
+  public Game setGame(Game game) {  }
+}
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToe extends TicTacToeBase {
+  // setGame behaves as if annotated with httpMethod = &quot;GET&quot; and clientIds = { &quot;c1&quot;}.
+  @ApiMethod(httpMethod = &quot;GET&quot;)
+  @Override
+  public Game setGame(Game game) {  }
+}
+</div><p id="-75piyy_145">There is no <code class="code" id="-75piyy_150">@ApiReference</code> annotation or equivalent for methods, so <code class="code" id="-75piyy_151">@ApiMethod</code> is always inherited through Java inheritance, not through <code class="code" id="-75piyy_152">@ApiReference</code>.</p></section></section><section class="chapter"><h2 id="inheritance-and-precedence-rules" data-toc="inheritance-and-precedence-rules">Inheritance and Precedence Rules</h2><p id="-75piyy_153">To synopsize the preceding discussion, the follow table shows the inheritance rules and order of precedence.</p><div class="table-wrapper"><table class="wide" id="-75piyy_154"><thead><tr class="ijRowHead" id="-75piyy_155"><th id="-75piyy_161"><p>Annotation/inheritance</p></th><th id="-75piyy_162"><p>Rule</p></th></tr></thead><tbody><tr id="-75piyy_156"><td id="-75piyy_163"><p><code class="code" id="-75piyy_165">@Api</code></p></td><td id="-75piyy_164"><p>Must be identical for all classes.</p></td></tr><tr id="-75piyy_157"><td id="-75piyy_166"><p><code class="code" id="-75piyy_168">@ApiClass</code></p></td><td id="-75piyy_167"><p>Specified for a class to override <code class="code" id="-75piyy_169">@Api</code> properties.</p></td></tr><tr id="-75piyy_158"><td id="-75piyy_170"><p>Java inheritance</p></td><td id="-75piyy_171"><p>Class inherits <code class="code" id="-75piyy_172">@Api</code> and <code class="code" id="-75piyy_173">@ApiClass</code> of base class.</p></td></tr><tr id="-75piyy_159"><td id="-75piyy_174"><p><code class="code" id="-75piyy_176">@ApiReference</code></p></td><td id="-75piyy_175"><p>Class inherits <code class="code" id="-75piyy_177">@Api</code> and <code class="code" id="-75piyy_178">@ApiClass</code> of referenced class.</p></td></tr><tr id="-75piyy_160"><td id="-75piyy_179"><p>Using <code class="code" id="-75piyy_181">@ApiReference</code> on a class (Java) inheriting from a base class</p></td><td id="-75piyy_180"><p>Class inherits the <code class="code" id="-75piyy_182">@Api</code> and <code class="code" id="-75piyy_183">@ApiClass</code> of referenced class, <em id="-75piyy_184">not</em> from the base class.</p></td></tr></tbody></table></div></section><section class="chapter"><h2 id="common-use-cases-for-annotation-inheritance" data-toc="common-use-cases-for-annotation-inheritance">Common Use Cases for Annotation Inheritance</h2><p id="-75piyy_185">The following are examples of the typical use cases for inheritance:</p><p id="-75piyy_186">For API versioning:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeV1 {  }
+@Api(version = &quot;v2&quot;)
+class TicTacToeV2 extends TicTacToeV1 {  }
+</div><p id="-75piyy_188">For multiclass APIs:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToeBase {}
+@ApiClass(resource = &quot;boards&quot;)
+class TicTacToeBoards extends TicTacToeBase {  }
+@ApiClass(resource = &quot;scores&quot;)
+class TicTacToeScores extends TicTacToeBase {  }
+</div><p id="-75piyy_190">For testing different versions of the same API:</p><div class="code-block" data-lang="none">
+@Api(name = &quot;tictactoe&quot;, version = &quot;v1&quot;)
+class TicTacToe {
+  protected Foo someMethod() {
+    // Do something real;
+  }
+
+  public Foo getFoo() {  }
+}
+
+@Api(version=&quot;v1test&quot;)
+class TicTacToeTest extends TicTacToe {
+  protected Foo someMethod() {
+    // Stub out real action;
+  }
+}
+</div><p id="-75piyy_192">where <code class="code" id="-75piyy_193">someMethod</code> might return pre-determined responses, avoid calls with side-effects, skip a network or datastore request, and so forth.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="endpoint-annotations.html" class="navigation-links__prev">Endpoint Annotations</a><a href="using-auth-with-endpoints.html" class="navigation-links__next">Using Auth with Endpoints</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

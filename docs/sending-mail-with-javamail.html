@@ -1,0 +1,71 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.570218617"><title>Sending mail with JavaMail | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"sending-email-messages","level":0,"title":"Sending email messages","anchor":"#sending-email-messages"},{"id":"senders-and-recipients","level":0,"title":"Senders and recipients","anchor":"#senders-and-recipients"},{"id":"messages-and-headers","level":0,"title":"Messages and headers","anchor":"#messages-and-headers"},{"id":"multi-part-messages","level":0,"title":"Multi-part messages","anchor":"#multi-part-messages"},{"id":"javamail-features-not-supported","level":0,"title":"JavaMail features not supported","anchor":"#javamail-features-not-supported"},{"id":"features-of-the-low-level-api","level":0,"title":"Features of the low-level API","anchor":"#features-of-the-low-level-api"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Sending mail with JavaMail | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/sending-mail-with-javamail.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Sending mail with JavaMail | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/sending-mail-with-javamail.html#webpage",
+    "url": "writerside-documentation/sending-mail-with-javamail.html",
+    "name": "Sending mail with JavaMail | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Sending-mail-with-JavaMail" data-main-title="Sending mail with JavaMail" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Sending-Email.md|Sending Email///Using-the-App-Engine-Mail-API.md|Using the App Engine Mail API"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Sending-mail-with-JavaMail" id="Sending-mail-with-JavaMail.md">Sending mail with JavaMail</h1><p id="-iyjk40_3">The Mail service Java API supports the <a href="https://web.archive.org/web/20160424230725/http://www.oracle.com/technetwork/java/javamail/index.html" id="-iyjk40_12" data-external="true" rel="noopener noreferrer" target="_blank">JavaMail</a> (javax.mail) interface for sending email messages.</p><ol class="list _decimal" id="-iyjk40_4" type="1"><li class="list__item" id="-iyjk40_13"><p id="-iyjk40_19"><span id="-iyjk40_20">Sending email messages</span></p></li><li class="list__item" id="-iyjk40_14"><p id="-iyjk40_21"><span id="-iyjk40_22">Senders and recipients</span></p></li><li class="list__item" id="-iyjk40_15"><p id="-iyjk40_23"><span id="-iyjk40_24">Messages and headers</span></p></li><li class="list__item" id="-iyjk40_16"><p id="-iyjk40_25"><span id="-iyjk40_26">Multi-part messages</span></p></li><li class="list__item" id="-iyjk40_17"><p id="-iyjk40_27"><span id="-iyjk40_28">JavaMail features not supported</span></p></li><li class="list__item" id="-iyjk40_18"><p id="-iyjk40_29"><span id="-iyjk40_30">Features of the low-level API</span></p></li></ol><p id="-iyjk40_5"></p><section class="chapter"><h2 id="sending-email-messages" data-toc="sending-email-messages">Sending email messages</h2><p id="-iyjk40_31">To send an email message, an app prepares a MimeMessage object, then sends it with the static method <code class="code" id="-iyjk40_35">send()</code> on the <code class="code" id="-iyjk40_36">Transport</code> class. The message is created using a JavaMail <code class="code" id="-iyjk40_37">Session</code> object. The <code class="code" id="-iyjk40_38">Session</code> and the <code class="code" id="-iyjk40_39">Transport</code> work with the App Engine Mail service without any additional configuration.</p><div class="code-block" data-lang="none">
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+// ...
+    Properties props = new Properties();
+    Session session = Session.getDefaultInstance(props, null);
+
+    String msgBody = &quot;...&quot;;
+
+    try {
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(&quot;admin@example.com&quot;, &quot;Example.com Admin&quot;));
+        msg.addRecipient(Message.RecipientType.TO,
+                         new InternetAddress(&quot;user@example.com&quot;, &quot;Mr. User&quot;));
+        msg.setSubject(&quot;Your Example.com account has been activated&quot;);
+        msg.setText(msgBody);
+        Transport.send(msg);
+
+    } catch (AddressException e) {
+        // ...
+    } catch (MessagingException e) {
+        // ...
+    }
+</div><p id="-iyjk40_33">Calls to the Mail service are asynchronous, and return immediately. The Mail service manages the process of contacting the recipients' mail servers and delivering the message. If there is a problem sending the message to any recipient, or if a recipient's mail server returns a &quot;bounce&quot; message, the error message goes to the sender.</p><p id="-iyjk40_34"></p></section><section class="chapter"><h2 id="senders-and-recipients" data-toc="senders-and-recipients">Senders and recipients</h2><p id="-iyjk40_40">Sender and recipient email addresses are represented in JavaMail using instances of the <code class="code" id="-iyjk40_45">InternetAddress</code> class. The constructor takes the email address as a string, and raises an <code class="code" id="-iyjk40_46">AddressException</code> if the address does not resemble a valid email address. Optionally, you can provide a personal name as a string for the second parameter.</p><p id="-iyjk40_41">To set the sender address, the app calls the <code class="code" id="-iyjk40_47">setFrom()</code> method on the <code class="code" id="-iyjk40_48">MimeMessage</code> object. See the <a href="https://web.archive.org/web/20160424230725/https://cloud.google.com/appengine/docs/java/mail/" id="-iyjk40_49" data-external="true" rel="noopener noreferrer" target="_blank">Overview</a> section for information on which email addresses you can use for the Sender address.</p><p id="-iyjk40_42">Several methods on the <code class="code" id="-iyjk40_50">MimeMessage</code> object establish the recipients. The <code class="code" id="-iyjk40_51">addRecipient()</code> method takes a recipient type and an address, and adds it to the list of recipients for the type. The recipient type can be any of <code class="code" id="-iyjk40_52">Message.RecipientType.TO</code>, <code class="code" id="-iyjk40_53">Message.RecipientType.CC</code> or <code class="code" id="-iyjk40_54">Message.RecipientType.BCC</code>.</p><p id="-iyjk40_43">You can set a &quot;reply to&quot; address using the <code class="code" id="-iyjk40_55">setReplyTo()</code> method.</p><p id="-iyjk40_44"></p></section><section class="chapter"><h2 id="messages-and-headers" data-toc="messages-and-headers">Messages and headers</h2><p id="-iyjk40_56">You establish the contents of the message by calling methods on the <code class="code" id="-iyjk40_59">MimeMessage</code> object. The <code class="code" id="-iyjk40_60">setSubject()</code> method sets the subject, and the <code class="code" id="-iyjk40_61">setText()</code> method sets the (plaintext) body content.</p><p id="-iyjk40_57">The Mail service allows you to specify a limited set of headers on outgoing email messages. For more information about the allowed headers, see the <a href="https://web.archive.org/web/20160424230725/https://cloud.google.com/appengine/docs/java/mail/#Java_Sending_mail_with_headers" id="-iyjk40_62" data-external="true" rel="noopener noreferrer" target="_blank">Mail Service Overview</a>.</p><p id="-iyjk40_58"></p></section><section class="chapter"><h2 id="multi-part-messages" data-toc="multi-part-messages">Multi-part messages</h2><p id="-iyjk40_63">You can send a message with file attachments, or with an HTML message body in addition to the plaintext message body, using multi-part messages. You create a <code class="code" id="-iyjk40_67">MimeMultipart</code> object to contain the parts, then create a <code class="code" id="-iyjk40_68">MimeBodyPart</code> object for each attachment or alternate message body and add it to the container. Finally, you assign the container to the MimeMessage's content.</p><div class="code-block" data-lang="none">
+import java.io.InputStream;
+import javax.activation.DataHandler;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
+
+// ...
+    String htmlBody;        // ...
+    byte[] attachmentData;  // ...
+
+    Multipart mp = new MimeMultipart();
+
+    MimeBodyPart htmlPart = new MimeBodyPart();
+    htmlPart.setContent(htmlBody, &quot;text/html&quot;);
+    mp.addBodyPart(htmlPart);
+
+    MimeBodyPart attachment = new MimeBodyPart();
+    InputStream attachmentDataStream = new ByteArrayInputStream(attachmentData);
+    attachment.setFileName(&quot;manual.pdf&quot;);
+    attachment.setContent(attachmentDataStream, &quot;application/pdf&quot;);
+    mp.addBodyPart(attachment);
+
+    message.setContent(mp);
+</div><p id="-iyjk40_65">For security purposes, message parts and attachments must be of one of several allowed types, and attachment filenames must end in a recognized filename extension for the type. For a list of allowed types and filename extensions, see <a href="https://web.archive.org/web/20160424230725/https://cloud.google.com/appengine/docs/java/mail/#Java_Sending_mail_with_attachments" id="-iyjk40_69" data-external="true" rel="noopener noreferrer" target="_blank">Overview: Attachments</a>.</p><p id="-iyjk40_66"></p></section><section class="chapter"><h2 id="javamail-features-not-supported" data-toc="javamail-features-not-supported">JavaMail features not supported</h2><p id="-iyjk40_70">An app cannot use the JavaMail interface to connect to other mail services for sending or receiving email messages. SMTP configuration added to the <code class="code" id="-iyjk40_72">Transport</code> or <code class="code" id="-iyjk40_73">Session</code> is ignored.</p><p id="-iyjk40_71"></p></section><section class="chapter"><h2 id="features-of-the-low-level-api" data-toc="features-of-the-low-level-api">Features of the low-level API</h2><p id="-iyjk40_74">All features of the low-level Mail service API are available in the JavaMail interface.</p><p id="-iyjk40_75"><span class="control" id="-iyjk40_76">Note:</span> The low-level API includes a convenience method for sending mail to all of the application's administrators. One way to use this feature is shown in the <a href="https://web.archive.org/web/20160424230725/http://jeremyblythe.blogspot.co.uk/2010/05/app-engine-email-to-admins-gotcha.html" id="-iyjk40_77" data-external="true" rel="noopener noreferrer" target="_blank">following blog.</a></p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="mail-java-api-overview.html" class="navigation-links__prev">Mail Java API Overview</a><a href="receiving-email.html" class="navigation-links__next">Receiving Email</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

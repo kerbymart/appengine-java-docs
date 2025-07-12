@@ -1,0 +1,162 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.671332892"><title>Receiving Email | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"configuring-your-app-to-receive-email","level":0,"title":"Configuring Your App to Receive Email","anchor":"#configuring-your-app-to-receive-email"},{"id":"handling-incoming-email","level":0,"title":"Handling Incoming Email","anchor":"#handling-incoming-email"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Receiving Email | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/receiving-email.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Receiving Email | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/receiving-email.html#webpage",
+    "url": "writerside-documentation/receiving-email.html",
+    "name": "Receiving Email | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Receiving-Email" data-main-title="Receiving Email" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Sending-Email.md|Sending Email///Using-the-App-Engine-Mail-API.md|Using the App Engine Mail API"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Receiving-Email" id="Receiving-Email.md">Receiving Email</h1><p id="-q31qya_3">Email messages sent to your app are implemented as HTTP requests. To process incoming email messages, you associate email addresses with servlets in your app configuration, then include the servlet code with your app. Incoming email generates HTTP requests, which are passed to the appropriate servlets for handling.</p><section class="chapter"><h2 id="configuring-your-app-to-receive-email" data-toc="configuring-your-app-to-receive-email">Configuring Your App to Receive Email</h2><p id="-q31qya_6">When you create a new app, incoming email is disabled by default. To enable the incoming email service, you must modify your app's configuration files in two ways:</p><ol class="list _decimal" id="-q31qya_7" type="1"><li class="list__item" id="-q31qya_19"><p id="-q31qya_21">In <code class="code" id="-q31qya_22">appengine-web.xml</code>, add an <code class="code" id="-q31qya_23">inbound-services</code> section that enables the incoming email service.</p></li><li class="list__item" id="-q31qya_20"><p id="-q31qya_24">In <code class="code" id="-q31qya_25">web.xml</code>, add mappings that associate URL-mapped email addresses with servlets.</p></li></ol><p id="-q31qya_8">To enable the incoming email service, add a short section to the root element of your <code class="code" id="-q31qya_26">appengine-web.xml</code> file, like the following:</p><div class="code-block" data-lang="none">
+&lt;inbound-services&gt;
+  &lt;service&gt;mail&lt;/service&gt;
+&lt;/inbound-services&gt;
+</div><p id="-q31qya_10">You can verify that you have enabled incoming email in your app by going to the Administration Console and checking the Application Settings section. Note that you can only check there to see if the incoming email service is enabled; you must change the <code class="code" id="-q31qya_27">appengine-web.xml</code> file to actually enable or disable the service. If you don't enable incoming email by including this section in your configuration file, incoming email is disabled, and email messages sent to the app are ignored.</p><p id="-q31qya_11">Your app can receive email at addresses of the following form:</p><div class="code-block" data-lang="none">
+  string@appid.appspotmail.com
+</div><p id="-q31qya_13">Email messages are sent to your app as HTTP POST requests using the following URL:</p><div class="code-block" data-lang="none">
+  /_ah/mail/&lt;address&gt;
+</div><p id="-q31qya_15">where <span class="emphasis" id="-q31qya_28">address</span> is a full email address, including domain name. To handle incoming email in your app, you map email URLs to servlets in the <code class="code" id="-q31qya_29">web.xml</code> file:</p><div class="code-block" data-lang="none">
+&lt;servlet&gt;
+  &lt;servlet-name&gt;mailhandler&lt;/servlet-name&gt;
+  &lt;servlet-class&gt;MailHandlerServlet&lt;/servlet-class&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+  &lt;servlet-name&gt;mailhandler&lt;/servlet-name&gt;
+  &lt;url-pattern&gt;/_ah/mail/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+&lt;security-constraint&gt;
+  &lt;web-resource-collection&gt;
+    &lt;web-resource-name&gt;mail&lt;/web-resource-name&gt;
+    &lt;url-pattern&gt;/_ah/mail/*&lt;/url-pattern&gt;
+  &lt;/web-resource-collection&gt;
+  &lt;auth-constraint&gt;
+    &lt;role-name&gt;admin&lt;/role-name&gt;
+  &lt;/auth-constraint&gt;
+&lt;/security-constraint&gt;
+</div><p id="-q31qya_17">In this example, <code class="code" id="-q31qya_30">/_ah/mail/*</code> matches all email addressed to the app. Mail servlets run in the default module (or application version).</p><section class="chapter"><h3 id="pattern-based-dispatching-of-incoming-messages" data-toc="pattern-based-dispatching-of-incoming-messages">Pattern-Based Dispatching of Incoming Messages</h3><p id="-q31qya_31">If your app uses pattern matching, consider using a filter-based approach based on the following code snippets.</p><section class="chapter"><h4 id="concrete-handler" data-toc="concrete-handler">Concrete Handler</h4><div class="code-block" data-lang="none">
+public class HandleDiscussionEmail extends MailHandlerBase {
+
+  public HandleDiscussionEmail() { super(&quot;discuss-(.*)@(.*)&quot;); }
+
+  @Override
+  protected boolean processMessage(HttpServletRequest req, HttpServletResponse res)
+    throws ServletException
+  {
+    MimeMessage msg = getMessageFromRequest(req);
+    Matcher match = getMatcherFromRequest(req);
+    ...
+  }
+
+}
+</div><p id="-q31qya_35">The concrete handler would be registered using the following snippet in web.xml</p><div class="code-block" data-lang="none">
+  &lt;filter&gt;
+      &lt;filter-name&gt;HandleDiscussionEmail&lt;/filter-name&gt;
+      &lt;filter-class&gt;pkg.HandleDiscussionEmail&lt;/filter-class&gt;
+  &lt;/filter&gt;
+  &lt;filter-mapping&gt;
+      &lt;filter-name&gt;HandleDiscussionEmail&lt;/filter-name&gt;
+      &lt;url-pattern&gt;/_ah/mail/*&lt;/url-pattern&gt;
+  &lt;/filter-mapping&gt;
+</div><p id="-q31qya_37"><span class="control" id="-q31qya_38">Note:</span> <code class="code" id="-q31qya_39">security-constraint</code> directives are not possible on filters; security policies on the handler will have to be introduced some other way.</p></section><section class="chapter"><h4 id="abstract-handler" data-toc="abstract-handler">Abstract Handler</h4><div class="code-block" data-lang="none">
+public abstract class MailHandlerBase implements Filter {
+
+  private Pattern pattern = null;
+
+  protected MailHandlerBase(String pattern) {
+    if (pattern == null || pattern.trim().length() == 0)
+    {
+      throw new IllegalArgumentException(&quot;Expected non-empty regular expression&quot;);
+    }
+    this.pattern = Pattern.compile(&quot;/_ah/mail/&quot;+pattern);
+  }
+
+  @Override public void init(FilterConfig config) throws ServletException { }
+
+  @Override public void destroy() { }
+
+  /**
+   * Process the message. A message will only be passed to this method
+   * if the servletPath of the message (typically the recipient for
+   * appengine) satisfies the pattern passed to the constructor. If
+   * the implementation returns false, control is passed
+   * to the next filter in the chain. If the implementation returns
+   * true, the filter chain is terminated.
+   *
+   * The Matcher for the pattern can be retrieved via
+   * getMatcherFromRequest (e.g. if groups are used in the pattern).
+   */
+  protected abstract boolean processMessage(HttpServletRequest req, HttpServletResponse res) throws ServletException;
+
+  @Override
+  public void doFilter(ServletRequest sreq, ServletResponse sres, FilterChain chain)
+      throws IOException, ServletException {
+
+    HttpServletRequest req = (HttpServletRequest) sreq;
+    HttpServletResponse res = (HttpServletResponse) sres;
+
+    MimeMessage message = getMessageFromRequest(req);
+    Matcher m = applyPattern(req);
+
+    if (m != null &amp;&amp; processMessage(req, res)) {
+      return;
+    }
+
+    chain.doFilter(req, res); // Try the next one
+
+  }
+
+  private Matcher applyPattern(HttpServletRequest req) {
+    Matcher m = pattern.matcher(req.getServletPath());
+    if (!m.matches()) m = null;
+
+    req.setAttribute(&quot;matcher&quot;, m);
+    return m;
+  }
+
+  protected Matcher getMatcherFromRequest(ServletRequest req) {
+    return (Matcher) req.getAttribute(&quot;matcher&quot;);
+  }
+
+  protected MimeMessage getMessageFromRequest(ServletRequest req) throws ServletException {
+    MimeMessage message = (MimeMessage) req.getAttribute(&quot;mimeMessage&quot;);
+    if (message == null) {
+      try {
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+        message = new MimeMessage(session, req.getInputStream());
+        req.setAttribute(&quot;mimeMessage&quot;, message);
+
+      } catch (MessagingException e) {
+        throw new ServletException(&quot;Error processing inbound message&quot;, e);
+      } catch (IOException e) {
+        throw new ServletException(&quot;Error processing inbound message&quot;, e);
+      }
+    }
+    return message;
+  }
+
+
+
+}
+</div></section></section></section><section class="chapter"><h2 id="handling-incoming-email" data-toc="handling-incoming-email">Handling Incoming Email</h2><p id="-q31qya_42">The JavaMail API includes the <code class="code" id="-q31qya_48">MimeMessage</code> class which you can use to parse incoming email messages. <code class="code" id="-q31qya_49">MimeMessage</code> has a constructor that accepts a <code class="code" id="-q31qya_50">java.io.InputStream</code> and a JavaMail session, which can have an empty configuration.</p><p id="-q31qya_43">You can create a <code class="code" id="-q31qya_51">MimeMessage</code> instance like this:</p><div class="code-block" data-lang="none">
+import java.io.IOException; 
+import java.util.Properties; 
+import javax.mail.Session; 
+import javax.mail.internet.MimeMessage; 
+import javax.servlet.http.*; 
+
+public class MailHandlerServlet extends HttpServlet { 
+    @Override
+    public void doPost(HttpServletRequest req, 
+                       HttpServletResponse resp) 
+            throws IOException { 
+        Properties props = new Properties(); 
+        Session session = Session.getDefaultInstance(props, null); 
+        MimeMessage message = new MimeMessage(session, req.getInputStream());
+</div><p id="-q31qya_45">You can then use various methods to parse the <code class="code" id="-q31qya_52">message</code> object:</p><ul class="list _bullet" id="-q31qya_46"><li class="list__item" id="-q31qya_53"><p id="-q31qya_55">Call <code class="code" id="-q31qya_56">getFrom()</code> to return the sender of the message.</p></li><li class="list__item" id="-q31qya_54"><p id="-q31qya_57">The <code class="code" id="-q31qya_58">getContent()</code> method returns an object that implements the <code class="code" id="-q31qya_59">Multipart</code> interface. You can then call <code class="code" id="-q31qya_60">getCount()</code> to determine the number of parts and getBodyPart(int index) to return a particular body part.</p></li></ul><p id="-q31qya_47">Once you set up your app to handle incoming email, you can use the development server console to simulate incoming email messages. You can access the development server by going to <a href="https://web.archive.org/web/20160424231029/http://localhost:8888/_ah/admin/" id="-q31qya_61" data-external="true" rel="noopener noreferrer" target="_blank">http://localhost:8888/_ah/admin/</a> (or if your app is running on a port other than 8888, use that value instead). In the development server, click Inbound Mail on the left side, fill out the form that appears, and click Send Email. To learn more, including how to get the development server running, see <a href="https://web.archive.org/web/20160424231029/https://cloud.google.com/appengine/docs/java/tools/devserver.html" id="-q31qya_62" data-external="true" rel="noopener noreferrer" target="_blank">The Java Development Server</a>.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="sending-mail-with-javamail.html" class="navigation-links__prev">Sending mail with JavaMail</a><a href="receiving-bounce-notification.html" class="navigation-links__next">Receiving Bounce Notification</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

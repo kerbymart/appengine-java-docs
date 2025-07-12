@@ -1,0 +1,107 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.637111206"><title>Converting Backends to Modules | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Converting Backends to Modules | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/converting-backends-to-modules.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Converting Backends to Modules | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/converting-backends-to-modules.html#webpage",
+    "url": "writerside-documentation/converting-backends-to-modules.html",
+    "name": "Converting Backends to Modules | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Converting-Backends-to-Modules" data-main-title="Converting Backends to Modules" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Converting-Backends-to-Modules" id="Converting-Backends-to-Modules.md">Converting Backends to Modules</h1><p id="m0fbuw_3">The original App Engine architecture is based on a single frontend instance with optional backend instances. If you have an application that uses backends, you may want to convert the backends to module format to take full advantage of the additional functionality that modules provide (such as the ability to version backends).</p><p id="m0fbuw_4">App Engine automatically runs an existing backend as a new, non-default version of the default module. Resident backends are assigned manual scaling and dynamic backends are assigned basic scaling.</p><p id="m0fbuw_5">You can convert backend instances to named modules that are versioned and have explicit scaling type and instance classes. You must replace the original <code class="code" id="m0fbuw_17">backends.xml</code> file with multiple WAR files, one for each module. The procedure is as follows:</p><ol class="list _decimal" id="m0fbuw_6" type="1"><li class="list__item" id="m0fbuw_18"><p id="m0fbuw_25">Create a top level <code class="code" id="m0fbuw_26">EAR</code> directory.</p></li><li class="list__item" id="m0fbuw_19"><p id="m0fbuw_27">Create a <code class="code" id="m0fbuw_28">META-INF</code> subdirectory in the <code class="code" id="m0fbuw_29">EAR</code> directory that contains an <code class="code" id="m0fbuw_30">appengine-application.xml</code> file and an <code class="code" id="m0fbuw_31">application.xml</code> file.</p></li><li class="list__item" id="m0fbuw_20"><p id="m0fbuw_32">Add module declaration elements to the <code class="code" id="m0fbuw_33">appengine-application.xml</code> file.</p></li><li class="list__item" id="m0fbuw_21"><p id="m0fbuw_34">Create a subdirectory in the <code class="code" id="m0fbuw_35">EAR</code> directory for each module in the app including the default module. By convention, each subdirectory has the same name as the module it defines.</p></li><li class="list__item" id="m0fbuw_22"><p id="m0fbuw_36">Copy the contents of the original <code class="code" id="m0fbuw_37">WAR</code> directory into each subdirectory. The original <code class="code" id="m0fbuw_38">WAR</code> should have a subdirectory named <code class="code" id="m0fbuw_39">WEB-INF</code>. Each new subdirectory must have its own copy of that directory.</p></li><li class="list__item" id="m0fbuw_23"><p id="m0fbuw_40">Add module configuration elements (to define module name, scaling, instance class, etc.) to the <code class="code" id="m0fbuw_41">appengine-web.xml</code> files in each subdirectory.</p></li><li class="list__item" id="m0fbuw_24"><p id="m0fbuw_42">Application configuration files (<code class="code" id="m0fbuw_43">cron.xml</code>, <code class="code" id="m0fbuw_44">dispatch.xml</code>, <code class="code" id="m0fbuw_45">dos.xml</code>, etc.) should only be included in the default module subdirectory. Remove these files from all the other module subdirectories.</p></li></ol><p id="m0fbuw_7">For example, here is a file <code class="code" id="m0fbuw_46">example/backends.xml</code> that defines three backends (<code class="code" id="m0fbuw_47">memdb</code>, <code class="code" id="m0fbuw_48">worker</code>, and <code class="code" id="m0fbuw_49">cmdline</code>):</p><div class="code-block" data-lang="none">
+&lt;backends&gt;
+ &lt;backend name=&quot;memdb&quot;&gt;
+   &lt;class&gt;B8&lt;/class&gt;
+   &lt;instances&gt;5&lt;/instances&gt;
+ &lt;/backend&gt;
+ &lt;backend name=&quot;worker&quot;&gt;
+   &lt;options&gt;
+     &lt;fail-fast&gt;true&lt;/fail-fast&gt;
+   &lt;/options&gt;
+ &lt;/backend&gt;
+ &lt;backend name=&quot;cmdline&quot;&gt;
+   &lt;options&gt;
+     &lt;dynamic&gt;true&lt;/dynamic&gt;
+   &lt;/options&gt;
+ &lt;/backend&gt;
+&lt;/backends&gt;
+</div><p id="m0fbuw_9">To convert these backends to modules, first assume you've created a new EAR directory called &quot;ear.&quot; Declare the backends as modules in the file <code class="code" id="m0fbuw_50">ear/META-INF/application.xml</code>. Notice that this file also declares the default module as well:</p><div class="code-block" data-lang="none">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;application
+  xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/application_5.xsd&quot;
+  version=&quot;5&quot;&gt;
+
+  &lt;description&gt;Demo Application&lt;/description&gt;
+  &lt;display-name&gt;My Java App&lt;/display-name&gt;
+
+  &lt;!-- Default Module --&gt;
+  &lt;module&gt;
+    &lt;web&gt;
+      &lt;web-uri&gt;default&lt;/web-uri&gt;
+      &lt;context-root&gt;defaultcontextroot&lt;/context-root&gt;
+    &lt;/web&gt;
+  &lt;/module&gt;
+  &lt;!-- Other Modules --&gt;
+  &lt;module&gt;
+    &lt;web&gt;
+      &lt;web-uri&gt;memdb&lt;/web-uri&gt;
+      &lt;context-root&gt;memdb&lt;/context-root&gt;
+    &lt;/web&gt;
+  &lt;/module&gt;
+  &lt;module&gt;
+    &lt;web&gt;
+      &lt;web-uri&gt;worker&lt;/web-uri&gt;
+      &lt;context-root&gt;worker&lt;/context-root&gt;
+    &lt;/web&gt;
+  &lt;/module&gt;
+  &lt;module&gt;
+    &lt;web&gt;
+      &lt;web-uri&gt;cmdline&lt;/web-uri&gt;
+      &lt;context-root&gt;cmdline&lt;/context-root&gt;
+    &lt;/web&gt;
+  &lt;/module&gt;
+&lt;/application&gt;
+</div><p id="m0fbuw_11">The configuration for each module is written in a separate <code class="code" id="m0fbuw_51">appengine-web.xml</code> file, under the corresponding subdirectory. In <code class="code" id="m0fbuw_52">ear/memdb/WEB-INF/appengine-web.xml</code>:</p><div class="code-block" data-lang="none">
+&lt;appengine-web-app xmlns=&quot;http://appengine.google.com/ns/1.0&quot;&gt;
+  &lt;application&gt;my-java-app&lt;/application&gt;
+  &lt;module&gt;memdb&lt;/module&gt;
+  &lt;version&gt;uno&lt;/version&gt;
+  &lt;threadsafe&gt;true&lt;/true&gt;
+  &lt;instance-class&gt;F4&lt;/instance-class&gt;
+  &lt;manual-scaling&gt;
+    &lt;instances&gt;5&lt;/instances&gt;
+  &lt;/manual-scaling&gt;
+&lt;/appengine-web-app&gt;
+</div><p id="m0fbuw_13">In <code class="code" id="m0fbuw_53">ear/worker/WEB-INF/appengine-web.xml</code>:</p><div class="code-block" data-lang="none">
+// ear/worker/WEB-INF/appengine-web.xml
+&lt;appengine-web-app xmlns=&quot;http://appengine.google.com/ns/1.0&quot;&gt;
+  &lt;application&gt;my-java-app&lt;/application&gt;
+  &lt;module&gt;worker&lt;/module&gt;
+  &lt;version&gt;uno&lt;/version&gt;
+  &lt;threadsafe&gt;true&lt;/threadsafe&gt;
+   &lt;!-- For failfast functionality, please use the X-AppEngine-FailFast header on requests made to this module. --&gt;
+  &lt;instance-class&gt;F2&lt;/instance-class&gt;
+  &lt;manual-scaling&gt;
+    &lt;instances&gt;5&lt;/instances&gt;
+  &lt;/manual-scaling&gt;
+&lt;/appengine-web-app&gt;
+</div><p id="m0fbuw_15">In <code class="code" id="m0fbuw_54">ear/cmdline/WEB-INF/appengine-web.xml</code>:</p><div class="code-block" data-lang="none">
+&lt;appengine-web-app xmlns=&quot;http://appengine.google.com/ns/1.0&quot;&gt;
+  &lt;application&gt;my-java-app&lt;/application&gt;
+  &lt;module&gt;cmdline&lt;/module&gt;
+  &lt;version&gt;uno&lt;/version&gt;
+  &lt;threadsafe&gt;true&lt;/threadsafe&gt;
+  &lt;instance-class&gt;F2&lt;/instance-class&gt;
+  &lt;basic-scaling&gt;
+    &lt;max-instances&gt;10?&lt;/max-instances&gt;
+  &lt;/basic-scaling&gt;
+&lt;/appengine-web-app&gt;
+</div><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="reading-and-writing-application-logs.html" class="navigation-links__prev">Reading and Writing Application Logs</a><a href="apis-reference.html" class="navigation-links__next">APIs &amp; Reference</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

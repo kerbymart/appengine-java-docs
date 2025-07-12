@@ -1,0 +1,242 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.105096833"><title>Implementing Multitenancy Using Namespaces | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"setting-the-current-namespace","level":0,"title":"Setting the current namespace","anchor":"#setting-the-current-namespace"},{"id":"avoiding-data-leaks","level":0,"title":"Avoiding data leaks","anchor":"#avoiding-data-leaks"},{"id":"deploying-namespaces","level":0,"title":"Deploying namespaces","anchor":"#deploying-namespaces"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Implementing Multitenancy Using Namespaces | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/implementing-multitenancy-using-namespaces.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Implementing Multitenancy Using Namespaces | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/implementing-multitenancy-using-namespaces.html#webpage",
+    "url": "writerside-documentation/implementing-multitenancy-using-namespaces.html",
+    "name": "Implementing Multitenancy Using Namespaces | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Implementing-Multitenancy-Using-Namespaces" data-main-title="Implementing Multitenancy Using Namespaces" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Namespace-enabled-Apps.md|Namespace-enabled Apps"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Implementing-Multitenancy-Using-Namespaces" id="Implementing-Multitenancy-Using-Namespaces.md">Implementing Multitenancy Using Namespaces</h1><p id="lwojg4_3">The Namespaces API allows you to easily enable <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/java/multitenancy/index" id="lwojg4_8" data-external="true" rel="noopener noreferrer" target="_blank">multitenancy</a> in your application, simply by selecting a namespace string for each tenant in <code class="code" id="lwojg4_9">web.xml</code> using the <code class="code" id="lwojg4_10">NamespaceManager</code> package.</p><ol class="list _decimal" id="lwojg4_4" type="1"><li class="list__item" id="lwojg4_11"><p id="lwojg4_14"><span id="lwojg4_15">Setting the current namespace</span></p></li><li class="list__item" id="lwojg4_12"><p id="lwojg4_16"><span id="lwojg4_17">Avoiding data leaks</span></p></li><li class="list__item" id="lwojg4_13"><p id="lwojg4_18"><span id="lwojg4_20">Deploying namespaces</span></p><ol class="list _decimal" id="lwojg4_19" type="1"><li class="list__item" id="lwojg4_21"><p id="lwojg4_29"><span id="lwojg4_30">Creating namespaces on a per user basis</span></p></li><li class="list__item" id="lwojg4_22"><p id="lwojg4_31"><span id="lwojg4_32">Using namespaces with the Datastore</span></p></li><li class="list__item" id="lwojg4_23"><p id="lwojg4_33"><span id="lwojg4_34">Using namespaces with the Memcache</span></p></li><li class="list__item" id="lwojg4_24"><p id="lwojg4_35"><span id="lwojg4_36">Using namespaces with the Task Queue</span></p></li><li class="list__item" id="lwojg4_25"><p id="lwojg4_37"><span id="lwojg4_38">Using namespaces with the Blobstore</span></p></li><li class="list__item" id="lwojg4_26"><p id="lwojg4_39"><span id="lwojg4_40">Setting namespaces for Datastore Queries</span></p></li><li class="list__item" id="lwojg4_27"><p id="lwojg4_41"><span id="lwojg4_42">Using namespaces with the Bulkloader</span></p></li><li class="list__item" id="lwojg4_28"><p id="lwojg4_43"><span id="lwojg4_44">Using namespaces with Search</span></p></li></ol></li></ol><section class="chapter"><h2 id="setting-the-current-namespace" data-toc="setting-the-current-namespace">Setting the current namespace</h2><p id="lwojg4_45">You can get, set, and validate namespaces using <code class="code" id="lwojg4_57">NamespaceManager</code>. The namespace manager allows you to set a current namespace for <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/java/multitenancy/#Java_App_Engine_APIs_that_use_namespaces" id="lwojg4_58" data-external="true" rel="noopener noreferrer" target="_blank">namespace-enabled APIs</a>. You set a current namespace up-front using <code class="code" id="lwojg4_59">web.xml</code>, and the datastore and memcache automatically use that namespace.</p><p id="lwojg4_46">Most App Engine developers will use their Google Apps domain as the current namespace. Google Apps lets you deploy your app to any domain that you own, so you can easily use this mechanism to configure different namespaces for different domains. Then, you can use those separate namespaces to segregate data across the domains. For more information about setting multiple domains in the Google Apps dashboard, see <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/articles/domains.html" id="lwojg4_60" data-external="true" rel="noopener noreferrer" target="_blank">Deploying Your Application on Your Google Apps URL</a>.</p><p id="lwojg4_47">The following code sample shows you how to set the current namespace to the Google Apps domain that was used to map the URL. Notably, this string will be the same for all URLs mapped via the same Google Apps domain.</p><p id="lwojg4_48">You can set namespaces in Java using the servlet Filter interface before invoking servlet methods. The following simple example demonstrates how to use your Google Apps domain as the current namespace:</p><div class="code-block" data-lang="none">
+// Filter to set the Google Apps domain as the namespace.
+public class NamespaceFilter implements javax.servlet.Filter {
+  @Override
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+      throws IOException, ServletException {
+    // Make sure set() is only called if the current namespace is not already set.
+    if (NamespaceManager.get() == null) {
+      NamespaceManager.set(NamespaceManager.getGoogleAppsNamespace());
+    }
+  }
+... remaining Filter methods init() and destroy()
+}
+</div><p id="lwojg4_50">The namespace filter must be configured in the <code class="code" id="lwojg4_61">web.xml</code> file. Note that, if there are multiple filter entries, the first namespace to be set is the one that will be used.</p><p id="lwojg4_51">The following code sample demonstrates how to configure the namespace filter in <code class="code" id="lwojg4_62">web.xml</code>:</p><div class="code-block" data-lang="none">
+&lt;!-- Configure the namespace filter. --&gt;
+&lt;filter&gt;
+  &lt;filter-name&gt;NamespaceFilter&lt;/filter-name&gt;
+  &lt;filter-class&gt;(put the class path here).NamespaceFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+  &lt;filter-name&gt;NamespaceFilter&lt;/filter-name&gt; 
+  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</div><p id="lwojg4_53">You can also set a new namespace for a temporary operation, resetting the original namespace once the operation is complete, using the <code class="code" id="lwojg4_63">try</code>/<code class="code" id="lwojg4_64">finally</code> pattern shown below:</p><div class="code-block" data-lang="none">
+// Set the namepace temporarily to &quot;abc&quot;
+String oldNamespace = NamespaceManager.get();
+NamespaceManager.set(&quot;abc&quot;);
+try {
+  ... perform operation using current namespace ...
+} finally {
+  NamespaceManager.set(oldNamespace);
+}
+</div><p id="lwojg4_55">If you do not specify a value for <code class="code" id="lwojg4_65">namespace</code>, the namespace is set to an empty string. The <code class="code" id="lwojg4_66">namespace</code> string is arbitrary, but also limited to a maximum of 100 alphanumeric characters, periods, underscores, and hyphens. More explicitly, namespace strings must match the regular expression <code class="code" id="lwojg4_67">[0-9A-Za-z._-]{0,100}</code>.</p><p id="lwojg4_56">By convention, all namespaces starting with &quot; <code class="code" id="lwojg4_68">_</code> &quot; (underscore) are reserved for system use. This system namespace rule is not enforced, but you could easily encounter undefined negative consequences if you do not follow it.</p></section><section class="chapter"><h2 id="avoiding-data-leaks" data-toc="avoiding-data-leaks">Avoiding data leaks</h2><p id="lwojg4_69">One of the risks commonly associated with multitenant apps is the danger that data will leak across namespaces. Unintended data leaks can arise from many sources, including:</p><ul class="list _bullet" id="lwojg4_70"><li class="list__item" id="lwojg4_71"><p id="lwojg4_74">Using namespaces with App Engine APIs that do not yet support namespaces. For example, Blobstore does not support namespaces. If you use <span id="lwojg4_75">Namespaces with Blobstore</span>, you need to avoid using Blobstore queries for end user requests, or Blobstore keys from untrusted sources.</p></li><li class="list__item" id="lwojg4_72"><p id="lwojg4_76">Using an external storage medium (instead of memcache and datastore), via <code class="code" id="lwojg4_77">URL Fetch</code> or some other mechanism, without providing a compartmentalization scheme for namespaces.</p></li><li class="list__item" id="lwojg4_73"><p id="lwojg4_78">Setting a namespace based on a user's email domain. In most cases, you don't want all email addresses of a domain to access a namespace. Using the email domain also prevents your application from using a namespace until the user is logged in.</p></li></ul></section><section class="chapter"><h2 id="deploying-namespaces" data-toc="deploying-namespaces">Deploying namespaces</h2><p id="lwojg4_79">The following sections describe how to deploy namespaces with other App Engine tools and APIs.</p><section class="chapter"><h3 id="creating-namespaces-on-a-per-user-basis" data-toc="creating-namespaces-on-a-per-user-basis">Creating namespaces on a per user basis</h3><p id="lwojg4_88">Some applications need to create namespaces on a per-user basis. If you want to compartmentalize data at the user level for logged-in users, consider using <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/users/User#getUserId()" id="lwojg4_91" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="lwojg4_92">User.getUserId()</code></a>, which returns a unique, permanent ID for the user. The following code sample demonstrates how to use the Users API for this purpose:</p><div class="code-block" data-lang="none">
+if (NamespaceManager.get() == null) {
+  // Assuming there is a logged in user.
+  namespace = UserServiceFactory.getUserService().getCurrentUser().getUserId();
+  NamespaceManager.set(namespace);
+}
+</div><p id="lwojg4_90">Typically, apps that create namespaces on a per-user basis also provide specific landing pages to different users. In these cases, the application needs to provide a URL scheme dictating which landing page to display to a user.</p></section><section class="chapter"><h3 id="using-namespaces-with-the-datastore" data-toc="using-namespaces-with-the-datastore">Using namespaces with the Datastore</h3><p id="lwojg4_93">By default, the datastore uses the current namespace setting in the namespace manager for datastore requests. The API applies this current namespace to <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Key" id="lwojg4_100" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="lwojg4_104">Key</code></a> or <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Query" id="lwojg4_101" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="lwojg4_105">Query</code></a> objects when they are created. Therefore, you need to be careful if an application stores <code class="code" id="lwojg4_102">Key</code> or <code class="code" id="lwojg4_103">Query</code> objects in serialized forms, since the namespace is preserved in those serializations.</p><p id="lwojg4_94">If you are using deserialized <code class="code" id="lwojg4_106">Key</code> and <code class="code" id="lwojg4_107">Query</code> objects, make sure that they behave as intended. Most simple applications that use datastore (<code class="code" id="lwojg4_108">put</code>/<code class="code" id="lwojg4_109">query</code>/<code class="code" id="lwojg4_110">get</code>) without using other storage mechanisms will work as expected by setting the current namespace before calling any datastore API.</p><p id="lwojg4_95"><span class="control" id="lwojg4_111">Note:</span> An application that reads Keys, or other namespace-aware objects, from untrusted sources (like the web browser client) introduces security vulnerabilities. Applications that rely on keys from untrusted sources must incorporate a security layer verifying that the current user is authorized to access the requested namespace.</p><p id="lwojg4_96"><code class="code" id="lwojg4_112">Query</code> and <code class="code" id="lwojg4_113">Key</code> objects demonstrate the following, unique behaviors with regard to namespaces:</p><ul class="list _bullet" id="lwojg4_97"><li class="list__item" id="lwojg4_114"><p id="lwojg4_117"><code class="code" id="lwojg4_118">Query</code> and <code class="code" id="lwojg4_119">Key</code> objects inherit the current namespace when constructed, unless you set an explicit namespace.</p></li><li class="list__item" id="lwojg4_115"><p id="lwojg4_120">When an application creates a new <code class="code" id="lwojg4_121">Key</code> from an ancestor, the new <code class="code" id="lwojg4_122">Key</code> inherits the namespace of the ancestor.</p></li><li class="list__item" id="lwojg4_116"><p id="lwojg4_123">There is no Java API to explicitly set the namespace of a <code class="code" id="lwojg4_124">Key</code> or <code class="code" id="lwojg4_125">Query</code>.</p></li></ul><p id="lwojg4_98">The following code example shows the <code class="code" id="lwojg4_126">SomeRequest</code> request handler for incrementing the count for the current namespace and the arbitrarily named <code class="code" id="lwojg4_127">-global-</code> namespace in a <code class="code" id="lwojg4_128">Counter</code> datastore entity.</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.NamespaceManager;
+
+import java.io.IOException;
+
+import javax.jdo.JDOCanRetryException;
+import javax.jdo.JDOObjectNotFoundException;
+import javax.jdo.PersistenceManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class UpdateCountsServlet {
+  private static final int NUM_RETRIES = 10;
+
+  // Increment the count in a Counter datastore entity.
+  public static long updateCount(String countName) {
+    long theCount = 0;
+    PersistenceManager pm = PMF.get().getPersistenceManager();
+    for (int i = 0; i &lt; NUM_RETRIES; i++) {
+      pm.currentTransaction().begin();
+
+     // Avoid calling NamespaceManager.set() within
+     // transactions or between creating JDO objects
+     // and their makePersistent calls.
+      Counter counter;
+      try {
+        counter = pm.getObjectById(Counter.class, countName);
+        theCount = counter.incrementCount();
+      } catch (JDOObjectNotFoundException e) {
+        counter = new Counter(countName);
+        theCount = counter.incrementCount();
+        pm.makePersistent(counter);
+      }
+
+      try {
+          pm.currentTransaction().commit();
+          break;
+
+      } catch (JDOCanRetryException ex) {
+          if (i == (NUM_RETRIES - 1)) {
+              throw ex;
+          }
+      }
+    }
+    return theCount;
+  }
+
+  @Override
+  protected void doGet(HttpServletRequest req,
+  HttpServletResponse resp)
+    throws IOException {
+
+    // Update the count for the current namespace.
+    updateCount(&quot;request&quot;);
+
+    // Update the count for the &quot;-global-&quot; namespace.
+    String namespace = NamespaceManager.get();
+    try {
+      // &quot;-global-&quot; is namespace reserved by the application.
+      NamespaceManager.set(&quot;-global-&quot;);
+      updateCount(&quot;request&quot;);
+    } finally {
+      NamespaceManager.set(namespace);
+    }
+    resp.setContentType(&quot;text/plain&quot;);
+    resp.getWriter().println(&quot;Counts are now updated.&quot;);
+  }
+}
+</div></section><section class="chapter"><h3 id="using-namespaces-with-the-memcache" data-toc="using-namespaces-with-the-memcache">Using namespaces with the Memcache</h3><p id="lwojg4_129">By default, memcache uses the current namespace from the namespace manager for memcache requests. In most cases, you do not need to explicitly set a namespace in the memcache, and doing so could introduce unexpected bugs.</p><p id="lwojg4_130">However, there are some unique instances where it is appropriate to explicitly set a namespace in the memcache. For example, your application might have common data shared across all namespaces (such as a table containing country codes).</p><p id="lwojg4_131"><span class="control" id="lwojg4_138">Warning:</span> If you explicitly set a namespace in the memcache, it will ignore the current settings from the namespace manager.</p><p id="lwojg4_132">The following code snippet demonstrates how to explicitly set the namespace in the memcache:</p><p id="lwojg4_133">By default, the Java API to memcache queries the namespace manager for the current namespace from <code class="code" id="lwojg4_139">MemcacheService</code>. You can also explicitly state a namespace when you construct the memcache using <code class="code" id="lwojg4_140">getMemcacheService(Namespace)</code>. For most applications, you don't need to explicitly specify a namespace.</p><p id="lwojg4_134">The following code sample demonstrates how to create a memcache that uses the current namespace in the namespace manager.</p><div class="code-block" data-lang="none">
+// Create a MemcacheService that uses the current namespace by
+// calling NamespaceManager.get() for every access.
+MemcacheService current = MemcacheServiceFactory.getMemcacheService();
+
+// stores value in namespace &quot;abc&quot;
+String oldNamespace = NamespaceManager.get();
+NamespaceManager.set(&quot;abc&quot;);
+try {
+   current.put(&quot;key&quot;, value);  // stores value in namespace abc
+} finally {
+   NamespaceManager.set(oldNamespace);
+}
+</div><p id="lwojg4_136">This code sample explicitly specifies a namespace when creating a memcache service:</p><div class="code-block" data-lang="none">
+// Create a MemcacheService that uses the namespace &quot;abc&quot;.
+MemcacheService explicit = MemcacheServiceFactory.getMemcacheService(&quot;abc&quot;);
+explicit.put(&quot;key&quot;, value);  // stores value in namespace &quot;abc&quot;
+</div></section><section class="chapter"><h3 id="using-namespaces-with-the-task-queue" data-toc="using-namespaces-with-the-task-queue">Using namespaces with the Task Queue</h3><p id="lwojg4_141">By default, <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/java/taskqueue/overview-push" id="lwojg4_151" data-external="true" rel="noopener noreferrer" target="_blank">push queues</a> use the current namespace as set in the namespace manager at the time the task was created. In most cases, you do not need to explicitly set a namespace in the task queue, and doing so could introduce unexpected bugs.</p><p id="lwojg4_142"><span class="control" id="lwojg4_152">Warning:</span> Tasks in <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/java/taskqueue/" id="lwojg4_153" data-external="true" rel="noopener noreferrer" target="_blank">pull queues</a> do not provide any namespace functionality. If you use namespaces with pull queues, you need to ensure that namespaces are saved in the payload and restored as needed by the application.</p><p id="lwojg4_143">Task names are shared across all namespaces. You cannot create two tasks of the same name, even if they use different namespaces. If you wish to use the same task name for many namespaces, you can simply append each namespace to the task name.</p><p id="lwojg4_144">When a new task calls the task queue <a href="https://web.archive.org/web/20160424225338/https://cloud.google.com/appengine/docs/python/taskqueue/functions#add" id="lwojg4_154" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="lwojg4_155">add()</code></a> method, the task queue copies the current namespace and (if applicable) the Google Apps domain from the namespace manager. When the task is executed, the current namespace and Google Apps namespace are restored.</p><p id="lwojg4_145">If the current namespace is not set in the originating request (in other words, if <code class="code" id="lwojg4_156">get()</code> returns <code class="code" id="lwojg4_157">null</code>), then the task queue sets the namespace to <code class="code" id="lwojg4_158">&quot;&quot;</code> in the executed tasks.</p><p id="lwojg4_146">There are some unique instances where it is appropriate to explicitly set a namespace for a task that works across all namespaces. For example, you might create a task that aggregates usage statistics across all namespaces. You could then explicitly set the namespace of the task. The following code sample demonstrates how to explicitly set namespaces with the task queue.</p><p id="lwojg4_147">First, create a task queue handler that increments the count in a <code class="code" id="lwojg4_159">Counter</code> datastore entity:</p><div class="code-block" data-lang="none">
+// Update count task request handler
+public class UpdateCount extends HttpServlet {
+  private static final int NUM_RETRIES = 10;
+
+  // Increment the count in a Counter datastore entity.
+  public static long updateCount(String countName) {
+    long theCount = 0;
+    PersistenceManager pm = PMF.get().getPersistenceManager();
+    for (int i = 0; i &lt; NUM_RETRIES; i++) {
+      pm.currentTransaction().begin();
+  
+      Counter counter;
+      try {
+        counter = pm.getObjectById(Counter.class, countName);
+        theCount = counter.incrementCount();
+      } catch (JDOObjectNotFoundException e) {
+        counter = new Counter(countName);
+        theCount = counter.incrementCount();
+        pm.makePersistent(counter);
+      }
+
+      try {
+          pm.currentTransaction().commit();
+          break;
+
+      } catch (JDOCanRetryException ex) {
+          if (i == (NUM_RETRIES - 1)) {
+              throw ex;
+          }
+      }
+    }
+    return theCount;
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req,
+                        HttpServletResponse resp) {
+    String countName[] = req.getParameterValues(&quot;countName&quot;);
+    if (countName.length != 1) {
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      return;
+    }
+    updateCount(countName[0]);
+  }
+}
+</div><p id="lwojg4_149">Then, create tasks with a servlet:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.NamespaceManager;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class SomeRequest extends HttpServlet {
+  // Handler for URL get requests.
+  @Override
+  protected void doGet(HttpServletRequest req, 
+                       HttpServletResponse resp) 
+      throws IOException {
+
+    // Increment the count for the current namespace asynchronously.
+    QueueFactory.getDefaultQueue().add(
+        TaskOptions.Builder.url(&quot;/_ah/update_count&quot;)
+                           .param(&quot;countName&quot;, &quot;SomeRequest&quot;));
+    // Increment the global count and set the
+    // namespace locally.  The namespace is
+    // transferred to the invoked request and 
+    // executed asynchronously.
+    String namespace = NamespaceManager.get();
+    try {
+      NamespaceManager.set(&quot;-global-&quot;);
+      QueueFactory.getDefaultQueue().add(
+          TaskOptions.Builder.url(&quot;/_ah/update_count&quot;)
+                             .param(&quot;countName&quot;, &quot;SomeRequest&quot;));
+    } finally {
+      NamespaceManager.set(namespace);
+    }
+    resp.setContentType(&quot;text/plain&quot;);
+    resp.getWriter().println(&quot;Counts are being updated.&quot;);
+  }
+}
+</div></section><section class="chapter"><h3 id="using-namespaces-with-the-blobstore" data-toc="using-namespaces-with-the-blobstore">Using namespaces with the Blobstore</h3><p id="lwojg4_160">The Blobstore is not segmented by namespace. To preserve a namespace in Blobstore, you need to access Blobstore via a storage medium that is aware of the namespace (currently only memcache, datastore, and task queue). For example, if a blob's <code class="code" id="lwojg4_163">Key</code> is stored in a datastore entity, you can access it with a datastore <code class="code" id="lwojg4_164">Key</code> or <code class="code" id="lwojg4_165">Query</code> that is aware of the namespace.</p><p id="lwojg4_161">If the application is accessing Blobstore via keys stored in namespace-aware storage, the Blobstore itself does not need to be segmented by namespace. Applications must avoid blob leaks between namespaces by:</p><ul class="list _bullet" id="lwojg4_162"><li class="list__item" id="lwojg4_166"><p id="lwojg4_168">Not using <code class="code" id="lwojg4_169">com.google.appengine.api.blobstore.BlobInfoFactory</code> for end-user requests. You can use BlobInfo queries for administrative requests (such as generating reports about all the applications blobs), but using it for end-user requests may result in data leaks because all BlobInfo records are not compartmentalized by namespace.</p></li><li class="list__item" id="lwojg4_167"><p id="lwojg4_170">Not using Blobstore keys from untrusted sources.</p></li></ul></section><section class="chapter"><h3 id="setting-namespaces-for-datastore-queries" data-toc="setting-namespaces-for-datastore-queries">Setting namespaces for Datastore Queries</h3><p id="lwojg4_171">In the Google Cloud Platform Console, you can <a href="https://web.archive.org/web/20160424225338/https://console.cloud.google.com/project/_/datastore/query" id="lwojg4_173" data-external="true" rel="noopener noreferrer" target="_blank">set the namespace for Datastore queries</a>.</p><p id="lwojg4_172">If you don't want to use the default, select the namespace you want to use from the drop-down.</p></section><section class="chapter"><h3 id="using-namespaces-with-the-bulk-loader" data-toc="using-namespaces-with-the-bulk-loader">Using namespaces with the Bulk Loader</h3><p id="lwojg4_174">The bulk loader supports a <code class="code" id="lwojg4_175">--namespace=NAMESPACE</code> flag that allows you to specify the namespace to use. Each namespace is handled separately and, if you want to access all namespaces, you will need to iterate through them.</p></section><section class="chapter"><h3 id="using-namespaces-with-search" data-toc="using-namespaces-with-search">Using namespaces with Search</h3><p id="lwojg4_176">A new instance of <code class="code" id="lwojg4_178">Index</code> inherits the namespace of the <code class="code" id="lwojg4_179">SearchService</code> used to create it. Once you've created a reference to an index, its namespace cannot be changed. There are two ways to set the namespace for a <code class="code" id="lwojg4_180">SearchService</code> before using it to create an index:</p><ul class="list _bullet" id="lwojg4_177"><li class="list__item" id="lwojg4_181"><p id="lwojg4_183">By default, a new <code class="code" id="lwojg4_185">SearchService</code> takes the current namespace. You can set the current namespace before creating the service:</p><div class="code-block" data-lang="none">
+// Set the current namespace to &quot;aSpace&quot;
+NamespaceManager.set(&quot;aSpace&quot;);
+// Create a SearchService with the namespace &quot;aSpace&quot;
+SearchService searchService = SearchServiceFactory.getSearchService();
+// Create an IndexSpec
+IndexSpec indexSpec = IndexSpec.newBuilder().setName(&quot;myIndex&quot;).build();
+// Create an Index with the namespace &quot;aSpace&quot;
+Index index = searchService.getIndex(indexSpec);
+</div></li><li class="list__item" id="lwojg4_182"><p id="lwojg4_186">You can specify a namespace in the <code class="code" id="lwojg4_188">SearchServiceConfig</code> when creating a service:</p><div class="code-block" data-lang="none">
+// Create a SearchServiceConfig, specifying the namespace &quot;anotherSpace&quot;
+SearchServiceConfig config =  SearchServiceConfig.newBuilder().setNamespace(&quot;anotherSpace&quot;).build(); 
+// Create a SearchService with the namespace &quot;anotherSpace&quot;
+SearchService searchService = SearchServiceFactory.getSearchService(config); 
+// Create an IndexSpec
+IndexSpec indexSpec = IndexSpec.newBuilder().setName(&quot;myindex&quot;).build(); 
+// Create an Index with the namespace &quot;anotherSpace&quot;
+Index index = searchService.getIndex(indexSpec);
+</div></li></ul></section></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="namespaces-java-api.html" class="navigation-links__prev">Namespaces Java API</a><a href="sending-email.html" class="navigation-links__next">Sending Email</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.258828823"><title>Adding a Simple POST | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"adding-ui-and-javascript-for-a-simple-post","level":0,"title":"Adding UI and JavaScript for a Simple POST","anchor":"#adding-ui-and-javascript-for-a-simple-post"},{"id":"next","level":0,"title":"Next...","anchor":"#next"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Adding a Simple POST | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/adding-a-simple-post.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Adding a Simple POST | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/adding-a-simple-post.html#webpage",
+    "url": "writerside-documentation/adding-a-simple-post.html",
+    "name": "Adding a Simple POST | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Adding-a-Simple-POST" data-main-title="Adding a Simple POST" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Mobile-Backends.md|Mobile Backends///Google-Cloud-Endpoints.md|Google Cloud Endpoints///Getting-Started-Cloud-Endpoints.md|Getting Started///Web-Client-Tutorial.md|Web Client Tutorial"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Adding-a-Simple-POST" id="Adding-a-Simple-POST.md">Adding a Simple POST</h1><ol class="list _decimal" id="-cjymie_3" type="1"><li class="list__item" id="-cjymie_7"><p id="-cjymie_9"><span id="-cjymie_10">Adding UI and JavaScript for a Simple POST</span></p></li><li class="list__item" id="-cjymie_8"><p id="-cjymie_11"><a href="#next" id="-cjymie_12" data-tooltip="Continue to Adding Auth.">Next...</a></p></li></ol><p id="-cjymie_4">In this part of the tutorial, you'll add UI components and JavaScript to support a simple POST request to the backend API.</p><section class="chapter"><h2 id="adding-ui-and-javascript-for-a-simple-post" data-toc="adding-ui-and-javascript-for-a-simple-post">Adding UI and JavaScript for a Simple POST</h2><p id="-cjymie_13">To add a POST request to the client:</p><ol class="list _decimal" id="-cjymie_14" type="1"><li class="list__item" id="-cjymie_15"><p id="-cjymie_24">In the <code class="code" id="-cjymie_26">index.html</code> file you added previously in the tutorial, under the lines for the <code class="code" id="-cjymie_27">getGreeting</code> form, add the following lines for the <code class="code" id="-cjymie_28">multiplyGreeting</code> UI:</p><div class="code-block" data-lang="none">
+&lt;form onsubmit=&quot;return false;&quot;&gt;
+    &lt;h2&gt;Multiply Greetings&lt;/h2&gt;
+    &lt;div&gt;&lt;label for=&quot;greeting&quot;&gt;Greeting:&lt;/label&gt;&lt;input id=&quot;greeting&quot; /&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;label for=&quot;count&quot;&gt;Count:&lt;/label&gt;&lt;input id=&quot;count&quot; /&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;input id=&quot;multiplyGreetings&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+&lt;/form&gt;
+</div></li><li class="list__item" id="-cjymie_16"><p id="-cjymie_29">When you are finished, your <code class="code" id="-cjymie_31">index.html</code> file should look like this:</p><div class="code-block" data-lang="none">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello Endpoints!&lt;/title&gt;
+    &lt;script async src=&quot;/js/base.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap-responsive.css&quot;&gt;
+    &lt;style&gt;
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        blockquote {
+            margin-bottom: 10px;
+            border-left-color: #bbb;
+        }
+        form {
+            margin-top: 10px;
+        }
+        form label {
+          width: 90px;
+          display: inline-block;
+        }
+        .form-signin input[type=&quot;text&quot;] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        }
+        .row {
+            margin-left: 0px;
+            margin-top: 10px;
+            overflow: scroll;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;navbar navbar-inverse navbar-fixed-top&quot;&gt;
+    &lt;div class=&quot;navbar-inner&quot;&gt;
+        &lt;div class=&quot;container&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;btn btn-navbar&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.nav-collapse&quot;&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;a class=&quot;brand&quot; href=&quot;#&quot;&gt;Hello Endpoints!&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+
+    &lt;output id=&quot;outputLog&quot;&gt;&lt;/output&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;Get Greeting&lt;/h2&gt;
+        &lt;div&gt;&lt;label for=&quot;id&quot;&gt;Greeting ID:&lt;/label&gt;&lt;input id=&quot;id&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;input id=&quot;getGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;List Greetings&lt;/h2&gt;
+        &lt;div&gt;&lt;input id=&quot;listGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;Multiply Greetings&lt;/h2&gt;
+        &lt;div&gt;&lt;label for=&quot;greeting&quot;&gt;Greeting:&lt;/label&gt;&lt;input id=&quot;greeting&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;label for=&quot;count&quot;&gt;Count:&lt;/label&gt;&lt;input id=&quot;count&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;input id=&quot;multiplyGreetings&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+    &lt;script&gt;
+        function init() {
+            google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
+        }
+    &lt;/script&gt;
+    &lt;script src=&quot;https://apis.google.com/js/client.js?onload=init&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div></li><li class="list__item" id="-cjymie_17"><p id="-cjymie_32">In the <code class="code" id="-cjymie_34">base.js</code> file you added previously in the tutorial, under the lines for the <code class="code" id="-cjymie_35">getGreeting</code> function, add the following lines to handle the user clicking on the <code class="code" id="-cjymie_36">multiplyGreetings</code> <span class="control" id="-cjymie_37">Submit</span> button:</p><div class="code-block" data-lang="none">
+/**
+ * Gets a greeting a specified number of times.
+ * @param {string} greeting Greeting to repeat.
+ * @param {string} count Number of times to repeat it.
+ */
+google.appengine.samples.hello.multiplyGreeting = function(
+    greeting, times) {
+  gapi.client.helloworld.greetings.multiply({
+      'message': greeting,
+      'times': times
+    }).execute(function(resp) {
+      if (!resp.code) {
+        google.appengine.samples.hello.print(resp);
+      }
+    });
+};
+</div></li><li class="list__item" id="-cjymie_18"><p id="-cjymie_38">In <code class="code" id="-cjymie_40">base.js</code>, inside the curly braces for the <code class="code" id="-cjymie_41">enableButtons</code> function, append the following lines to enable the new UI buttons.</p><div class="code-block" data-lang="none">
+var multiplyGreetings = document.querySelector('#multiplyGreetings');
+multiplyGreetings.addEventListener('click', function(e) {
+  google.appengine.samples.hello.multiplyGreeting(
+      document.querySelector('#greeting').value,
+      document.querySelector('#count').value);
+});
+</div></li><li class="list__item" id="-cjymie_19"><p id="-cjymie_42">When you are finished, your <code class="code" id="-cjymie_44">base.js</code> file should look like this:</p><div class="code-block" data-lang="none">
+/**
+ * @fileoverview
+ * Provides methods for the Hello Endpoints sample UI and interaction with the
+ * Hello Endpoints API.
+ */
+
+/** google global namespace for Google projects. */
+var google = google || {};
+
+/** appengine namespace for Google Developer Relations projects. */
+google.appengine = google.appengine || {};
+
+/** samples namespace for App Engine sample code. */
+google.appengine.samples = google.appengine.samples || {};
+
+/** hello namespace for this sample. */
+google.appengine.samples.hello = google.appengine.samples.hello || {};
+
+/**
+ * Prints a greeting to the greeting log.
+ * param {Object} greeting Greeting to print.
+ */
+google.appengine.samples.hello.print = function(greeting) {
+  var element = document.createElement('div');
+  element.classList.add('row');
+  element.innerHTML = greeting.message;
+  document.querySelector('#outputLog').appendChild(element);
+};
+
+/**
+ * Gets a numbered greeting via the API.
+ * @param {string} id ID of the greeting.
+ */
+google.appengine.samples.hello.getGreeting = function(id) {
+  gapi.client.helloworld.greetings.getGreeting({'id': id}).execute(
+      function(resp) {
+        if (!resp.code) {
+          google.appengine.samples.hello.print(resp);
+        }
+      });
+};
+
+/**
+ * Lists greetings via the API.
+ */
+google.appengine.samples.hello.listGreeting = function() {
+  gapi.client.helloworld.greetings.listGreeting().execute(
+      function(resp) {
+        if (!resp.code) {
+          resp.items = resp.items || [];
+          for (var i = 0; i &lt; resp.items.length; i++) {
+            google.appengine.samples.hello.print(resp.items[i]);
+          }
+        }
+      });
+};
+
+/**
+ * Gets a greeting a specified number of times.
+ * @param {string} greeting Greeting to repeat.
+ * @param {string} count Number of times to repeat it.
+ */
+google.appengine.samples.hello.multiplyGreeting = function(
+    greeting, times) {
+  gapi.client.helloworld.greetings.multiply({
+      'message': greeting,
+      'times': times
+    }).execute(function(resp) {
+      if (!resp.code) {
+        google.appengine.samples.hello.print(resp);
+      }
+    });
+};
+
+
+/**
+ * Enables the button callbacks in the UI.
+ */
+google.appengine.samples.hello.enableButtons = function() {
+  var getGreeting = document.querySelector('#getGreeting');
+  getGreeting.addEventListener('click', function(e) {
+    google.appengine.samples.hello.getGreeting(
+        document.querySelector('#id').value);
+  });
+
+  var listGreeting = document.querySelector('#listGreeting');
+  listGreeting.addEventListener('click',
+      google.appengine.samples.hello.listGreeting);
+
+  var multiplyGreetings = document.querySelector('#multiplyGreetings');
+  multiplyGreetings.addEventListener('click', function(e) {
+    google.appengine.samples.hello.multiplyGreeting(
+        document.querySelector('#greeting').value,
+        document.querySelector('#count').value);
+  });
+};
+
+/**
+ * Initializes the application.
+ * @param {string} apiRoot Root of the API's path.
+ */
+google.appengine.samples.hello.init = function(apiRoot) {
+  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
+  // when they have completed.
+  var apisToLoad;
+  var callback = function() {
+    if (--apisToLoad == 0) {
+      google.appengine.samples.hello.enableButtons();
+    }
+  }
+
+  apisToLoad = 1; // must match number of calls to gapi.client.load()
+  gapi.client.load('helloworld', 'v1', callback, apiRoot);
+};
+</div></li><li class="list__item" id="-cjymie_20"><p id="-cjymie_45">Rebuild your project with the new client:</p><div class="code-block" data-lang="none">
+mvn clean install
+</div></li><li class="list__item" id="-cjymie_21"><p id="-cjymie_47">Upload and deploy the project and client code:</p><div class="code-block" data-lang="none">
+mvn appengine:update
+</div></li><li class="list__item" id="-cjymie_22"><p id="-cjymie_49">Visit the App Engine URL: <code class="code" id="-cjymie_51">https://&lt;your-app-id&gt;.appspot.com/</code>, to display the UI:</p><figure id="-cjymie_50"><img alt="Hello-Endpoints" src="https://web.archive.org/web/20160424230704im_/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/images/hello2.png" title="Hello-Endpoints"></figure></li><li class="list__item" id="-cjymie_23"><p id="-cjymie_52">Enter some text in <span class="control" id="-cjymie_53">Greeting</span>, supply the number of times to repeat the greeting in <span class="control" id="-cjymie_54">Count</span>, then click <span class="control" id="-cjymie_55">Submit</span> to display your Greeting the specified number of times.</p></li></ol></section><section class="chapter"><h2 id="next" data-toc="next">Next...</h2><p id="-cjymie_56">Continue to <a href="https://web.archive.org/web/20160424230704/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/add_auth" id="-cjymie_57" data-external="true" rel="noopener noreferrer" target="_blank">Adding Auth</a>.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="adding-javascript.html" class="navigation-links__prev">Adding JavaScript</a><a href="adding-auth-support-to-the-client.html" class="navigation-links__next">Adding Auth Support to the Client</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

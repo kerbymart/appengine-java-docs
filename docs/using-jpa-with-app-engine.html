@@ -1,0 +1,301 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.745139712"><title>Using JPA with App Engine (2.0) | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"build-tools-and-ides-supporting-jpa-2-x-and-3-0","level":0,"title":"Build tools and IDEs supporting JPA 2.x and 3.0","anchor":"#build-tools-and-ides-supporting-jpa-2-x-and-3-0"},{"id":"migrating-to-version-2-x-of-the-datanucleus-plugin","level":0,"title":"Migrating to Version 2.x of the DataNucleus Plugin","anchor":"#migrating-to-version-2-x-of-the-datanucleus-plugin"},{"id":"setting-up-jpa-2-0","level":0,"title":"Setting Up JPA 2.0","anchor":"#setting-up-jpa-2-0"},{"id":"enhancing-data-classes","level":0,"title":"Enhancing Data Classes","anchor":"#enhancing-data-classes"},{"id":"getting-an-entitymanager-instance","level":0,"title":"Getting an EntityManager Instance","anchor":"#getting-an-entitymanager-instance"},{"id":"class-and-field-annotations","level":0,"title":"Class and Field Annotations","anchor":"#class-and-field-annotations"},{"id":"inheritance","level":0,"title":"Inheritance","anchor":"#inheritance"},{"id":"unsupported-features-of-jpa-2-0","level":0,"title":"Unsupported Features of JPA 2.0","anchor":"#unsupported-features-of-jpa-2-0"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Using JPA with App Engine (2.0) | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/using-jpa-with-app-engine.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Using JPA with App Engine (2.0) | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/using-jpa-with-app-engine.html#webpage",
+    "url": "writerside-documentation/using-jpa-with-app-engine.html",
+    "name": "Using JPA with App Engine (2.0) | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Using-JPA-with-App-Engine" data-main-title="Using JPA with App Engine (2.0)" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Superseded-Storage-Solutions.md|Superseded Storage Solutions///JPA-for-Cloud-Datastore.md|JPA for Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Using-JPA-with-App-Engine" id="Using-JPA-with-App-Engine.md">Using JPA with App Engine (2.0)</h1><p id="jjbfyb_3">Java Persistence API (JPA) is a standard interface for accessing databases in Java, providing an automatic mapping between Java classes and database tables. There is an open-source plugin available for using JPA with Datastore, and this page provides information on how to get started with it.</p><p id="jjbfyb_4"><span class="control" id="jjbfyb_17">Warning:</span> We think most developers will have a better experience using the low-level Datastore API, or one of the open-source APIs developed specifically for Datastore, such as <a href="https://web.archive.org/web/20160424230323/https://github.com/objectify/objectify" id="jjbfyb_18" data-external="true" rel="noopener noreferrer" target="_blank">Objectify</a>. JPA was designed for use with traditional relational databases, and so has no way to explicitly represent some of the aspects of Datastore that make it different from relational databases, such as entity groups and ancestor queries. This can lead to subtle issues that are difficult to understand and fix.</p><p id="jjbfyb_5">The App Engine Java SDK includes version 2.x of the DataNucleus plugin for Datastore. This plugin corresponds to version 3.0 of the DataNucleus Access Platform, which enables you to use the App Engine Datastore via JPA 2.0.</p><p id="jjbfyb_6">See <a href="https://web.archive.org/web/20160424230323/http://www.datanucleus.org/products/accessplatform_3_0/index.html" id="jjbfyb_19" data-external="true" rel="noopener noreferrer" target="_blank">the Access Platform 3.0 documentation</a> for more information about JPA. In particular, see <a href="https://web.archive.org/web/20160424230323/http://www.datanucleus.org/products/accessplatform_3_0/jpa/index.html" id="jjbfyb_20" data-external="true" rel="noopener noreferrer" target="_blank">JPA Documentation</a> and <a href="https://web.archive.org/web/20160424230323/http://www.datanucleus.org/products/accessplatform_3_0/jpa/api.html" id="jjbfyb_21" data-external="true" rel="noopener noreferrer" target="_blank">JPA API</a>.</p><p id="jjbfyb_7"><span class="control" id="jjbfyb_22">Warning:</span> Version 2.x of the DataNucleus plugin for App Engine uses DataNucleus v3.x. The 2.x plugin is not fully backwards-compatible with the previous 1.x plugin. If you upgrade to the new version, be sure to update and test your application.</p><ol class="list _decimal" id="jjbfyb_8" type="1"><li class="list__item" id="jjbfyb_23"><p id="jjbfyb_31"><span id="jjbfyb_32">Build tools and IDEs supporting JPA 2.x and 3.0</span></p></li><li class="list__item" id="jjbfyb_24"><p id="jjbfyb_33"><span id="jjbfyb_34">Migrating to Version 2.x of the DataNucleus Plugin</span></p></li><li class="list__item" id="jjbfyb_25"><p id="jjbfyb_35"><span id="jjbfyb_36">Setting Up JPA 2.0</span></p></li><li class="list__item" id="jjbfyb_26"><p id="jjbfyb_37"><span id="jjbfyb_38">Enhancing Data Classes</span></p></li><li class="list__item" id="jjbfyb_27"><p id="jjbfyb_39"><span id="jjbfyb_40">Getting an EntityManager Instance</span></p></li><li class="list__item" id="jjbfyb_28"><p id="jjbfyb_41"><span id="jjbfyb_42">Class and Field Annotations</span></p></li><li class="list__item" id="jjbfyb_29"><p id="jjbfyb_43"><span id="jjbfyb_44">Inheritance</span></p></li><li class="list__item" id="jjbfyb_30"><p id="jjbfyb_45"><span id="jjbfyb_46">Unsupported Features of JPA 2.0</span></p></li></ol><section class="chapter"><h2 id="build-tools-and-ides-supporting-jpa-2-x-and-3-0" data-toc="build-tools-and-ides-supporting-jpa-2-x-and-3-0">Build tools and IDEs supporting JPA 2.x and 3.0</h2><p id="jjbfyb_47">You can use Apache Ant, the App Engine Eclipse plugin, or Maven to use version 2.x or 3.0 of the DataNucleus plugin for App Engine:</p><ul class="list _bullet" id="jjbfyb_48"><li class="list__item" id="jjbfyb_49"><p id="jjbfyb_52"><span class="control" id="jjbfyb_53">For Ant users:</span> The SDK includes an Ant task that performs the enhancement step. You must copy the JARs and create the configuration file when you set up your project. See <a href="https://web.archive.org/web/20160424230323/https://cloud.google.com/appengine/docs/java/tools/ant" id="jjbfyb_54" data-external="true" rel="noopener noreferrer" target="_blank">Using Apache Ant</a> for more information about the Ant task.</p></li><li class="list__item" id="jjbfyb_50"><p id="jjbfyb_55"><span class="control" id="jjbfyb_56">For Eclipse users:</span> The App Engine Eclipse plugin supports DataNucleus plugin 2.0: you can select which version to use in the GUI configuration window.</p></li><li class="list__item" id="jjbfyb_51"><p id="jjbfyb_57"><span class="control" id="jjbfyb_59">For Maven users:</span> You can enhance the classes with the following configurations in your <code class="code" id="jjbfyb_60">pom.xml</code> file:</p><div class="code-block" data-lang="none">
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.datanucleus&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-datanucleus-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.2.0-m1&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;api&gt;JDO&lt;/api&gt;
+                    &lt;props&gt;${basedir}/datanucleus.properties&lt;/props&gt;
+                    &lt;verbose&gt;true&lt;/verbose&gt;
+                    &lt;enhancerName&gt;ASM&lt;/enhancerName&gt;
+                &lt;/configuration&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;process-classes&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;enhance&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+                &lt;dependencies&gt;
+                    &lt;dependency&gt;
+                        &lt;groupId&gt;org.datanucleus&lt;/groupId&gt;
+                        &lt;artifactId&gt;datanucleus-api-jdo&lt;/artifactId&gt;
+                        &lt;version&gt;3.1.3&lt;/version&gt;
+                    &lt;/dependency&gt;
+                &lt;/dependencies&gt;
+            &lt;/plugin&gt;
+</div></li></ul></section><section class="chapter"><h2 id="migrating-to-version-2-x-of-the-datanucleus-plugin" data-toc="migrating-to-version-2-x-of-the-datanucleus-plugin">Migrating to Version 2.x of the DataNucleus Plugin</h2><p id="jjbfyb_61">This section provides instructions for upgrading your app to use version 2.x of the DataNucleus plugin for App Engine, which corresponds to DataNucleus Access Platform 3.0 and JPA 2.0. The 2.x plugin version is not fully backwards-compatible with version 1.x and may change without warning. If you upgrade, be sure to update and test your application code.</p><section class="chapter"><h3 id="new-default-behaviors" data-toc="new-default-behaviors">New Default Behaviors</h3><p id="jjbfyb_64">Version 2.x of the App Engine DataNucleus plugin has some different defaults than the previous 1.x version:</p><ul class="list _bullet" id="jjbfyb_65"><li class="list__item" id="jjbfyb_67"><p id="jjbfyb_76">JPA &quot;persistence provider&quot; is now <code class="code" id="jjbfyb_77">org.datanucleus.api.jpa.PersistenceProviderImpl</code>.</p></li><li class="list__item" id="jjbfyb_68"><p id="jjbfyb_78">Level2 Caching is enabled by default. To get the previous default behavior, set the persistence property <code class="code" id="jjbfyb_79">datanucleus.cache.level2.type</code> to <span class="emphasis" id="jjbfyb_80">none</span>. (Alternatively include the datanucleus-cache plugin in the classpath, and set the persistence property <code class="code" id="jjbfyb_81">datanucleus.cache.level2.type</code> to <span class="emphasis" id="jjbfyb_82">javax.cache</span> to use Memcache for L2 caching.</p></li><li class="list__item" id="jjbfyb_69"><p id="jjbfyb_83">Datastore <code class="code" id="jjbfyb_84">IdentifierFactory</code> now defaults to <span class="emphasis" id="jjbfyb_85">datanucleus2</span>. To get the previous behavior, set the persistence property <code class="code" id="jjbfyb_86">datanucleus.identifierFactory</code> to <span class="emphasis" id="jjbfyb_87">datanucleus1</span>.</p></li><li class="list__item" id="jjbfyb_70"><p id="jjbfyb_88">Non-transactional calls to <code class="code" id="jjbfyb_89">EntityManager.persist()</code>, <code class="code" id="jjbfyb_90">EntityManager.merge()</code>, and <code class="code" id="jjbfyb_91">EntityManager.remove()</code> are now executed atomically. (Previously, execution occurred at the next transaction or upon <code class="code" id="jjbfyb_92">EntityManager.close()</code>.</p></li><li class="list__item" id="jjbfyb_71"><p id="jjbfyb_93">JPA has <code class="code" id="jjbfyb_94">retainValues</code> enabled, which means the values of loaded fields are retained in objects after a commit.</p></li><li class="list__item" id="jjbfyb_72"><p id="jjbfyb_95"><code class="code" id="jjbfyb_96">javax.persistence.query.chunkSize</code> is no longer used. Use <code class="code" id="jjbfyb_97">datanucleus.query.fetchSize</code> instead.</p></li><li class="list__item" id="jjbfyb_73"><p id="jjbfyb_98">There is now no longer an exception on duplicate EMF allocation. If you have the persistence property <code class="code" id="jjbfyb_99">datanucleus.singletonEMFForName</code> set to <span class="emphasis" id="jjbfyb_100">true</span>, then it will return the currently allocated singleton EMF for that name.</p></li><li class="list__item" id="jjbfyb_74"><p id="jjbfyb_101">Unowned relationships are now supported.</p></li><li class="list__item" id="jjbfyb_75"><p id="jjbfyb_102">Datastore Identity is now supported.</p></li></ul><p id="jjbfyb_66">For a full list of new features, see the <a href="https://web.archive.org/web/20160424230323/http://code.google.com/p/datanucleus-appengine/source/browse/branches/2_1_2/dist/RELEASE_NOTES.ORM" id="jjbfyb_103" data-external="true" rel="noopener noreferrer" target="_blank">release notes</a>.</p></section><section class="chapter"><h3 id="changes-to-configuration-files" data-toc="changes-to-configuration-files">Changes to Configuration Files</h3><p id="jjbfyb_104">To upgrade your app to use version 2.0 of the DataNucleus plugin for App Engine, you need to change some configuration settings in <code class="code" id="jjbfyb_108">build.xml</code> and <code class="code" id="jjbfyb_109">persistence.xml</code>. If you are setting up a new application and wish to use the latest version of the DataNucleus plugin, proceed to <span id="jjbfyb_110">Setting up JPA 2.0</span>.</p><p id="jjbfyb_105"><span class="control" id="jjbfyb_111">Warning!</span> After updating your configuration, you need to test your application code to ensure backwards-compatibility.</p><section class="chapter"><h4 id="in-build-xml" data-toc="in-build-xml">In build.xml</h4><p id="jjbfyb_112">The <code class="code" id="jjbfyb_114">copyjars</code> target needs to change in order to accommodate DataNucleus 2.x:</p><ol class="list _decimal" id="jjbfyb_113" type="1"><li class="list__item" id="jjbfyb_115"><p id="jjbfyb_117">The <code class="code" id="jjbfyb_121">copyjars</code> target has changed. Update this section:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;copyjars&quot;
+      description=&quot;Copies the App Engine JARs to the WAR.&quot;&gt;
+    &lt;mkdir dir=&quot;war/WEB-INF/lib&quot; /&gt;
+    &lt;copy
+        todir=&quot;war/WEB-INF/lib&quot;
+        flatten=&quot;true&quot;&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/user&quot;&gt;
+        &lt;include name=&quot;**/*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+  &lt;/target&gt;
+</div><p id="jjbfyb_119">to:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;copyjars&quot;
+      description=&quot;Copies the App Engine JARs to the WAR.&quot;&gt;
+    &lt;mkdir dir=&quot;war/WEB-INF/lib&quot; /&gt;
+    &lt;copy
+        todir=&quot;war/WEB-INF/lib&quot;
+        flatten=&quot;true&quot;&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/user&quot;&gt;
+        &lt;include name=&quot;**/appengine-api-1.0-sdk*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/opt/user&quot;&gt;
+        &lt;include name=&quot;appengine-api-labs/v1/*.jar&quot; /&gt;
+        &lt;include name=&quot;jsr107/v1/*.jar&quot; /&gt;
+        &lt;include name=&quot;datanucleus/v2/*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+  &lt;/target&gt;
+</div></li><li class="list__item" id="jjbfyb_116"><p id="jjbfyb_122">The <code class="code" id="jjbfyb_126">datanucleusenhance</code> target has changed. Update this section:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;datanucleusenhance&quot; depends=&quot;compile&quot;
+      description=&quot;Performs enhancement on compiled data classes.&quot;&gt;
+    &lt;enhance_war war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+</div><p id="jjbfyb_124">to:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;datanucleusenhance&quot; depends=&quot;compile&quot;
+      description=&quot;Performs enhancement on compiled data classes.&quot;&gt;
+      &lt;enhance_war war=&quot;war&quot;&gt;
+              &lt;args&gt;
+              &lt;arg value=&quot;-enhancerVersion&quot;/&gt;
+              &lt;arg value=&quot;v2&quot;/&gt;
+          &lt;/args&gt;
+      &lt;/enhance_war&gt;
+  &lt;/target&gt;
+</div></li></ol></section><section class="chapter"><h4 id="in-persistence-xml" data-toc="in-persistence-xml">In persistence.xml</h4><p id="jjbfyb_127">The <code class="code" id="jjbfyb_131">&lt;provider&gt;</code> target has changed. Update this section:</p><div class="code-block" data-lang="none">
+        &lt;provider&gt;org.datanucleus.store.appengine.jpa.DatastorePersistenceProvider&lt;/provider&gt;
+</div><p id="jjbfyb_129">to:</p><div class="code-block" data-lang="none">
+        &lt;provider&gt;org.datanucleus.api.jpa.PersistenceProviderImpl&lt;/provider&gt;
+</div></section></section></section><section class="chapter"><h2 id="setting-up-jpa-2-0" data-toc="setting-up-jpa-2-0">Setting Up JPA 2.0</h2><p id="jjbfyb_132">To use JPA to access the datastore, an App Engine app needs the following:</p><ul class="list _bullet" id="jjbfyb_133"><li class="list__item" id="jjbfyb_137"><p id="jjbfyb_140">The JPA and datastore JARs must be in the app's <code class="code" id="jjbfyb_141">war/WEB-INF/lib/</code> directory.</p></li><li class="list__item" id="jjbfyb_138"><p id="jjbfyb_142">A configuration file named <code class="code" id="jjbfyb_143">persistence.xml</code> must be in the app's <code class="code" id="jjbfyb_144">war/WEB-INF/classes/META-INF/</code> directory, with configuration that tells JPA to use the App Engine datastore.</p></li><li class="list__item" id="jjbfyb_139"><p id="jjbfyb_145">The project's build process must perform a post-compilation &quot;enhancement&quot; step on the compiled data classes to associate them with the JPA implementation.</p></li></ul><section class="chapter"><h3 id="copying-the-jars" data-toc="copying-the-jars">Copying the JARs</h3><p id="jjbfyb_146">The JPA and datastore JARs are included with the App Engine Java SDK. You can find them in the <code class="code" id="jjbfyb_149">appengine-java-sdk/lib/opt/user/datanucleus/v2/</code> directory.</p><p id="jjbfyb_147">Copy the JARs to your application's <code class="code" id="jjbfyb_150">war/WEB-INF/lib/</code> directory.</p><p id="jjbfyb_148">Make sure the <code class="code" id="jjbfyb_151">appengine-api.jar</code> is also in the <code class="code" id="jjbfyb_152">war/WEB-INF/lib/</code> directory. (You may have already copied this when creating your project.) The App Engine DataNucleus plugin uses this JAR to access the datastore.</p></section><section class="chapter"><h3 id="creating-the-persistence-xml-file" data-toc="creating-the-persistence-xml-file">Creating the persistence.xml File</h3><p id="jjbfyb_153">The JPA interface needs a configuration file named <code class="code" id="jjbfyb_156">persistence.xml</code> in the application's <code class="code" id="jjbfyb_157">war/WEB-INF/classes/META-INF/</code> directory. You can create this file in this location directly, or have your build process copy this file from a source directory.</p><p id="jjbfyb_154">Create the file with the following contents:</p><div class="code-block" data-lang="none">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;persistence xmlns=&quot;http://java.sun.com/xml/ns/persistence&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd&quot; version=&quot;1.0&quot;&gt;
+
+    &lt;persistence-unit name=&quot;transactions-optional&quot;&gt;
+        &lt;provider&gt;org.datanucleus.api.jpa.PersistenceProviderImpl&lt;/provider&gt;
+        &lt;properties&gt;
+            &lt;property name=&quot;datanucleus.NontransactionalRead&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;datanucleus.NontransactionalWrite&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;datanucleus.ConnectionURL&quot; value=&quot;appengine&quot;/&gt;
+            &lt;property name=&quot;datanucleus.singletonEMFForName&quot; value=&quot;true&quot;/&gt;
+        &lt;/properties&gt;
+
+    &lt;/persistence-unit&gt;
+
+&lt;/persistence&gt;
+</div></section><section class="chapter"><h3 id="datastore-read-policy-and-call-deadline" data-toc="datastore-read-policy-and-call-deadline">Datastore Read Policy and Call Deadline</h3><p id="jjbfyb_158">As described on the <a href="https://web.archive.org/web/20160424230323/https://cloud.google.com/appengine/docs/java/datastore/queries#Java_Data_consistency" id="jjbfyb_174" data-external="true" rel="noopener noreferrer" target="_blank">Datastore Queries</a> page, you can set the read policy (strong consistency vs. eventual consistency) and the datastore call deadline for a <code class="code" id="jjbfyb_175">EntityManagerFactory</code> in the <code class="code" id="jjbfyb_176">persistence.xml</code> file. These settings go in the <code class="code" id="jjbfyb_177">&lt;persistence-unit&gt;</code> element. All calls made with a given <code class="code" id="jjbfyb_178">EntityManager</code> instance use the configuration selected when the manager was created by the <code class="code" id="jjbfyb_179">EntityManagerFactory</code>. You can also override these options for an individual <code class="code" id="jjbfyb_180">Query</code> (described below).</p><p id="jjbfyb_159">To set the read policy, include a property named <code class="code" id="jjbfyb_181">datanucleus.appengine.datastoreReadConsistency</code>. Its possible values are <code class="code" id="jjbfyb_182">EVENTUAL</code> (for reads with eventual consistency) and <code class="code" id="jjbfyb_183">STRONG</code> (for reads with strong consistency). If not specified, the default is <code class="code" id="jjbfyb_184">STRONG</code>.</p><div class="code-block" data-lang="none">
+            &lt;property name=&quot;datanucleus.appengine.datastoreReadConsistency&quot; value=&quot;EVENTUAL&quot; /&gt;
+</div><p id="jjbfyb_161">You can set separate datastore call deadlines for reads and for writes. For reads, use the JPA standard property <code class="code" id="jjbfyb_185">javax.persistence.query.timeout</code>. For writes, use <code class="code" id="jjbfyb_186">datanucleus.datastoreWriteTimeout</code>. The value is an amount of time, in milliseconds.</p><div class="code-block" data-lang="none">
+            &lt;property name=&quot;javax.persistence.query.timeout&quot; value=&quot;5000&quot; /&gt;
+            &lt;property name=&quot;datanucleus.datastoreWriteTimeout&quot; value=&quot;10000&quot; /&gt;
+</div><p id="jjbfyb_163">If you want to use cross-group (XG) transactions, add the following property:</p><div class="code-block" data-lang="none">
+            &lt;property name=&quot;datanucleus.appengine.datastoreEnableXGTransactions&quot; value=&quot;true&quot; /&gt;
+</div><p id="jjbfyb_165">You can have multiple <code class="code" id="jjbfyb_187">&lt;persistence-unit&gt;</code> elements in the same <code class="code" id="jjbfyb_188">persistence.xml</code> file, using different <code class="code" id="jjbfyb_189">name</code> attributes, to use <code class="code" id="jjbfyb_190">EntityManager</code> instances with different configurations in the same app. For example, the following <code class="code" id="jjbfyb_191">persistence.xml</code> file establishes two sets of configuration, one named <code class="code" id="jjbfyb_192">&quot;transactions-optional&quot;</code> and another named <code class="code" id="jjbfyb_193">&quot;eventual-reads-short-deadlines&quot;</code>:</p><div class="code-block" data-lang="none">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;persistence xmlns=&quot;http://java.sun.com/xml/ns/persistence&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd&quot; version=&quot;1.0&quot;&gt;
+
+    &lt;persistence-unit name=&quot;transactions-optional&quot;&gt;
+        &lt;provider&gt;org.datanucleus.api.jpa.PersistenceProviderImpl&lt;/provider&gt;
+        &lt;properties&gt;
+            &lt;property name=&quot;datanucleus.NontransactionalRead&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;datanucleus.NontransactionalWrite&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;datanucleus.ConnectionURL&quot; value=&quot;appengine&quot;/&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+
+    &lt;persistence-unit name=&quot;eventual-reads-short-deadlines&quot;&gt;
+        &lt;provider&gt;org.datanucleus.api.jpa.PersistenceProviderImpl&lt;/provider&gt;
+        &lt;properties&gt;
+            &lt;property name=&quot;datanucleus.NontransactionalRead&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;datanucleus.NontransactionalWrite&quot; value=&quot;true&quot;/&gt;
+            &lt;property name=&quot;datanucleus.ConnectionURL&quot; value=&quot;appengine&quot;/&gt;
+
+            &lt;property name=&quot;datanucleus.appengine.datastoreReadConsistency&quot; value=&quot;EVENTUAL&quot; /&gt;
+            &lt;property name=&quot;javax.persistence.query.timeout&quot; value=&quot;5000&quot; /&gt;
+            &lt;property name=&quot;datanucleus.datastoreWriteTimeout&quot; value=&quot;10000&quot; /&gt;
+            &lt;property name=&quot;datanucleus.singletonEMFForName&quot; value=&quot;true&quot;/&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;
+</div><p id="jjbfyb_167">See <span id="jjbfyb_194">Getting an EntityManager Instance</span> below for information on creating an <code class="code" id="jjbfyb_195">EntityManager</code> with a named configuration set.</p><p id="jjbfyb_168">You can override the read policy and call deadline for an individual <code class="code" id="jjbfyb_196">Query</code> object. To override the read policy for a <code class="code" id="jjbfyb_197">Query</code>, call its <code class="code" id="jjbfyb_198">setHint()</code> method as follows:</p><div class="code-block" data-lang="none">
+        Query q = em.createQuery(&quot;select from &quot; + Book.class.getName());
+        q.setHint(&quot;datanucleus.appengine.datastoreReadConsistency&quot;, &quot;EVENTUAL&quot;);
+</div><p id="jjbfyb_170">As above, the possible values are <code class="code" id="jjbfyb_199">&quot;EVENTUAL&quot;</code> and <code class="code" id="jjbfyb_200">&quot;STRONG&quot;</code>.</p><p id="jjbfyb_171">To override the read timeout, call <code class="code" id="jjbfyb_201">setHint()</code> as follows:</p><div class="code-block" data-lang="none">
+        q.setHint(&quot;javax.persistence.query.timeout&quot;, 3000);
+</div><p id="jjbfyb_173">There is no way to override the configuration for these options when you fetch entities by key.</p></section></section><section class="chapter"><h2 id="enhancing-data-classes" data-toc="enhancing-data-classes">Enhancing Data Classes</h2><p id="jjbfyb_202">The DataNucleus implementation of JPA uses a post-compilation &quot;enhancement&quot; step in the build process to associate data classes with the JPA implementation.</p><p id="jjbfyb_203">You can perform the enhancement step on compiled classes from the command line with the following command:</p><div class="code-block" data-lang="none">
+java -cp classpath org.datanucleus.enhancer.DataNucleusEnhancer
+class-files
+</div><p id="jjbfyb_205">The <span class="emphasis" id="jjbfyb_207">classpath</span> must contain the JARs <code class="code" id="jjbfyb_208">datanucleus-core-*.jar</code>, <code class="code" id="jjbfyb_209">datanucleus-jpa-*</code>, <code class="code" id="jjbfyb_210">datanucleus-enhancer-*.jar</code>, <code class="code" id="jjbfyb_211">asm-*.jar</code>, and <code class="code" id="jjbfyb_212">geronimo-jpa-*.jar</code> (where <code class="code" id="jjbfyb_213">*</code> is the appropriate version number of each JAR) from the <code class="code" id="jjbfyb_214">appengine-java-sdk/lib/tools/</code> directory, as well as all of your data classes.</p><p id="jjbfyb_206">For more information on the DataNucleus bytecode enhancer, see <a href="https://web.archive.org/web/20160424230323/http://www.datanucleus.org/products/datanucleus/jpa/enhancer.html" id="jjbfyb_215" data-external="true" rel="noopener noreferrer" target="_blank">the DataNucleus documentation</a>.</p></section><section class="chapter"><h2 id="getting-an-entitymanager-instance" data-toc="getting-an-entitymanager-instance">Getting an EntityManager Instance</h2><p id="jjbfyb_216">An app interacts with JPA using an instance of the <code class="code" id="jjbfyb_226">EntityManager</code> class. You get this instance by instantiating and calling a method on an instance of the <code class="code" id="jjbfyb_227">EntityManagerFactory</code> class. The factory uses the JPA configuration (identified by the name <code class="code" id="jjbfyb_228">&quot;transactions-optional&quot;</code>) to create <code class="code" id="jjbfyb_229">EntityManager</code> instances.</p><p id="jjbfyb_217">Because an <code class="code" id="jjbfyb_230">EntityManagerFactory</code> instance takes time to initialize, it's a good idea to reuse a single instance as much as possible. An easy way to do this is to create a singleton wrapper class with a static instance, as follows:</p><p id="jjbfyb_218"><span class="control" id="jjbfyb_231"><code class="code" id="jjbfyb_232">EMF.java</code></span></p><div class="code-block" data-lang="none">
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+public final class EMF {
+    private static final EntityManagerFactory emfInstance =
+        Persistence.createEntityManagerFactory(&quot;transactions-optional&quot;);
+
+    private EMF() {}
+
+    public static EntityManagerFactory get() {
+        return emfInstance;
+    }
+}
+</div><p id="jjbfyb_220"><span class="control" id="jjbfyb_233">Tip:</span> <code class="code" id="jjbfyb_234">&quot;transactions-optional&quot;</code> refers to the name of the configuration set in the <code class="code" id="jjbfyb_235">persistence.xml</code> file. If your app uses multiple configuration sets, you'll have to extend this code to call <code class="code" id="jjbfyb_236">Persistence.createEntityManagerFactory()</code> as desired. Your code should cache a singleton instance of each <code class="code" id="jjbfyb_237">EntityManagerFactory</code>.</p><p id="jjbfyb_221">The app uses the factory instance to create one <code class="code" id="jjbfyb_238">EntityManager</code> instance for each request that accesses the datastore.</p><div class="code-block" data-lang="none">
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+import EMF;
+
+// ...
+    EntityManager em = EMF.get().createEntityManager();
+</div><p id="jjbfyb_223">You use the <code class="code" id="jjbfyb_239">EntityManager</code> to store, update, and delete data objects, and to perform datastore queries.</p><p id="jjbfyb_224">When you are done with the <code class="code" id="jjbfyb_240">EntityManager</code> instance, you must call its <code class="code" id="jjbfyb_241">close()</code> method. It is an error to use the <code class="code" id="jjbfyb_242">EntityManager</code> instance after calling its <code class="code" id="jjbfyb_243">close()</code> method.</p><div class="code-block" data-lang="none">
+    try {
+        // ... do stuff with em ...
+    } finally {
+        em.close();
+    }
+</div></section><section class="chapter"><h2 id="class-and-field-annotations" data-toc="class-and-field-annotations">Class and Field Annotations</h2><p id="jjbfyb_244">Each object saved by JPA becomes an entity in the App Engine datastore. The entity's kind is derived from the simple name of the class (without the package name). Each persistent field of the class represents a property of the entity, with the name of the property equal to the name of the field (with case preserved).</p><p id="jjbfyb_245">To declare a Java class as capable of being stored and retrieved from the datastore with JPA, give the class a <code class="code" id="jjbfyb_255">@Entity</code> annotation. For example:</p><div class="code-block" data-lang="none">
+import javax.persistence.Entity;
+
+@Entity
+public class Employee {
+    // ...
+}
+</div><p id="jjbfyb_247">Fields of the data class that are to be stored in the datastore must either be of a type that is persisted by default or expliclty declared as persistent. You can find a chart detailing JPA default persistence behavior on <a href="https://web.archive.org/web/20160424230323/http://www.datanucleus.org/products/accessplatform/jpa/types.html" id="jjbfyb_256" data-external="true" rel="noopener noreferrer" target="_blank">the DataNucleus website</a>. To explicitly declare a field as persistent, you give it an <code class="code" id="jjbfyb_257">@Basic</code> annotation:</p><div class="code-block" data-lang="none">
+import java.util.Date;
+import javax.persistence.Enumerated;
+
+import com.google.appengine.api.datastore.ShortBlob;
+
+// ...
+    @Basic
+    private ShortBlob data;
+</div><p id="jjbfyb_249">The type of a field can be any of the following:</p><ul class="list _bullet" id="jjbfyb_250"><li class="list__item" id="jjbfyb_258"><p id="jjbfyb_262">one of the core types supported by the datastore</p></li><li class="list__item" id="jjbfyb_259"><p id="jjbfyb_263">a Collection (such as a <code class="code" id="jjbfyb_264">java.util.List&lt;...&gt;</code>) of values of a core datastore type</p></li><li class="list__item" id="jjbfyb_260"><p id="jjbfyb_265">an instance or Collection of instances of a <code class="code" id="jjbfyb_266">@Entity</code> class</p></li><li class="list__item" id="jjbfyb_261"><p id="jjbfyb_267">an embedded class, stored as properties on the entity</p></li></ul><p id="jjbfyb_251">A data class must have a public or protected default constructor and one field dedicated to storing the primary key of the corresponding datastore entity. You can choose between four different kinds of key fields, each using a different value type and annotations. (See <a href="https://web.archive.org/web/20160424230323/https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata#Keys" id="jjbfyb_268" data-external="true" rel="noopener noreferrer" target="_blank">Creating Data: Keys</a> for more information.) The simplest key field is a long integer value that is automatically populated by JPA with a value unique across all other instances of the class when the object is saved to the datastore for the first time. Long integer keys use a <code class="code" id="jjbfyb_269">@Id</code> annotation, and a <code class="code" id="jjbfyb_270">@GeneratedValue(strategy = GenerationType.IDENTITY)</code> annotation:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Key;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+// ...
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Key key;
+</div><p id="jjbfyb_253">Here is an example data class:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Key;
+
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Key key;
+
+    private String firstName;
+
+    private String lastName;
+
+    private Date hireDate;
+
+    // Accessors for the fields. JPA doesn't use these, but your application
+    does.
+
+    public Key getKey() {
+        return key;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getHireDate() {
+        return hireDate;
+    }
+    public void setHireDate(Date hireDate) {
+        this.hireDate = hireDate;
+    }
+}
+</div></section><section class="chapter"><h2 id="inheritance" data-toc="inheritance">Inheritance</h2><p id="jjbfyb_271">JPA supports creating data classes that use inheritance. Before we talk about how JPA inheritance works on App Engine, we recommend you read <a href="https://web.archive.org/web/20160424230323/http://www.datanucleus.org/products/accessplatform/jpa/orm/inheritance.html" id="jjbfyb_287" data-external="true" rel="noopener noreferrer" target="_blank">the DataNucleus documentation</a> on this subject and then come back. Done? Ok. JPA inheritance on App Engine works as described in the DataNucleus documentation with some additional restrictions. We'll discuss these restrictions and then give some concrete examples.</p><p id="jjbfyb_272">The &quot;JOINED&quot; inheritance strategy allows you to split the data for a single data object across multiple &quot;tables,&quot; but since the App Engine datastore does not support joins, operating on a data object with this inheritance strategy requires a remote procedure call for each level of inheritance. This is potentially very inefficient, so the &quot;JOINED&quot; inheritance strategy is not supported on data classes.</p><p id="jjbfyb_273">Second, the &quot;SINGLE_TABLE&quot; inheritance strategy allows you to store the data for a data object in a single &quot;table&quot; associated with the persistent class at the root of your inheritance hierarchy. Although there are no inherent inefficiencies in this strategy, it is not currently supported. We may revisit this in future releases.</p><p id="jjbfyb_274">Now the good news: The &quot;TABLE_PER_CLASS&quot; and &quot;MAPPED_SUPERCLASS&quot; strategies work as described in the DataNucleus documentation. Let's look at an example:</p><p id="jjbfyb_275"><span class="control" id="jjbfyb_288"><code class="code" id="jjbfyb_289">Worker.java</code></span></p><div class="code-block" data-lang="none">
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@Entity
+@MappedSuperclass
+public abstract class Worker {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Key key;
+
+    private String department;
+}
+</div><p id="jjbfyb_277"><span class="control" id="jjbfyb_290"><code class="code" id="jjbfyb_291">Employee.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@Entity
+public class Employee extends Worker {
+    private int salary;
+}
+</div><p id="jjbfyb_279"><span class="control" id="jjbfyb_292"><code class="code" id="jjbfyb_293">Intern.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.Date;
+// ... imports ...
+
+@Entity
+public class Intern extends Worker {
+    private Date internshipEndDate;
+}
+</div><p id="jjbfyb_281">In this example we've added an <code class="code" id="jjbfyb_294">@MappedSuperclass</code> annotation to the <code class="code" id="jjbfyb_295">Worker</code> class declaration. This tells JPA to store all persistent fields of the <code class="code" id="jjbfyb_296">Worker</code> in the datastore entities of its subclasses. The datastore entity created as the result of calling <code class="code" id="jjbfyb_297">persist()</code> with an <code class="code" id="jjbfyb_298">Employee</code> instance will have two properties named &quot;department&quot; and &quot;salary&quot;. The datastore entity created as the result of calling <code class="code" id="jjbfyb_299">persist()</code> with an <code class="code" id="jjbfyb_300">Intern</code> instance will have two properties named &quot;department&quot; and &quot;inernshipEndDate&quot;. There will not be any entities of kind &quot;Worker&quot; in the datastore.</p><p id="jjbfyb_282">Now let's make things a little more interesting. Suppose, in addition to having <code class="code" id="jjbfyb_301">Employee</code> and <code class="code" id="jjbfyb_302">Intern</code>, we also want a specialization of <code class="code" id="jjbfyb_303">Employee</code> that describes employees who have left the company:</p><p id="jjbfyb_283"><span class="control" id="jjbfyb_304"><code class="code" id="jjbfyb_305">FormerEmployee.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.Date;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+// ... imports ...
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class FormerEmployee extends Employee {
+    private Date lastDay;
+}
+</div><p id="jjbfyb_285">In this example we've added an <code class="code" id="jjbfyb_306">@Inheritance</code> annotation to the <code class="code" id="jjbfyb_307">FormerEmployee</code> class declaration with its <code class="code" id="jjbfyb_308">strategy</code> attribute set to <code class="code" id="jjbfyb_309">InheritanceType.TABLE_PER_CLASS</code>. This tells JPA to store all persistent fields of the <code class="code" id="jjbfyb_310">FormerEmployee</code> and its superclasses in datastore entities corresponding to <code class="code" id="jjbfyb_311">FormerEmployee</code> instances. The datastore entity created as the result of calling <code class="code" id="jjbfyb_312">persist()</code> with an <code class="code" id="jjbfyb_313">FormerEmployee</code> instance will have three properties named &quot;department&quot;, &quot;salary&quot;, and &quot;lastDay&quot;. There will never be an entity of kind &quot;Employee&quot; that corresponds to a <code class="code" id="jjbfyb_314">FormerEmployee</code>, but if you call <code class="code" id="jjbfyb_315">persist()</code> with a object whose runtime type is <code class="code" id="jjbfyb_316">Employee</code> you will create an entity of kind &quot;Employee.</p><p id="jjbfyb_286">Mixing relationships with inheritance works so long as the declared types of your relationship fields match the runtime types of the objects you are assigning to those fields. Refer to the section on <a href="https://web.archive.org/web/20160424230323/https://cloud.google.com/appengine/docs/java/datastore/jdo/relationships#Polymorphic_Relationships" id="jjbfyb_317" data-external="true" rel="noopener noreferrer" target="_blank">Polymorphic Relationships</a> for more information. This section contains JDO examples, but the concepts and the restrictions are the same for JPA.</p></section><section class="chapter"><h2 id="unsupported-features-of-jpa-2-0" data-toc="unsupported-features-of-jpa-2-0">Unsupported Features of JPA 2.0</h2><p id="jjbfyb_318">The following features of the JPA interface are not supported by the App Engine implementation:</p><ul class="list _bullet" id="jjbfyb_319"><li class="list__item" id="jjbfyb_320"><p id="jjbfyb_324">Owned many-to-many relationships.</p></li><li class="list__item" id="jjbfyb_321"><p id="jjbfyb_325">&quot;Join&quot; queries. You cannot use a field of a child entity in a filter when performing a query on the parent kind. Note that you can test the parent's relationship field directly in a query using a key.</p></li><li class="list__item" id="jjbfyb_322"><p id="jjbfyb_326">Aggregation queries (group by, having, sum, avg, max, min)</p></li><li class="list__item" id="jjbfyb_323"><p id="jjbfyb_327">Polymorphic queries. You cannot perform a query of a class to get instances of a subclass. Each class is represented by a separate entity kind in the datastore.</p></li></ul></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="overview-jpa-1-0.html" class="navigation-links__prev">Using JPA with App Engine (1.0)</a><a href="authenticating-users.html" class="navigation-links__next">Authenticating Users</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

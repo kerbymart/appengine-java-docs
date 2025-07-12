@@ -1,0 +1,262 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.25353092"><title>Defining Data Classes with JDO | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"class-and-field-annotations","level":0,"title":"Class and Field Annotations","anchor":"#class-and-field-annotations"},{"id":"core-value-types","level":0,"title":"Core Value Types","anchor":"#core-value-types"},{"id":"serializable-objects","level":0,"title":"Serializable Objects","anchor":"#serializable-objects"},{"id":"child-objects-and-relationships","level":0,"title":"Child Objects and Relationships","anchor":"#child-objects-and-relationships"},{"id":"embedded-classes","level":0,"title":"Embedded Classes","anchor":"#embedded-classes"},{"id":"collections","level":0,"title":"Collections","anchor":"#collections"},{"id":"object-fields-and-entity-properties","level":0,"title":"Object Fields and Entity Properties","anchor":"#object-fields-and-entity-properties"},{"id":"inheritance","level":0,"title":"Inheritance","anchor":"#inheritance"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Defining Data Classes with JDO | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/defining-data-classes-with-jdo.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Defining Data Classes with JDO | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/defining-data-classes-with-jdo.html#webpage",
+    "url": "writerside-documentation/defining-data-classes-with-jdo.html",
+    "name": "Defining Data Classes with JDO | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Defining-Data-Classes-with-JDO" data-main-title="Defining Data Classes with JDO" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Superseded-Storage-Solutions.md|Superseded Storage Solutions///JDO-for-Cloud-Datastore.md|JDO for Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Defining-Data-Classes-with-JDO" id="Defining-Data-Classes-with-JDO.md">Defining Data Classes with JDO</h1><p id="-6ihemu_3">You can use JDO to store plain Java data objects (sometimes referred to as &quot;Plain Old Java Objects&quot; or &quot;POJOs&quot;) in the datastore. Each object that is made persistent with the PersistenceManager becomes an entity in the datastore. You use annotations to tell JDO how to store and recreate instances of your data classes.</p><p id="-6ihemu_4"><span class="control" id="-6ihemu_14">Note:</span> Earlier versions of JDO use <code class="code" id="-6ihemu_15">.jdo</code> XML files instead of Java annotations. These still work with JDO 2.3. This documentation only covers using Java annotations with data classes.</p><ol class="list _decimal" id="-6ihemu_5" type="1"><li class="list__item" id="-6ihemu_16"><p id="-6ihemu_24"><span id="-6ihemu_25">Class and Field Annotations</span></p></li><li class="list__item" id="-6ihemu_17"><p id="-6ihemu_26"><span id="-6ihemu_27">Core Value Types</span></p></li><li class="list__item" id="-6ihemu_18"><p id="-6ihemu_28"><span id="-6ihemu_29">Serializable Objects</span></p></li><li class="list__item" id="-6ihemu_19"><p id="-6ihemu_30"><span id="-6ihemu_31">Child Objects and Relationships</span></p></li><li class="list__item" id="-6ihemu_20"><p id="-6ihemu_32"><span id="-6ihemu_33">Embedded Classes</span></p></li><li class="list__item" id="-6ihemu_21"><p id="-6ihemu_34"><span id="-6ihemu_35">Collections</span></p></li><li class="list__item" id="-6ihemu_22"><p id="-6ihemu_36"><span id="-6ihemu_37">Object Fields and Entity Properties</span></p></li><li class="list__item" id="-6ihemu_23"><p id="-6ihemu_38"><span id="-6ihemu_39">Inheritance</span></p></li></ol><section class="chapter"><h2 id="class-and-field-annotations" data-toc="class-and-field-annotations">Class and Field Annotations</h2><p id="-6ihemu_40">Each object saved by JDO becomes an entity in the App Engine datastore. The entity's kind is derived from the simple name of the class (inner classes use the <code class="code" id="-6ihemu_54">$</code> path without the package name). Each persistent field of the class represents a property of the entity, with the name of the property equal to the name of the field (with case preserved).</p><p id="-6ihemu_41">To declare a Java class as capable of being stored and retrieved from the datastore with JDO, give the class a <code class="code" id="-6ihemu_55">@PersistenceCapable</code> annotation. For example:</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.PersistenceCapable;
+
+@PersistenceCapable
+public class Employee {
+    // ...
+}
+</div><p id="-6ihemu_43">Fields of the data class that are to be stored in the datastore must be declared as persistent fields. To declare a field as persistent, give it a <code class="code" id="-6ihemu_56">@Persistent</code> annotation:</p><div class="code-block" data-lang="none">
+import java.util.Date;
+import javax.jdo.annotations.Persistent;
+
+// ...
+    @Persistent
+    private Date hireDate;
+</div><p id="-6ihemu_45">To declare a field as not persistent (it does not get stored in the datastore, and is not restored when the object is retrieved), give it a <code class="code" id="-6ihemu_57">@NotPersistent</code> annotation.</p><p id="-6ihemu_46"><span class="control" id="-6ihemu_58">Tip:</span> JDO specifies that fields of certain types are persistent by default if neither the <code class="code" id="-6ihemu_59">@Persistent</code> nor <code class="code" id="-6ihemu_60">@NotPersistent</code> annotations are specified, and fields of all other types are not persistent by default. See <a href="https://web.archive.org/web/20160424225513/http://www.datanucleus.org/products/accessplatform_4_0/jdo/types.html" id="-6ihemu_61" data-external="true" rel="noopener noreferrer" target="_blank">the DataNucleus documentation</a> for a complete description of this behavior. Because not all of the App Engine datastore core <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/entities#Java_Properties_and_value_types" id="-6ihemu_62" data-external="true" rel="noopener noreferrer" target="_blank">value types</a> are persistent by default according to the JDO specification, we recommend explicitly annotating fields as <code class="code" id="-6ihemu_63">@Persistent</code> or <code class="code" id="-6ihemu_64">@NotPersistent</code> to make it clear.</p><p id="-6ihemu_47">The type of a field can be any of the following. These are described in detail below.</p><ul class="list _bullet" id="-6ihemu_48"><li class="list__item" id="-6ihemu_65"><p id="-6ihemu_70">one of the core types supported by the datastore</p></li><li class="list__item" id="-6ihemu_66"><p id="-6ihemu_71">a Collection (such as a <code class="code" id="-6ihemu_72">java.util.List&lt;...&gt;</code>) or an array of values of a core datastore type</p></li><li class="list__item" id="-6ihemu_67"><p id="-6ihemu_73">an instance or Collection of instances of a <code class="code" id="-6ihemu_74">@PersistenceCapable</code> class</p></li><li class="list__item" id="-6ihemu_68"><p id="-6ihemu_75">an instance or Collection of instances of a Serializable class</p></li><li class="list__item" id="-6ihemu_69"><p id="-6ihemu_76">an embedded class, stored as properties on the entity</p></li></ul><p id="-6ihemu_49">A data class must have one and only one field dedicated to storing the primary key of the corresponding datastore entity. You can choose between four different kinds of key fields, each using a different value type and annotations. (See <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata#Keys" id="-6ihemu_77" data-external="true" rel="noopener noreferrer" target="_blank">Creating Data: Keys</a> for more information.) The most flexible type of key field is a <code class="code" id="-6ihemu_78">Key</code> object which is automatically populated by JDO with a value unique across all other instances of the class when the object is saved to the datastore for the first time. Primary keys of type <code class="code" id="-6ihemu_79">Key</code> require a <code class="code" id="-6ihemu_80">@PrimaryKey</code> annotation and a <code class="code" id="-6ihemu_81">@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)</code> annotation:</p><p id="-6ihemu_50"><span class="control" id="-6ihemu_82">Tip:</span> Make all of your persistent fields <code class="code" id="-6ihemu_83">private</code> or <code class="code" id="-6ihemu_84">protected</code> (or package protected), and only provide public access through accessor methods. Direct access to a persistent field from another class may bypass the JDO class enhancement. Alternatively, you can make other classes <code class="code" id="-6ihemu_85">@PersistenceAware</code>. See <a href="https://web.archive.org/web/20160424225513/http://www.datanucleus.org/products/accessplatform_3_3/datanucleus-accessplatform-docs.pdf" id="-6ihemu_86" data-external="true" rel="noopener noreferrer" target="_blank">the DataNucleus documentation</a> for more information.</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Key;
+
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PrimaryKey;
+
+// ...
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+</div><p id="-6ihemu_52">Here is an example data class:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Key;
+
+import java.util.Date;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+@PersistenceCapable
+public class Employee {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private String firstName;
+
+    @Persistent
+    private String lastName;
+
+    @Persistent
+    private Date hireDate;
+
+    public Employee(String firstName, String lastName, Date hireDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.hireDate = hireDate;
+    }
+
+    // Accessors for the fields. JDO doesn't use these, but your application does.
+
+    public Key getKey() {
+        return key;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getHireDate() {
+        return hireDate;
+    }
+    public void setHireDate(Date hireDate) {
+        this.hireDate = hireDate;
+    }
+}
+</div></section><section class="chapter"><h2 id="core-value-types" data-toc="core-value-types">Core Value Types</h2><p id="-6ihemu_87">To represent a property containing a single value of a core type, declare a field of the Java type, and use the <code class="code" id="-6ihemu_89">@Persistent</code> annotation:</p><div class="code-block" data-lang="none">
+import java.util.Date;
+import javax.jdo.annotations.Persistent;
+
+// ...
+    @Persistent
+    private Date hireDate;
+</div></section><section class="chapter"><h2 id="serializable-objects" data-toc="serializable-objects">Serializable Objects</h2><p id="-6ihemu_90">A field value can contain an instance of a Serializable class, storing the serialized value of the instance in a single property value of the type Blob. To tell JDO to serialize the value, the field uses the annotation <code class="code" id="-6ihemu_95">@Persistent(serialized=true)</code>. Blob values are not indexed and cannot be used in query filters or sort orders.</p><p id="-6ihemu_91">Here is an example of a simple Serializable class that represents a file, including the file contents, a filename and a MIME type. This is not a JDO data class, so there are no persistence annotations.</p><div class="code-block" data-lang="none">
+import java.io.Serializable;
+
+public class DownloadableFile implements Serializable {
+    private byte[] content;
+    private String filename;
+    private String mimeType;
+
+    // ... accessors ...
+}
+</div><p id="-6ihemu_93">To store an instance of a Serializable class as a Blob value in a property, declare a field whose type is the class, and use the <code class="code" id="-6ihemu_96">@Persistent(serialized = &quot;true&quot;)</code> annotation:</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.Persistent;
+import DownloadableFile;
+
+// ...
+    @Persistent(serialized = &quot;true&quot;)
+    private DownloadableFile file;
+</div></section><section class="chapter"><h2 id="child-objects-and-relationships" data-toc="child-objects-and-relationships">Child Objects and Relationships</h2><p id="-6ihemu_97">A field value that is an instance of a <code class="code" id="-6ihemu_105">@PersistenceCapable</code> class creates an owned one-to-one relationship between two objects. A field that is a collection of such references creates an owned one-to-many relationship.</p><p id="-6ihemu_98"><span class="control" id="-6ihemu_106">Important:</span> Owned relationships have implications for transactions, entity groups, and cascading deletes. See <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/transactions" id="-6ihemu_107" data-external="true" rel="noopener noreferrer" target="_blank">Transactions</a> and <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/relationships" id="-6ihemu_108" data-external="true" rel="noopener noreferrer" target="_blank">Relationships</a> for more information.</p><p id="-6ihemu_99">Here is a simple example of an owned one-to-one relationship between an Employee object and a ContactInfo object:</p><p id="-6ihemu_100"><span class="control" id="-6ihemu_109"><code class="code" id="-6ihemu_110">ContactInfo.java</code></span></p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Key;
+// ... imports ...
+
+@PersistenceCapable
+public class ContactInfo {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private String streetAddress;
+
+    @Persistent
+    private String city;
+
+    @Persistent
+    private String stateOrProvince;
+
+    @Persistent
+    private String zipCode;
+
+    // ... accessors ...
+}
+</div><p id="-6ihemu_102"><span class="control" id="-6ihemu_111"><code class="code" id="-6ihemu_112">Employee.java</code></span></p><div class="code-block" data-lang="none">
+import ContactInfo;
+// ... imports ...
+
+@PersistenceCapable
+public class Employee {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private ContactInfo myContactInfo;
+
+    // ... accessors ...
+}
+</div><p id="-6ihemu_104">In this example, if the app creates an Employee instance, populates its <code class="code" id="-6ihemu_113">myContactInfo</code> field with a new ContactInfo instance, then saves the Employee instance with <code class="code" id="-6ihemu_114">pm.makePersistent(...)</code>, the datastore creates two entities. One is of the kind <code class="code" id="-6ihemu_115">&quot;ContactInfo&quot;</code>, representing the ContactInfo instance. The other is of the kind <code class="code" id="-6ihemu_116">&quot;Employee&quot;</code>. The key of the <code class="code" id="-6ihemu_117">ContactInfo</code> entity has the key of the <code class="code" id="-6ihemu_118">Employee</code> entity as its entity group parent.</p></section><section class="chapter"><h2 id="embedded-classes" data-toc="embedded-classes">Embedded Classes</h2><p id="-6ihemu_119">Embedded classes allow you to model a field value using a class without creating a new datastore entity and forming a relationship. The fields of the object value are stored directly in the datastore entity for the containing object.</p><p id="-6ihemu_120">Any <code class="code" id="-6ihemu_128">@PersistenceCapable</code> data class can be used as an embedded object in another data class. The class's <code class="code" id="-6ihemu_129">@Persistent</code> fields are embedded in the object. If you give the class to embed the <code class="code" id="-6ihemu_130">@EmbeddedOnly</code> annotation, the class can only be used as an embedded class. The embedded class does not need a primary key field because it is not stored as a separate entity.</p><p id="-6ihemu_121">Here is an example of an embedded class. This example makes the embedded class an inner class of the data class that uses it; this is useful, but not required to make a class embeddable.</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.Embedded;
+import javax.jdo.annotations.EmbeddedOnly;
+// ... imports ...
+
+@PersistenceCapable
+public class EmployeeContacts {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    Key key;
+    @PersistenceCapable
+    @EmbeddedOnly
+    public static class ContactInfo {
+        @Persistent
+        private String streetAddress;
+
+        @Persistent
+        private String city;
+
+        @Persistent
+        private String stateOrProvince;
+
+        @Persistent
+        private String zipCode;
+
+        // ... accessors ...
+    }
+
+    @Persistent
+    @Embedded
+    private ContactInfo homeContactInfo;
+}
+</div><p id="-6ihemu_123">The fields of an embedded class are stored as properties on the entity, using the name of each field and the name of the corresponding property. If you have more than one field on the object whose type is an embedded class, you must rename the fields of one so they do not conflict with another. You specify new field names using arguments to the <code class="code" id="-6ihemu_131">@Embedded</code> annotation. For example:</p><div class="code-block" data-lang="none">
+    @Persistent
+    @Embedded
+    private ContactInfo homeContactInfo;
+
+    @Persistent
+    @Embedded(members = {
+        @Persistent(name=&quot;streetAddress&quot;, columns=@Column(name=&quot;workStreetAddress&quot;)),
+        @Persistent(name=&quot;city&quot;, columns=@Column(name=&quot;workCity&quot;)),
+        @Persistent(name=&quot;stateOrProvince&quot;, columns=@Column(name=&quot;workStateOrProvince&quot;)),
+        @Persistent(name=&quot;zipCode&quot;, columns=@Column(name=&quot;workZipCode&quot;)),
+    })
+    private ContactInfo workContactInfo;
+</div><p id="-6ihemu_125">Similarly, fields on the object must not use names that collide with fields of embedded classes, unless the embedded fields are renamed.</p><p id="-6ihemu_126">Because the embedded class's persistent properties are stored on the same entity as the other fields, you can use persistent fields of the embedded class in JDOQL query filters and sort orders. You can refer to the embedded field using the name of the outer field, a dot (<code class="code" id="-6ihemu_132">.</code>), and the name of the embedded field. This works whether or not the property names for the embedded fields have been changed using <code class="code" id="-6ihemu_133">@Column</code> annotations.</p><div class="code-block" data-lang="none">
+    select from EmployeeContacts where workContactInfo.zipCode == &quot;98105&quot;
+</div></section><section class="chapter"><h2 id="collections" data-toc="collections">Collections</h2><p id="-6ihemu_134">A datastore property can have more than one value. In JDO, this is represented by a single field with a Collection type, where the collection is of one of the core <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/entities#Java_Properties_and_value_types" id="-6ihemu_141" data-external="true" rel="noopener noreferrer" target="_blank">value types</a> or a Serializable class. The following Collection types are supported:</p><ul class="list _bullet" id="-6ihemu_135"><li class="list__item" id="-6ihemu_142"><p id="-6ihemu_153"><code class="code" id="-6ihemu_154">java.util.ArrayList&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_143"><p id="-6ihemu_155"><code class="code" id="-6ihemu_156">java.util.HashSet&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_144"><p id="-6ihemu_157"><code class="code" id="-6ihemu_158">java.util.LinkedHashSet&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_145"><p id="-6ihemu_159"><code class="code" id="-6ihemu_160">java.util.LinkedList&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_146"><p id="-6ihemu_161"><code class="code" id="-6ihemu_162">java.util.List&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_147"><p id="-6ihemu_163"><code class="code" id="-6ihemu_164">java.util.Map&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_148"><p id="-6ihemu_165"><code class="code" id="-6ihemu_166">java.util.Set&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_149"><p id="-6ihemu_167"><code class="code" id="-6ihemu_168">java.util.SortedSet&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_150"><p id="-6ihemu_169"><code class="code" id="-6ihemu_170">java.util.Stack&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_151"><p id="-6ihemu_171"><code class="code" id="-6ihemu_172">java.util.TreeSet&lt;...&gt;</code></p></li><li class="list__item" id="-6ihemu_152"><p id="-6ihemu_173"><code class="code" id="-6ihemu_174">java.util.Vector&lt;...&gt;</code></p></li></ul><p id="-6ihemu_136">If a field is declared as a List, objects returned by the datastore have an ArrayList value. If a field is declared as a Set, the datastore returns a HashSet. If a field is declared as a SortedSet, the datastore returns a TreeSet.</p><p id="-6ihemu_137">For example, a field whose type is <code class="code" id="-6ihemu_175">List&lt;String&gt;</code> is stored as zero or more string values for the property, one for each value in the <code class="code" id="-6ihemu_176">List</code>.</p><div class="code-block" data-lang="none">
+import java.util.List;
+// ... imports ...
+
+// ...
+    @Persistent
+    List&lt;String&gt; favoriteFoods;
+</div><p id="-6ihemu_139">A Collection of child objects (of <code class="code" id="-6ihemu_177">@PersistenceCapable</code> classes) creates multiple entities with a one-to-many relationship. See <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/relationships" id="-6ihemu_178" data-external="true" rel="noopener noreferrer" target="_blank">Relationships</a>.</p><p id="-6ihemu_140">Datastore properties with more than one value have special behavior for query filters and sort orders. See the <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/queries#Surprising_behavior" id="-6ihemu_179" data-external="true" rel="noopener noreferrer" target="_blank">Datastore Queries</a> page for more information.</p></section><section class="chapter"><h2 id="object-fields-and-entity-properties" data-toc="object-fields-and-entity-properties">Object Fields and Entity Properties</h2><p id="-6ihemu_180">The App Engine datastore distinguishes between an entity without a given property and an entity with a <code class="code" id="-6ihemu_188">null</code> value for a property. JDO does not support this distinction: every field of an object has a value, possibly <code class="code" id="-6ihemu_189">null</code>. If a field with a nullable value type (something other than a built-in type like <code class="code" id="-6ihemu_190">int</code> or <code class="code" id="-6ihemu_191">boolean</code>) is set to <code class="code" id="-6ihemu_192">null</code>, when the object is saved, the resulting entity will have the property set with a null value.</p><p id="-6ihemu_181">If a datastore entity is loaded into an object and doesn't have a property for one of the object's fields and the field's type is a nullable single-value type, the field is set to <code class="code" id="-6ihemu_193">null</code>. When the object is saved back to the datastore, the <code class="code" id="-6ihemu_194">null</code> property becomes set in the datastore to the null value. If the field is not of a nullable value type, loading an entity without the corresponding property throws an exception. This won't happen if the entity was created from the same JDO class used to recreate the instance, but can happen if the JDO class changes, or if the entity was created using the low-level API instead of JDO.</p><p id="-6ihemu_182">If a field's type is a Collection of a core data type or a Serializable class and there are no values for the property on the entity, the empty collection is represented in the datastore by setting the property to a single null value. If the field's type is an array type, it is assigned an array of 0 elements. If the object is loaded and there is no value for the property, the field is assigned an empty collection of the appropriate type. Internally, the datastore knows the difference between an empty collection and a collection containing one null value.</p><p id="-6ihemu_183">If the entity has a property without a corresponding field in the object, that property is inaccessible from the object. If the object is saved back to the datastore, the extra property is deleted.</p><p id="-6ihemu_184">If an entity has a property whose value is of a different type than the corresponding field in the object, JDO attempts to cast the value to the field type. If the value cannot be cast to the field type, JDO throws a ClassCastException. In the case of numbers (long integers and double-width floats), the value is converted, not cast. If the numeric property value is larger than the field type, the conversion overflows without throwing an exception.</p><p id="-6ihemu_185">You can declare a property unindexed by adding the line</p><div class="code-block" data-lang="none">
+    @Extension(vendorName=&quot;datanucleus&quot;, key=&quot;gae.unindexed&quot;, value=&quot;true&quot;)
+</div><p id="-6ihemu_187">above the property in the class definition. See the <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/indexes#Java_Unindexed_properties" id="-6ihemu_195" data-external="true" rel="noopener noreferrer" target="_blank">Unindexed Properties</a> section of the main docs for additional information about what it means for a property to be unindexed.</p></section><section class="chapter"><h2 id="inheritance" data-toc="inheritance">Inheritance</h2><p id="-6ihemu_196">Creating data classes that make use of inheritance is a natural thing to do, and JDO supports this. Before we talk about how JDO inheritance works on App Engine we recommend you read <a href="https://web.archive.org/web/20160424225513/http://www.datanucleus.org/products/accessplatform/jdo/orm/inheritance.html" id="-6ihemu_212" data-external="true" rel="noopener noreferrer" target="_blank">the DataNucleus documentation on this subject</a> and then come back. Done? Ok. JDO inheritance on App Engine works as described in the DataNucleus documentation with some additional restrictions. We'll discuss these restrictions and then give some concrete examples.</p><p id="-6ihemu_197">The &quot;new-table&quot; inheritance strategy allows you to split the data for a single data object across multiple &quot;tables,&quot; but since the App Engine datastore does not support joins, operating on a data object with this inheritance strategy requires a remote procedure call for each level of inheritance. This is potentially very inefficient, so the &quot;new-table&quot; inheritance strategy is not supported on data classes that are not at the root of their inheritance hierarchies.</p><p id="-6ihemu_198">Second, the &quot;superclass-table&quot; inheritance strategy allows you to store the data for a data object in the &quot;table&quot; of its superclass. Although there are no inherent inefficiencies in this strategy, it is not currently supported. We may revisit this in future releases.</p><p id="-6ihemu_199">Now the good news: The &quot;subclass-table&quot; and &quot;complete-table&quot; strategies work as described in the DataNucleus documentation, and you can also use &quot;new-table&quot; for any data object that is at the root of its inheritance hierarchy. Let's look at an example:</p><p id="-6ihemu_200"><span class="control" id="-6ihemu_213"><code class="code" id="-6ihemu_214">Worker.java</code></span></p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+@PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
+public abstract class Worker {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private String department;
+}
+</div><p id="-6ihemu_202"><span class="control" id="-6ihemu_215"><code class="code" id="-6ihemu_216">Employee.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Employee extends Worker {
+    @Persistent
+    private int salary;
+}
+</div><p id="-6ihemu_204"><span class="control" id="-6ihemu_217"><code class="code" id="-6ihemu_218">Intern.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.Date;
+// ... imports ...
+
+@PersistenceCapable
+public class Intern extends Worker {
+    @Persistent
+    private Date internshipEndDate;
+}
+</div><p id="-6ihemu_206">In this example we've added an <code class="code" id="-6ihemu_219">@Inheritance</code> annotation to the <code class="code" id="-6ihemu_220">Worker</code>class declaration with its <code class="code" id="-6ihemu_221">strategy&gt;</code> attribute set to <code class="code" id="-6ihemu_222">InheritanceStrategy.SUBCLASS_TABLE</code>. This tells JDO to store all persistent fields of the <code class="code" id="-6ihemu_223">Worker</code> in the datastore entities of its subclasses. The datastore entity created as the result of calling <code class="code" id="-6ihemu_224">makePersistent()</code> with an <code class="code" id="-6ihemu_225">Employee</code> instance has two properties named &quot;department&quot; and &quot;salary&quot;. The datastore entity created as the result of calling <code class="code" id="-6ihemu_226">makePersistent()</code> with an <code class="code" id="-6ihemu_227">Intern</code> instance will have two properties named &quot;department&quot; and &quot;internshipEndDate&quot;. The datastore does not contain any entities of kind &quot;Worker&quot;.</p><p id="-6ihemu_207">Now let's make things a little more interesting. Suppose, in addition to having <code class="code" id="-6ihemu_228">Employee</code> and <code class="code" id="-6ihemu_229">Intern</code>, we also want a specialization of <code class="code" id="-6ihemu_230">Employee</code> that describes employees who have left the company:</p><p id="-6ihemu_208"><span class="control" id="-6ihemu_231"><code class="code" id="-6ihemu_232">FormerEmployee.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.Date;
+// ... imports ...
+
+@PersistenceCapable
+@Inheritance(customStrategy = &quot;complete-table&quot;)
+public class FormerEmployee extends Employee {
+    @Persistent
+    private Date lastDay;
+}
+</div><p id="-6ihemu_210">In this example, we've added an <code class="code" id="-6ihemu_233">@Inheritance</code> annotation to the <code class="code" id="-6ihemu_234">FormerEmployee</code> class declaration with its <code class="code" id="-6ihemu_235">custom-strategy&gt;</code> attribute set to &quot;complete-table&quot;. This tells JDO to store all persistent fields of the <code class="code" id="-6ihemu_236">FormerEmployee</code> and its superclasses in datastore entities corresponding to <code class="code" id="-6ihemu_237">FormerEmployee</code> instances. The datastore entity created as the result of calling <code class="code" id="-6ihemu_238">makePersistent()</code> with an <code class="code" id="-6ihemu_239">FormerEmployee</code> instance will have three properties named &quot;department&quot;, &quot;salary&quot;, and &quot;lastDay&quot;. No entity of kind &quot;Employee&quot;&quot; corresponds to a <code class="code" id="-6ihemu_240">FormerEmployee</code>. However, if you call <code class="code" id="-6ihemu_241">makePersistent()</code> with a object whose runtime type is <code class="code" id="-6ihemu_242">Employee</code>, you create an entity of kind &quot;Employee&quot;.</p><p id="-6ihemu_211">Mixing relationships with inheritance works so long as the declared types of your relationship fields match the runtime types of the objects you are assigning to those fields. Please refer to the section on <a href="https://web.archive.org/web/20160424225513/https://cloud.google.com/appengine/docs/java/datastore/jdo/relationships#Polymorphic_Relationships" id="-6ihemu_243" data-external="true" rel="noopener noreferrer" target="_blank">Polymorphic Relationships</a> for more information.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="using-jdo-3-0-with-app-engine.html" class="navigation-links__prev">Using JDO 3.0 with App Engine</a><a href="creating-getting-and-deleting-data-in-jdo.html" class="navigation-links__next">Creating, Getting and Deleting Data in JDO</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

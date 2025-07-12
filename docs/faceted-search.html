@@ -1,0 +1,156 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.311929311"><title>Faceted Search | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"adding-facets-to-a-document","level":0,"title":"Adding facets to a document","anchor":"#adding-facets-to-a-document"},{"id":"using-a-faceted-search-to-retrieve-facet-information","level":0,"title":"Using a faceted search to retrieve facet information","anchor":"#using-a-faceted-search-to-retrieve-facet-information"},{"id":"retrieving-facet-results","level":0,"title":"Retrieving facet results","anchor":"#retrieving-facet-results"},{"id":"using-facets-to-refine-filter-a-query","level":0,"title":"Using facets to refine/filter a query","anchor":"#using-facets-to-refine-filter-a-query"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Faceted Search | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/faceted-search.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Faceted Search | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/faceted-search.html#webpage",
+    "url": "writerside-documentation/faceted-search.html",
+    "name": "Faceted Search | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Faceted-Search" data-main-title="Faceted Search" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Searchable-Document-Indexes.md|Searchable Document Indexes"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Faceted-Search" id="Faceted-Search.md">Faceted Search</h1><p id="mii43y_3">Faceted search gives you the ability to attach categorical information to your documents. A facet is an attribute/value pair. For example, the facet named &quot;size&quot; might have values &quot;small&quot;, &quot;medium&quot;, and &quot;large.&quot;</p><p id="mii43y_4">By using facets with search, you can retrieve summary information to help you refine a query and &quot;drill down&quot; into your results in a series of steps.</p><p id="mii43y_5">The aggregated data for a facet shows you how a facet's values are distributed. For instance, the facet &quot;size&quot; may appear in many of the documents in your result set. The aggregated data for that facet might show that the value &quot;small&quot; appeared 100 times, &quot;medium&quot; 300 times, and &quot;large&quot; 250 times. Each facet/value pair represents a subset of documents in the query result. A key, called a <span class="emphasis" id="mii43y_12">refinement</span>, is associated with each pair. You can include refinements in a query to retrieve documents that match the query string and that have the facet values corresponding to one or more refinements.</p><p id="mii43y_6">When you perform a search, you can choose which facets to collect and show with the results, or you can enable facet discovery to automatically select the facets that appear most often in your documents.</p><ol class="list _decimal" id="mii43y_7" type="1"><li class="list__item" id="mii43y_13"><p id="mii43y_17"><span id="mii43y_18">Adding facets to a document</span></p></li><li class="list__item" id="mii43y_14"><p id="mii43y_19"><span id="mii43y_21">Using a faceted search to retrieve facet information</span></p><ol class="list _decimal" id="mii43y_20" type="1"><li class="list__item" id="mii43y_22"><p id="mii43y_26"><span id="mii43y_27">Automatic facet discovery</span></p></li><li class="list__item" id="mii43y_23"><p id="mii43y_28"><span id="mii43y_29">Selecting facets by name</span></p></li><li class="list__item" id="mii43y_24"><p id="mii43y_30"><span id="mii43y_31">Selecting facets by name and value</span></p></li><li class="list__item" id="mii43y_25"><p id="mii43y_32"><a href="#options" id="mii43y_33" data-tooltip="You can control faceted search by adding a FacetOptions parameter to a Query call. This parameter takes a single instance of FacetOptions. Use this parameter to override the default behavior of faceted search.">Options</a></p></li></ol></li><li class="list__item" id="mii43y_15"><p id="mii43y_34"><span id="mii43y_35">Retrieving facet results</span></p></li><li class="list__item" id="mii43y_16"><p id="mii43y_36"><span id="mii43y_37">Using facets to refine/filter a query</span></p></li></ol><section class="chapter"><h2 id="adding-facets-to-a-document" data-toc="adding-facets-to-a-document">Adding facets to a document</h2><p id="mii43y_38">Add facets to a document before you add the document to an index. Do this at the same time you specify the document's fields:</p><div class="code-block" data-lang="none">
+package com.google.test.facet;
+
+import java.io.IOException;
+import javax.servlet.http.*;
+import com.google.appengine.api.search.*;
+
+public class FacetsearchjavaServlet extends HttpServlet {
+  public void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    Document doc1 = Document.newBuilder()
+      .setId(&quot;doc1&quot;)
+      .addField(Field.newBuilder().setName(&quot;name&quot;).setAtom(&quot;x86&quot;))
+      .addFacet(Facet.withAtom(&quot;type&quot;, &quot;computer&quot;))
+      .addFacet(Facet.withNumber(&quot;ram_size_gb&quot;, 8.0))
+      .build();
+    IndexSpec indexSpec = IndexSpec.newBuilder().setName(&quot;products&quot;).build();
+      Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+    index.put(doc1);
+  }
+}
+</div><p id="mii43y_40">A facet is similar to a document field; it has a name, and takes one value.</p><p id="mii43y_41">Facet names follow the same rules as document fields: Names are case sensitive and can only contain ASCII characters. They must start with a letter and can contain letters, digits, or underscore. A name cannot be longer than 500 characters.</p><p id="mii43y_42">The value of a facet can be either an atomic string (no longer than 500 characters) or a number (a double precision floating point value between -2,147,483,647 and 2,147,483,647).</p><p id="mii43y_43">You can assign multiple values to a facet on one document by adding a facet with the same name and type many times, using a different value each time.</p><p id="mii43y_44">There is no limit to the number of values a facet can have. There is also no limit to the number of facets that you can add to a document or the number of uniquely-named facets in an index.</p><p id="mii43y_45">Note that each time you use a facet, it can take either an atomic or numeric value. A facet with the name &quot;size&quot; can be attached to one document with the string value &quot;small&quot; and another document with the numeric value 8. In fact, the same facet can appear multiple times on the same document with both kinds of values. We do not recommend using both atom and number values for the same facet, even though it is allowed.</p><p id="mii43y_46">While a facet has a specific type when you add it to a document, the search results gather <span class="emphasis" id="mii43y_48">all</span> of its values together. For example, the results for facet &quot;size&quot; might show that there were 100 instances of the value &quot;small&quot;, 150 instances of &quot;medium&quot;, and 135 instances of numeric values in the range \[4, 8). The exact numeric values and their frequency distribution are not shown.</p><p id="mii43y_47">When you retrieve a document using a query, you cannot directly access its facets and values. You must request that facet information be returned with your query, as explained in the next section.</p></section><section class="chapter"><h2 id="using-a-faceted-search-to-retrieve-facet-information" data-toc="using-a-faceted-search-to-retrieve-facet-information">Using a faceted search to retrieve facet information</h2><p id="mii43y_49">You can ask the search backend to discover the most frequently used facets for you, this is called automatic discovery. You can also retrieve facet information explicitly by selecting a facet by name, or by name and value. You can mix and match all three kinds of facet retrieval in a single query.</p><p id="mii43y_50">Asking for facet information will not affect the documents your query returns. It can affect performance. Performing a faceted search with the default depth of 1000 has the same effect as setting the sort options scorer limit to 1000.</p><section class="chapter"><h3 id="automatic-facet-discovery" data-toc="automatic-facet-discovery">Automatic facet discovery</h3><p id="mii43y_55">Automatic facet discovery looks for the facets that appear most often <span class="emphasis" id="mii43y_60">in the aggregate</span> in your documents. For example, suppose the documents matching your query include a &quot;color&quot; facet that appears 5 times with the value &quot;red&quot;, 5 times with the value &quot;white&quot;, and 5 times with the color &quot;blue&quot;. This facet has a total count of 15. For the purposes of discovery, it would be ranked higher than another facet &quot;shade&quot; that appears in the same matching documents 6 times with the value &quot;dark&quot; and 7 times with the value &quot;light&quot;.</p><p id="mii43y_56">You must enable facet discovery by setting it in your Query:</p><div class="code-block" data-lang="none">
+package com.google.test.facet;
+
+import java.io.IOException;
+import javax.servlet.http.*;
+import com.google.appengine.api.search.*;
+
+public class FacetsearchjavaServlet extends HttpServlet {
+  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    IndexSpec indexSpec = IndexSpec.newBuilder().setName(&quot;products&quot;).build();
+      Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+      Results&lt;ScoredDocument&gt; result = index.search(
+          Query.newBuilder().setEnableFacetDiscovery(true) // enable discovery
+          .build(&quot;name:x86&quot;));
+      for(FacetResult facetResult : result.getFacets()) {
+        resp.getWriter().printf(&quot;Facet %s:\n&quot;, facetResult.getName());
+        for (FacetResultValue facetValue : facetResult.getValues()) {
+          resp.getWriter().printf(&quot;   %s: Count=%s, RefinementKey=%s\n&quot;,
+              facetValue.getLabel(),
+              facetValue.getCount(),
+              facetValue.getRefinementToken());
+        }
+      }
+  }
+}
+</div><p id="mii43y_58">When you retrieve facets by discovery, by default only the 10 most often occuring values for a facet will be returned. You can increase this limit up to 100 using <code class="code" id="mii43y_61">FacetOptions.Builder.setDiscoveryValueLimit()</code>.</p><p id="mii43y_59">String values will be returned individually. The numeric values of a discovered facet are returned in a single range \[min max). You can examine this range and create a smaller subrange for a later query.</p></section><section class="chapter"><h3 id="selecting-facets-by-name" data-toc="selecting-facets-by-name">Selecting facets by name</h3><p id="mii43y_62">To retrieve information about a facet by its name only, add a <code class="code" id="mii43y_65">ReturnFacet</code> object to your query, specifying the facet name:</p><div class="code-block" data-lang="none">
+package com.google.test.facet;
+
+import java.io.IOException;
+import javax.servlet.http.*;
+import com.google.appengine.api.search.*;
+
+public class FacetsearchjavaServlet extends HttpServlet {
+  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    IndexSpec indexSpec = IndexSpec.newBuilder().setName(&quot;products&quot;).build();
+      Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+      Results&lt;ScoredDocument&gt; result = index.search(Query.newBuilder()
+        .addReturnFacet(&quot;type&quot;)
+        .addReturnFacet(&quot;ram_size_gb&quot;)
+        .build(&quot;name:x86&quot;));
+      for(FacetResult facetResult : result.getFacets()) {
+        resp.getWriter().printf(&quot;Facet %s:\n&quot;, facetResult.getName());
+        for (FacetResultValue facetValue : facetResult.getValues()) {
+          resp.getWriter().printf(&quot;   %s: Count=%s, RefinementKey=%s\n&quot;,
+              facetValue.getLabel(),
+              facetValue.getCount(),
+              facetValue.getRefinementToken());
+        }
+      }
+  }
+}
+</div><p id="mii43y_64">When you retrieve facets by name, by default only the 10 most often occuring values for a facet will be returned. You can increase this limit up to 20 using <code class="code" id="mii43y_66">FacetOptions.Builder.setDiscoveryValueLimit()</code>.</p></section><section class="chapter"><h3 id="selecting-facets-by-name-and-value" data-toc="selecting-facets-by-name-and-value">Selecting facets by name and value</h3><p id="mii43y_67">To retrieve a facet with a particular value, add a <code class="code" id="mii43y_70">ReturnFacet</code> object that includes a <code class="code" id="mii43y_71">FacetRequest</code>:</p><div class="code-block" data-lang="none">
+package com.google.test.facet;
+
+import java.io.IOException;
+import javax.servlet.http.*;
+import com.google.appengine.api.search.*;
+
+public class FacetsearchjavaServlet extends HttpServlet {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        IndexSpec indexSpec = IndexSpec.newBuilder().setName(&quot;products&quot;).build();
+        Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
+        // Fetch the &quot;type&quot; facet with values &quot;computer and &quot;printer&quot;
+        // along with the &quot;ram_size_gb&quot; facet with values in the ranges [0,4), [4, 8), and [8, max]
+        Results&lt;ScoredDocument&gt; result = index.search(Query.newBuilder()
+            .addReturnFacet(FacetRequest.newBuilder()
+                .setName(&quot;type&quot;)
+                .addValueConstraint(&quot;computer&quot;)
+                .addValueConstraint(&quot;printer&quot;))
+            .addReturnFacet(FacetRequest.newBuilder()
+                .setName(&quot;ram_size_gb&quot;)
+                .addRange(FacetRange.withEnd(4.0))
+                .addRange(FacetRange.withStartEnd(4.0, 8.0))
+                .addRange(FacetRange.withStart(8.0)))
+            .build(&quot;name:x86&quot;));
+        for(FacetResult facetResult : result.getFacets()) {
+            resp.getWriter().printf(&quot;Facet %s:\n&quot;, facetResult.getName());
+            for (FacetResultValue facetValue : facetResult.getValues()) {
+                resp.getWriter().printf(&quot;   %s: Count=%s, RefinementKey=%s\n&quot;,
+                        facetValue.getLabel(),
+                        facetValue.getCount(),
+                        facetValue.getRefinementToken());
+            }
+        }
+    }
+}
+</div><p id="mii43y_69">The values in a single <code class="code" id="mii43y_72">FacetRequest</code> must all be the same type, either a list of string values or, for numbers, a list of <code class="code" id="mii43y_73">FacetRanges</code>, which are intervals that are closed on the left (start), and open on the right (end). If your facet has a mix of string and number values, add separate FacetRequests for each.</p></section><section class="chapter"><h3 id="options" data-toc="options">Options</h3><p id="mii43y_74">You can control faceted search by adding a <code class="code" id="mii43y_79">FacetOptions</code> parameter to a Query call. This parameter takes a single instance of <code class="code" id="mii43y_80">FacetOptions</code>. Use this parameter to override the default behavior of faceted search.</p><div class="code-block" data-lang="none">
+Results&lt;ScoredDocument&gt; results = index.search(Query.newBuilder()
+  .addReturnFacet(FacetRequest.newBuilder()
+    .setName(&quot;type&quot;)
+    .addValueConstraint(&quot;computer&quot;)
+    .addValueConstraint(&quot;printer&quot;))
+  .addReturnFacet(FacetRequest.newBuilder()
+    .setName(&quot;ram_size_gb&quot;)
+    .addRange(FacetRange.withEnd(4.0))
+    .addRange(FacetRange.withStartEnd(4.0, 8.0))
+    .addRange(FacetRange.withStart(8.0)))
+  .setFacetOptions(FacetOptions.newBuilder()
+    .setDiscoveryLimit(5)
+    .setDiscoveryValueLimit(10)
+    .setDepth(6000).build());
+  .build(some_query);
+</div><div class="table-wrapper"><table class="wide" id="mii43y_76"><thead><tr class="ijRowHead" id="mii43y_81"><th id="mii43y_85"><p>Parameter</p></th><th id="mii43y_86"><p>Description</p></th><th id="mii43y_87"><p>Default</p></th></tr></thead><tbody><tr id="mii43y_82"><td id="mii43y_88"><p><code class="code" id="mii43y_91">DiscoveryLimit</code></p></td><td id="mii43y_89"><p>Number of facets to discover if facet discovery is turned on. If 0, discover facets will be disabled.</p></td><td id="mii43y_90"><p>10</p></td></tr><tr id="mii43y_83"><td id="mii43y_92"><p><code class="code" id="mii43y_95">DiscoveryValueLimit</code></p></td><td id="mii43y_93"><p>Number of values to be returned for each of the top discovered facets.</p></td><td id="mii43y_94"><p>10</p></td></tr><tr id="mii43y_84"><td id="mii43y_96"><p><code class="code" id="mii43y_99">Depth</code></p></td><td id="mii43y_97"><p>The minimum number of documents in query results to evaluate to gather facet information.</p></td><td id="mii43y_98"><p>1000</p></td></tr></tbody></table></div><p id="mii43y_77">The <code class="code" id="mii43y_100">Depth</code> option applies to all three kinds of facet aggregation: by name, name and value, and auto-discovery. The other options are for auto-discovery only.</p><p id="mii43y_78">Note that facet depth is usually much greater than the query limit. Facet results are computed to at least the depth number of documents. If you have set the sort options scoring limit higher than depth, than the scoring limit will be used instead.</p></section></section><section class="chapter"><h2 id="retrieving-facet-results" data-toc="retrieving-facet-results">Retrieving facet results</h2><p id="mii43y_101">When you use faceted search parameters in a query, the aggregated facet information comes with the query result itself.</p><p id="mii43y_102">A query will have a list of <code class="code" id="mii43y_112">FacetResult</code>. There will be one result in the list for each facet that appeared in a document that matched your query. For each result, you'll get:</p><ul class="list _bullet" id="mii43y_103"><li class="list__item" id="mii43y_113"><p id="mii43y_115">The facet name</p></li><li class="list__item" id="mii43y_114"><p id="mii43y_116">A list of the most frequent values for the facet, for each value there is a count of how many times it appeared, and a refinement key that can be used to retrieve the documents that match this query and facet value.</p></li></ul><p id="mii43y_104">Note that the values list will include a facet's string <span class="emphasis" id="mii43y_117">and</span> numeric values. If the facet was auto-discovered, its numeric values are returned as a single interval \[min max). If you explicitly asked for a numeric facet with one or more ranges in your query, the list will contain one closed-open interval \[start end) for each range.</p><p id="mii43y_105">The list of facet values might not include all of the values found in your documents, since query options determine how many documents to examine and how many values to return.</p><p id="mii43y_106">The aggregated information for each facet can be read from the search results:</p><div class="code-block" data-lang="none">
+Results&lt;ScoredDocument&gt; results = index.search(...);
+for (FacetResult facetInfo : results.getFacets()) {
+  ...
+}
+</div><p id="mii43y_108">For example, a query may have found documents that included a &quot;size&quot; facet with the string values and numeric values. The FacetResult for this facet will be constructed like this:</p><div class="code-block" data-lang="none">
+FacetResult.newBuilder()
+        .setName(&quot;size&quot;)
+        .addValue(FacetResultValue.create(&quot;[8, 10)&quot;, 22, refinement_key)
+        .addValue(FacetResultValue.create(&quot;small&quot;, 100, refinement_key)
+        .addValue(FacetResultValue.create(&quot;medium&quot;, 300, refinement_key)
+        .addValue(FacetResultValue.create(&quot;large&quot;, 250, refinement_key).build());
+</div><p id="mii43y_110">FacetResultValue.label is constructed from a facet value. Numeric values are returned as a &quot;stringified&quot; representation of a range.</p><p id="mii43y_111">The <code class="code" id="mii43y_118">refinement_key</code> is a web/url safe string that can be used in a later query to retrieve the documents matching that result's facet name and value.</p></section><section class="chapter"><h2 id="using-facets-to-refine-filter-a-query" data-toc="using-facets-to-refine-filter-a-query">Using facets to refine/filter a query</h2><div class="code-block" data-lang="none">
+Query query = Query.newBuilder()
+  .addFacetRefinementFromToken(refinement_key1)
+  .addFacetRefinementFromToken(refinement_key2)
+  .addFacetRefinementFromToken(refinement_key3)
+  .build(some_query);
+</div><p id="mii43y_120">You can combine refinements for one or more different facets in the same request. All the refinements belonging to the same facet are joined with an OR. Refinements for different facets are combined with AND.</p><p id="mii43y_121">It is also possible to create a custom <code class="code" id="mii43y_122">FacetRefinement</code> key by hand. Please see the class documentation for more information.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="handling-search-results.html" class="navigation-links__prev">Handling Search Results</a><a href="search-best-practices.html" class="navigation-links__next">Search Best Practices</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

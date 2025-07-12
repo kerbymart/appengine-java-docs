@@ -1,0 +1,327 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:46.365415497"><title>Metadata | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"contents","level":0,"title":"Contents","anchor":"#contents"},{"id":"entity-group-metadata","level":0,"title":"Entity group metadata","anchor":"#entity-group-metadata"},{"id":"metadata-queries","level":0,"title":"Metadata queries","anchor":"#metadata-queries"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Metadata | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/metadata.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Metadata | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/metadata.html#webpage",
+    "url": "writerside-documentation/metadata.html",
+    "name": "Metadata | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Metadata" data-main-title="Metadata" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Google-Cloud-Datastore.md|Google Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Metadata" id="Metadata.md">Metadata</h1><p id="-ofcqo2_3">The App Engine Datastore provides programmatic access to some of its metadata to support metaprogramming, implementing backend administrative functions, simplify consistent caching, and similar purposes; you can use it, for instance, to build a custom datastore viewer for your application. The metadata available includes information about the entity groups, namespaces, entity kinds, and properties your application uses, as well as the <span id="-ofcqo2_9">property representations</span> for each property.</p><p id="-ofcqo2_4">The <a href="https://web.archive.org/web/20160424230438/https://console.cloud.google.com/project/_/datastore/stats" id="-ofcqo2_10" data-external="true" rel="noopener noreferrer" target="_blank">Cloud Datastore Dashboard</a> in the Cloud Platform Console also provides some metadata about your application, but the data displayed there differs in some important respects from that returned by these functions.</p><ul class="list _bullet" id="-ofcqo2_5"><li class="list__item" id="-ofcqo2_11"><p id="-ofcqo2_14"><span class="control" id="-ofcqo2_15">Freshness.</span> Reading metadata using the API gets current data, whereas data in the dashboard is updated only once daily.</p></li><li class="list__item" id="-ofcqo2_12"><p id="-ofcqo2_16"><span class="control" id="-ofcqo2_17">Contents.</span> Some metadata in the dashboard is not available via the APIs; the reverse is also true.</p></li><li class="list__item" id="-ofcqo2_13"><p id="-ofcqo2_18"><span class="control" id="-ofcqo2_19">Speed.</span> Metadata gets and queries are <a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/pricing#costs-for-datastore-calls" id="-ofcqo2_20" data-external="true" rel="noopener noreferrer" target="_blank">billed in the same way as datastore gets and queries</a>. Metadata queries that fetch information on namespaces, kinds, and properties are generally slow to execute. As a rule of thumb, expect a metadata query that returns <span class="emphasis" id="-ofcqo2_21">N</span> entities to take about the same time as <span class="emphasis" id="-ofcqo2_22">N</span> ordinary queries each returning a single entity. Furthermore, <span id="-ofcqo2_23">property representation queries</span> (non-keys-only property queries) are slower than <span id="-ofcqo2_24">keys-only property queries</span>. Metadata gets of entity group metadata are somewhat faster than getting a regular entity.</p></li></ul><section class="chapter"><h2 id="contents" data-toc="contents">Contents</h2><ol class="list _decimal" id="-ofcqo2_25" type="1"><li class="list__item" id="-ofcqo2_26"><p id="-ofcqo2_28"><span id="-ofcqo2_29">Entity group metadata</span></p></li><li class="list__item" id="-ofcqo2_27"><p id="-ofcqo2_30"><span id="-ofcqo2_32">Metadata queries</span></p><ul class="list _bullet" id="-ofcqo2_31"><li class="list__item" id="-ofcqo2_33"><p id="-ofcqo2_36"><span id="-ofcqo2_37">Namespace queries</span></p></li><li class="list__item" id="-ofcqo2_34"><p id="-ofcqo2_38"><span id="-ofcqo2_39">Kind queries</span></p></li><li class="list__item" id="-ofcqo2_35"><p id="-ofcqo2_40"><span id="-ofcqo2_42">Property queries</span></p><ul class="list _bullet" id="-ofcqo2_41"><li class="list__item" id="-ofcqo2_43"><p id="-ofcqo2_45"><span id="-ofcqo2_46">Property queries: keys-only</span></p></li><li class="list__item" id="-ofcqo2_44"><p id="-ofcqo2_47"><span id="-ofcqo2_48">Property queries: non-keys-only (property representation)</span></p></li></ul></li></ul></li></ol></section><section class="chapter"><h2 id="entity-group-metadata" data-toc="entity-group-metadata">Entity group metadata</h2><p id="-ofcqo2_49">The High-Replication Datastore provides access to the &quot;version&quot; of an entity group, a strictly positive number that is guaranteed to increase on every change to the entity group. Entity group versions can be used, e.g., to easily write code to keep a consistent cache of a complex ancestor query on an entity group.</p><p id="-ofcqo2_50">Entity group versions are obtained by calling <code class="code" id="-ofcqo2_56">get()</code> on a special pseudo-entity that contains a strictly positive <code class="code" id="-ofcqo2_57">__version__</code> property. The pseudo-entity's key can be created using the <a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Entities#createEntityGroupKey()" id="-ofcqo2_58" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_59">Entities.createEntityGroupKey()</code></a> method:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+
+import java.io.PrintWriter;
+
+long getEntityGroupVersion(DatastoreService ds, Transaction tx, Key entityKey) {
+  try {
+    return Entities.getVersionProperty(
+        ds.get(tx, Entities.createEntityGroupKey(entityKey)));
+  } catch (EntityNotFoundException e) {
+    // No entity group information, return a value strictly smaller than any
+    // possible version
+    return 0;
+  }
+}
+
+void testEntityGroupVersions(DatastoreService ds, PrintWriter writer) {
+  Entity entity1 = new Entity(&quot;Simple&quot;);
+  Key key1 = ds.put(entity1);
+  Key entityGroupKey = Entities.createEntityGroupKey(key1);
+
+  // Print entity1's entity group version
+  writer.println(&quot;version &quot; + getEntityGroupVersion(ds, null, key1));
+
+  // Write to a different entity group
+  Entity entity2 = new Entity(&quot;Simple&quot;);
+  ds.put(entity2);
+
+  // Will print the same version, as entity1's entity group has not changed
+  writer.println(&quot;version &quot; + getEntityGroupVersion(ds, null, key1));
+
+  // Change entity1's entity group by adding a new child entity
+  Entity entity3 = new Entity(&quot;Simple&quot;, entity1.getKey());
+  ds.put(entity3);
+
+  // Will print a higher version, as entity1's entity group has changed
+  writer.println(&quot;version &quot; + getEntityGroupVersion(ds, null, key1));
+}
+</div><p id="-ofcqo2_52">This example caches query results (a count of matching results) and uses entity group versions to ensure that it only uses the cached value if current:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.memcache.MemcacheService;
+
+import java.io.PrintWriter;
+import java.io.Serializable;
+
+// Reuses getEntityGroupVersion method from the previous example.
+
+// A simple class for tracking consistent entity group counts
+class EntityGroupCount implements Serializable {
+  long version; // Version of the entity group whose count we are tracking
+  int count;
+  EntityGroupCount(long version, int count) {
+    this.version = version;
+    this.count = count;
+  }
+}
+
+// Display count of entities in an entity group, with consistent caching
+void showEntityGroupCount(DatastoreService ds, MemcacheService cache, PrintWriter writer,
+                          Key entityGroupKey) {
+  EntityGroupCount egCount = (EntityGroupCount) cache.get(entityGroupKey);
+  if (egCount != null &amp;&amp; egCount.version == getEntityGroupVersion(ds, null, entityGroupKey)) {
+    // Cached value matched current entity group version, use that
+    writer.println(egCount.count + &quot; entities (cached)&quot;);
+  } else {
+    // Need to actually count entities. Using a transaction to get a consistent count
+    // and entity group version.
+    Transaction tx = ds.beginTransaction();
+    PreparedQuery pq = ds.prepare(tx, new Query(entityGroupKey));
+    int count = pq.countEntities(FetchOptions.Builder.withLimit(5000));
+    cache.put(entityGroupKey,
+              new EntityGroupCount(getEntityGroupVersion(ds, tx, entityGroupKey), count));
+    tx.rollback();
+    writer.println(count + &quot; entities&quot;);
+  }
+}
+</div><p id="-ofcqo2_54"><code class="code" id="-ofcqo2_60">__entity_group__</code> entities may not exist for entity groups which have never been written to.</p><p id="-ofcqo2_55">The entity group version is guaranteed to increase on any change to the entity group; it may also (rarely) increase in the absence of user-visible changes.</p></section><section class="chapter"><h2 id="metadata-queries" data-toc="metadata-queries">Metadata queries</h2><p id="-ofcqo2_61">The Java class <a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Entities" id="-ofcqo2_70" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_73">Entities</code></a>, defined in the <a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/package-summary" id="-ofcqo2_71" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_74">com.google.appengine.api.datastore</code></a> package, provides three special entity kinds that are reserved for metadata queries. They are denoted by static constants of the <code class="code" id="-ofcqo2_72">Entities</code> class:</p><div class="table-wrapper"><table class="wide" id="-ofcqo2_62"><thead><tr class="ijRowHead" id="-ofcqo2_75"><th id="-ofcqo2_79"><p>Static constant</p></th><th id="-ofcqo2_80"><p>Entity kind</p></th></tr></thead><tbody><tr id="-ofcqo2_76"><td id="-ofcqo2_81"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Entities#NAMESPACE_METADATA_KIND" id="-ofcqo2_83" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_84">Entities.NAMESPACE_METADATA_KIND</code></a></p></td><td id="-ofcqo2_82"><p><code class="code" id="-ofcqo2_85">__namespace__</code></p></td></tr><tr id="-ofcqo2_77"><td id="-ofcqo2_86"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Entities#KIND_METADATA_KIND" id="-ofcqo2_88" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_89">Entities.KIND_METADATA_KIND</code></a></p></td><td id="-ofcqo2_87"><p><code class="code" id="-ofcqo2_90">__kind__</code></p></td></tr><tr id="-ofcqo2_78"><td id="-ofcqo2_91"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Entities#PROPERTY_METADATA_KIND" id="-ofcqo2_93" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_94">Entities.PROPERTY_METADATA_KIND</code></a></p></td><td id="-ofcqo2_92"><p><code class="code" id="-ofcqo2_95">__property__</code></p></td></tr></tbody></table></div><p id="-ofcqo2_63">These kinds will not conflict with others of the same names that may already exist in your application. By querying on these special kinds, you can retrieve entities containing the desired metadata.</p><p id="-ofcqo2_64">The entities returned by metadata queries are generated dynamically, based on the current state of the Datastore. While you can create local `Entity` objects of kinds `__namespace__`, `__kind__`, or <code class="code" id="-ofcqo2_96">__property__</code>, any attempt to store them in the Datastore will fail with an <a href="https://web.archive.org/web/20160424230438/http://docs.oracle.com/javase/6/docs/api/java/lang/IllegalArgumentException.html" id="-ofcqo2_97" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_98">IllegalArgumentException</code></a>.</p><p id="-ofcqo2_65">The easiest way to issue metadata queries is with the <a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/package-summary" id="-ofcqo2_99" data-external="true" rel="noopener noreferrer" target="_blank">low-level Datastore API</a>. The following example prints the names of all namespaces in an application:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+
+void printAllNamespaces(DatastoreService ds, PrintWriter writer) {
+
+  Query q = new Query(Entities.NAMESPACE_METADATA_KIND);
+
+  for (Entity e : ds.prepare(q).asIterable()) {
+    // A nonzero numeric id denotes the default namespace;
+    // see &lt;a href=&quot;#Namespace_Queries&quot;&gt;Namespace Queries&lt;/a&gt;, below
+    if (e.getKey().getId() != 0) {
+      writer.println(&quot;&lt;default&gt;&quot;);
+    } else {
+      writer.println(e.getKey().getName());
+    }
+  }
+</div><section class="chapter"><h3 id="namespace-queries" data-toc="namespace-queries">Namespace queries</h3><p id="-ofcqo2_100">If your application uses the <a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/multitenancy" id="-ofcqo2_104" data-external="true" rel="noopener noreferrer" target="_blank">Namespaces API</a>, you can use a <span class="emphasis" id="-ofcqo2_105">namespace query</span> to find all namespaces used in the application's entities. This allows you to perform activities such as administrative functions across multiple namespaces.</p><p id="-ofcqo2_101">Namespace queries return entities of the special kind <code class="code" id="-ofcqo2_106">__namespace__</code> whose key name is the name of a namespace. (An exception is the default namespace designated by the empty string <code class="code" id="-ofcqo2_107">&quot;&quot;</code>: since the empty string is not a valid key name, this namespace is keyed with the numeric ID <code class="code" id="-ofcqo2_108">1</code> instead.) Queries of this type support filtering only for ranges over the special pseudoproperty <code class="code" id="-ofcqo2_109">__key__</code>, whose value is the entity's key. The results can be sorted by ascending (but not descending) <code class="code" id="-ofcqo2_110">__key__</code> value. Because <code class="code" id="-ofcqo2_111">__namespace__</code> entities have no properties, both keys-only and non-keys-only queries return the same information.</p><p id="-ofcqo2_102">The following example returns a list of an application's namespaces in the range between two specified names, <code class="code" id="-ofcqo2_112">start</code> and <code class="code" id="-ofcqo2_113">end</code>:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+
+import java.util.ArrayList;
+import java.util.List;
+
+List&lt;String&gt; getNamespaces(DatastoreService ds, String start, String end) {
+
+  // Start with unrestricted namespace query
+  Query q = new Query(Entities.NAMESPACE_METADATA_KIND);
+  List&lt;Filter&gt; subFilters = new ArrayList();
+  // Limit to specified range, if any
+  if (start != null) {
+    subFilters.add(new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+                Query.FilterOperator.GREATER_THAN_OR_EQUAL,
+                Entities.createNamespaceKey(start)));
+  }
+  if (end != null) {
+    subFilters.add(new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+                Query.FilterOperator.LESS_THAN_OR_EQUAL,
+                Entities.createNamespaceKey(end)));
+  }
+
+  q.setFilter(CompositeFilterOperator.and(subFilters));
+
+  // Initialize result list
+  List&lt;String&gt; results = new ArrayList&lt;String&gt;();
+
+  // Build list of query results
+  for (Entity e : ds.prepare(q).asIterable()) {
+    results.add(Entities.getNamespaceFromNamespaceKey(e.getKey()));
+  }
+
+  // Return result list
+  return results;
+}
+</div></section><section class="chapter"><h3 id="kind-queries" data-toc="kind-queries">Kind queries</h3><p id="-ofcqo2_114"><span class="emphasis" id="-ofcqo2_117">Kind queries</span> return entities of kind <code class="code" id="-ofcqo2_118">__kind__</code> whose key name is the name of an entity kind. Queries of this type are implicitly restricted to the current namespace and support filtering only for ranges over the <code class="code" id="-ofcqo2_119">__key__</code> pseudoproperty. The results can be sorted by ascending (but not descending) <code class="code" id="-ofcqo2_120">__key__</code> value. Because <code class="code" id="-ofcqo2_121">__kind__</code> entities have no properties, both keys-only and non-keys-only queries return the same information.</p><p id="-ofcqo2_115">The following example prints all kinds whose names start with a lowercase letter:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+
+import java.io.PrintWriter;
+
+void printLowercaseKinds(DatastoreService ds, PrintWriter writer) {
+
+  // Start with unrestricted kind query
+  Query q = new Query(Entities.KIND_METADATA_KIND);
+
+  List&lt;Filter&gt; subFils = new ArrayList();
+
+  // Limit to lowercase initial letters
+  subFils.add(new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+              Query.FilterOperator.GREATER_THAN_OR_EQUAL,
+              Entities.createKindKey(&quot;a&quot;)));
+
+  String endChar = Character.toString((char)('z' + 1));   // Character after 'z'
+
+  subFils.add(new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+              Query.FilterOperator.LESS_THAN,
+              Entities.createKindKey(endChar)));
+
+  q.setFilter(CompositeFilterOperator.and(subFils));
+
+  // Print heading
+  writer.println(&quot;Lowercase kinds:&quot;);
+
+  // Print query results
+  for (Entity e : ds.prepare(q).asIterable()) {
+    writer.println(&quot;  &quot; + e.getKey().getName());
+  }
+}
+</div></section><section class="chapter"><h3 id="property-queries" data-toc="property-queries">Property queries</h3><p id="-ofcqo2_122"><span class="emphasis" id="-ofcqo2_127">Property queries</span> return entities of kind <code class="code" id="-ofcqo2_128">__property__</code> denoting the properties associated with an entity kind. The entity representing property <span class="emphasis" id="-ofcqo2_129">P</span> of kind <span class="emphasis" id="-ofcqo2_130">K</span> is built as follows:</p><ul class="list _bullet" id="-ofcqo2_123"><li class="list__item" id="-ofcqo2_131"><p id="-ofcqo2_133">The entity's key has kind <code class="code" id="-ofcqo2_134">__property__</code> and key name <span class="emphasis" id="-ofcqo2_135">P</span>.</p></li><li class="list__item" id="-ofcqo2_132"><p id="-ofcqo2_136">The parent entity's key has kind <code class="code" id="-ofcqo2_137">__kind__</code> and key name <span class="emphasis" id="-ofcqo2_138">K</span>.</p></li></ul><p id="-ofcqo2_124">The behavior of a property query depends on whether it is a <span id="-ofcqo2_139">keys-only</span> or a <span id="-ofcqo2_140">non-keys-only (property representation)</span> query, as detailed in the subsections below.</p><section class="chapter"><h4 id="property-queries-keys-only" data-toc="property-queries-keys-only">Property queries: keys-only</h4><p id="-ofcqo2_141"><span class="emphasis" id="-ofcqo2_153">Keys-only property queries</span> return a key for each indexed property of a specified entity kind. (Unindexed properties are not included.) The following example prints the names of all of an application's entity kinds and the properties associated with each:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query;
+
+import java.io.PrintWriter;
+
+void printProperties(DatastoreService ds, PrintWriter writer) {
+
+  // Create unrestricted keys-only property query
+  q = new Query(Entities.PROPERTY_METADATA_KIND).setKeysOnly();
+
+  // Print query results
+  for (Entity e : ds.prepare(q).asIterable()) {
+    writer.println(e.getKey().getParent().getName()
+                     + &quot;: &quot;
+                     + e.getKey().getName());
+  }
+}
+</div><p id="-ofcqo2_143">Queries of this type are implicitly restricted to the current namespace and support filtering only for ranges over the pseudoproperty <code class="code" id="-ofcqo2_154">__key__</code>, where the keys denote either <code class="code" id="-ofcqo2_155">__kind__</code> or <code class="code" id="-ofcqo2_156">__property__</code> entities. The results can be sorted by ascending (but not descending) <code class="code" id="-ofcqo2_157">__key__</code> value. Filtering is applied to kind-property pairs, ordered first by kind and second by property: for instance, suppose you have an entity with these properties:</p><ul class="list _bullet" id="-ofcqo2_144"><li class="list__item" id="-ofcqo2_158"><p id="-ofcqo2_163">kind <code class="code" id="-ofcqo2_165">Account</code> with properties</p><ul class="list _bullet" id="-ofcqo2_164"><li class="list__item" id="-ofcqo2_166"><p id="-ofcqo2_168"><code class="code" id="-ofcqo2_169">balance</code></p></li><li class="list__item" id="-ofcqo2_167"><p id="-ofcqo2_170"><code class="code" id="-ofcqo2_171">company</code></p></li></ul></li><li class="list__item" id="-ofcqo2_159"><p id="-ofcqo2_172">kind <code class="code" id="-ofcqo2_174">Employee</code> with properties</p><ul class="list _bullet" id="-ofcqo2_173"><li class="list__item" id="-ofcqo2_175"><p id="-ofcqo2_177"><code class="code" id="-ofcqo2_178">name</code></p></li><li class="list__item" id="-ofcqo2_176"><p id="-ofcqo2_179"><code class="code" id="-ofcqo2_180">ssn</code></p></li></ul></li><li class="list__item" id="-ofcqo2_160"><p id="-ofcqo2_181">kind <code class="code" id="-ofcqo2_183">Invoice</code> with properties</p><ul class="list _bullet" id="-ofcqo2_182"><li class="list__item" id="-ofcqo2_184"><p id="-ofcqo2_186"><code class="code" id="-ofcqo2_187">date</code></p></li><li class="list__item" id="-ofcqo2_185"><p id="-ofcqo2_188"><code class="code" id="-ofcqo2_189">amount</code></p></li></ul></li><li class="list__item" id="-ofcqo2_161"><p id="-ofcqo2_190">kind <code class="code" id="-ofcqo2_192">Manager</code> with properties</p><ul class="list _bullet" id="-ofcqo2_191"><li class="list__item" id="-ofcqo2_193"><p id="-ofcqo2_195"><code class="code" id="-ofcqo2_196">name</code></p></li><li class="list__item" id="-ofcqo2_194"><p id="-ofcqo2_197"><code class="code" id="-ofcqo2_198">title</code></p></li></ul></li><li class="list__item" id="-ofcqo2_162"><p id="-ofcqo2_199">kind <code class="code" id="-ofcqo2_201">Product</code> with properties</p><ul class="list _bullet" id="-ofcqo2_200"><li class="list__item" id="-ofcqo2_202"><p id="-ofcqo2_204"><code class="code" id="-ofcqo2_205">description</code></p></li><li class="list__item" id="-ofcqo2_203"><p id="-ofcqo2_206"><code class="code" id="-ofcqo2_207">price</code></p></li></ul></li></ul><p id="-ofcqo2_145">The query to return the property data would look like this:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+
+import java.io.PrintWriter;
+
+
+void printPropertyRange(DatastoreService ds, PrintWriter writer) {
+
+  // Start with unrestricted keys-only property query
+  q = new Query(Entities.PROPERTY_METADATA_KIND).setKeysOnly();
+
+  // Limit range
+  q.setFilter(CompositeFilterOperator.and(
+              new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+              Query.FilterOperator.GREATER_THAN_OR_EQUAL,
+              Entities.createPropertyKey(&quot;Employee&quot;, &quot;salary&quot;)),
+              new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+              Query.FilterOperator.LESS_THAN_OR_EQUAL,
+              Entities.createPropertyKey(&quot;Manager&quot;, &quot;salary&quot;))));
+
+
+  // Print query results
+  for (Entity e : ds.prepare(q).asIterable()) {
+    writer.println(e.getKey().getParent().getName()
+                     + &quot;: &quot;
+                     + e.getKey().getName());
+  }
+}
+</div><p id="-ofcqo2_147">The above query would return the following:</p><div class="code-block" data-lang="none">
+Employee: ssn
+Invoice: date
+Invoice: amount
+Manager: name
+</div><p id="-ofcqo2_149">Notice that the results do not include the <code class="code" id="-ofcqo2_208">name</code> property of kind <code class="code" id="-ofcqo2_209">Employee</code> and the <code class="code" id="-ofcqo2_210">title</code> property of kind <code class="code" id="-ofcqo2_211">Manager</code>, nor any properties of kinds <code class="code" id="-ofcqo2_212">Account</code> and <code class="code" id="-ofcqo2_213">Product</code>, because they fall outside the range specified for the query.</p><p id="-ofcqo2_150"><span class="control" id="-ofcqo2_214">Note:</span> Since the <code class="code" id="-ofcqo2_215">__key__</code> kind filters on kind-property pairs, you can't use a single query for the same property name in different kinds. You can query for all properties in all kinds (or in a range of kinds), but you cannot construct a single query that retrieves, for example, all properties with names between <span class="emphasis" id="-ofcqo2_216">m</span> and <span class="emphasis" id="-ofcqo2_217">q</span> in all kinds (or in kinds <span class="emphasis" id="-ofcqo2_218">A</span> and <span class="emphasis" id="-ofcqo2_219">B</span>).</p><p id="-ofcqo2_151">Property queries also support ancestor filtering on a <code class="code" id="-ofcqo2_220">__kind__</code> or <code class="code" id="-ofcqo2_221">__property__</code> key, to limit the query results to a single kind or property. You can use this, for instance, to get the properties associated with a given entity kind, as in the following example:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+
+List&lt;String&gt; propertiesOfKind(DatastoreService ds, String kind) {
+
+  // Start with unrestricted keys-only property query
+  Query q = new Query(Entities.PROPERTY_METADATA_KIND).setKeysOnly();
+
+  // Limit to specified kind
+  q.setAncestor(Entities.createKindKey(kind));
+
+  // Initialize result list
+  ArrayList&lt;String&gt; results = new ArrayList&lt;String&gt;();
+
+  //Build list of query results
+  for (Entity e : ds.prepare(q).asIterable()) {
+    results.add(e.getKey().getName());
+  }
+
+  // Return result list
+  return results;
+}
+</div></section><section class="chapter"><h4 id="property-queries-non-keys-only-property-representation" data-toc="property-queries-non-keys-only-property-representation">Property queries: non-keys-only (property representation)</h4><p id="-ofcqo2_222">Non-keys-only property queries, known as <span class="emphasis" id="-ofcqo2_228">property representation queries</span>, return additional information on the representations used by each kind-property pair. (Unindexed properties are not included.) The entity returned for property <span class="emphasis" id="-ofcqo2_229">P</span> of kind <span class="emphasis" id="-ofcqo2_230">K</span> has the same key as for a corresponding <span id="-ofcqo2_231">keys-only query</span>, along with an additional <code class="code" id="-ofcqo2_232">property_representation</code> property returning the property's representations. The value of this property is an instance of class <a href="https://web.archive.org/web/20160424230438/http://docs.oracle.com/javase/6/docs/api/java/util/Collection.html" id="-ofcqo2_233" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_236">java.util.Collection&lt;String&gt;</code></a> containing one string for each representation of property <span class="emphasis" id="-ofcqo2_234">P</span> found in any entity of kind <span class="emphasis" id="-ofcqo2_235">K</span>.</p><p id="-ofcqo2_223">Note that representations are not the same as property classes; multiple property classes can map to the same representation. (For example, <a href="https://web.archive.org/web/20160424230438/http://docs.oracle.com/javase/6/docs/api/java/lang/String.html" id="-ofcqo2_237" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_240">java.lang.String</code></a> and <a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/PhoneNumber" id="-ofcqo2_238" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_241">com.google.appengine.api.datastore.PhoneNumber</code></a> both use the <code class="code" id="-ofcqo2_239">STRING</code> representation.)</p><p id="-ofcqo2_224">The following table maps from property classes to their representations:</p><div class="table-wrapper"><table class="wide" id="-ofcqo2_225"><thead><tr class="ijRowHead" id="-ofcqo2_242"><th id="-ofcqo2_265"><p>Property class</p></th><th id="-ofcqo2_266"><p>Representation</p></th></tr></thead><tbody><tr id="-ofcqo2_243"><td id="-ofcqo2_267"><p><code class="code" id="-ofcqo2_269">java.lang.Byte</code></p></td><td id="-ofcqo2_268"><p><code class="code" id="-ofcqo2_270">INT64</code></p></td></tr><tr id="-ofcqo2_244"><td id="-ofcqo2_271"><p><code class="code" id="-ofcqo2_273">java.lang.Short</code></p></td><td id="-ofcqo2_272"><p><code class="code" id="-ofcqo2_274">INT64</code></p></td></tr><tr id="-ofcqo2_245"><td id="-ofcqo2_275"><p><code class="code" id="-ofcqo2_277">java.lang.Integer</code></p></td><td id="-ofcqo2_276"><p><code class="code" id="-ofcqo2_278">INT64</code></p></td></tr><tr id="-ofcqo2_246"><td id="-ofcqo2_279"><p><code class="code" id="-ofcqo2_281">java.lang.Long</code></p></td><td id="-ofcqo2_280"><p><code class="code" id="-ofcqo2_282">INT64</code></p></td></tr><tr id="-ofcqo2_247"><td id="-ofcqo2_283"><p><code class="code" id="-ofcqo2_285">java.lang.Float</code></p></td><td id="-ofcqo2_284"><p><code class="code" id="-ofcqo2_286">DOUBLE</code></p></td></tr><tr id="-ofcqo2_248"><td id="-ofcqo2_287"><p><code class="code" id="-ofcqo2_289">java.lang.Double</code></p></td><td id="-ofcqo2_288"><p><code class="code" id="-ofcqo2_290">DOUBLE</code></p></td></tr><tr id="-ofcqo2_249"><td id="-ofcqo2_291"><p><code class="code" id="-ofcqo2_293">java.lang.Boolean</code></p></td><td id="-ofcqo2_292"><p><code class="code" id="-ofcqo2_294">BOOLEAN</code></p></td></tr><tr id="-ofcqo2_250"><td id="-ofcqo2_295"><p><code class="code" id="-ofcqo2_297">java.lang.String</code></p></td><td id="-ofcqo2_296"><p><code class="code" id="-ofcqo2_298">STRING</code></p></td></tr><tr id="-ofcqo2_251"><td id="-ofcqo2_299"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/ShortBlob" id="-ofcqo2_301" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_302">com.google.appengine.api.datastore.ShortBlob</code></a></p></td><td id="-ofcqo2_300"><p><code class="code" id="-ofcqo2_303">STRING</code></p></td></tr><tr id="-ofcqo2_252"><td id="-ofcqo2_304"><p><code class="code" id="-ofcqo2_306">java.util.Date</code></p></td><td id="-ofcqo2_305"><p><code class="code" id="-ofcqo2_307">INT64</code></p></td></tr><tr id="-ofcqo2_253"><td id="-ofcqo2_308"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/GeoPt" id="-ofcqo2_310" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_311">com.google.appengine.api.datastore.GeoPt</code></a></p></td><td id="-ofcqo2_309"><p><code class="code" id="-ofcqo2_312">POINT</code></p></td></tr><tr id="-ofcqo2_254"><td id="-ofcqo2_313"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/PostalAddress" id="-ofcqo2_315" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_316">com.google.appengine.api.datastore.PostalAddress</code></a></p></td><td id="-ofcqo2_314"><p><code class="code" id="-ofcqo2_317">STRING</code></p></td></tr><tr id="-ofcqo2_255"><td id="-ofcqo2_318"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/PhoneNumber" id="-ofcqo2_320" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_321">com.google.appengine.api.datastore.PhoneNumber</code></a></p></td><td id="-ofcqo2_319"><p><code class="code" id="-ofcqo2_322">STRING</code></p></td></tr><tr id="-ofcqo2_256"><td id="-ofcqo2_323"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Email" id="-ofcqo2_325" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_326">com.google.appengine.api.datastore.Email</code></a></p></td><td id="-ofcqo2_324"><p><code class="code" id="-ofcqo2_327">STRING</code></p></td></tr><tr id="-ofcqo2_257"><td id="-ofcqo2_328"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/users/User" id="-ofcqo2_330" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_331">com.google.appengine.api.users.User</code></a></p></td><td id="-ofcqo2_329"><p><code class="code" id="-ofcqo2_332">USER</code></p></td></tr><tr id="-ofcqo2_258"><td id="-ofcqo2_333"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/IMHandle" id="-ofcqo2_335" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_336">com.google.appengine.api.datastore.IMHandle</code></a></p></td><td id="-ofcqo2_334"><p><code class="code" id="-ofcqo2_337">STRING</code></p></td></tr><tr id="-ofcqo2_259"><td id="-ofcqo2_338"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Link" id="-ofcqo2_340" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_341">com.google.appengine.api.datastore.Link</code></a></p></td><td id="-ofcqo2_339"><p><code class="code" id="-ofcqo2_342">STRING</code></p></td></tr><tr id="-ofcqo2_260"><td id="-ofcqo2_343"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Category" id="-ofcqo2_345" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_346">com.google.appengine.api.datastore.Category</code></a></p></td><td id="-ofcqo2_344"><p><code class="code" id="-ofcqo2_347">STRING</code></p></td></tr><tr id="-ofcqo2_261"><td id="-ofcqo2_348"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Rating" id="-ofcqo2_350" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_351">com.google.appengine.api.datastore.Rating</code></a></p></td><td id="-ofcqo2_349"><p><code class="code" id="-ofcqo2_352">INT64</code></p></td></tr><tr id="-ofcqo2_262"><td id="-ofcqo2_353"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/Key" id="-ofcqo2_355" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_356">com.google.appengine.api.datastore.Key</code></a></p></td><td id="-ofcqo2_354"><p><code class="code" id="-ofcqo2_357">REFERENCE</code></p></td></tr><tr id="-ofcqo2_263"><td id="-ofcqo2_358"><p><a href="https://web.archive.org/web/20160424230438/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/blobstore/BlobKey" id="-ofcqo2_360" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-ofcqo2_361">com.google.appengine.api.blobstore.BlobKey</code></a></p></td><td id="-ofcqo2_359"><p><code class="code" id="-ofcqo2_362">STRING</code></p></td></tr><tr id="-ofcqo2_264"><td id="-ofcqo2_363"><p><code class="code" id="-ofcqo2_365">java.util.Collection&lt;T&gt;</code></p></td><td id="-ofcqo2_364"><p>Representation of <code class="code" id="-ofcqo2_366">T</code></p></td></tr></tbody></table></div><p id="-ofcqo2_226">The following example finds all representations of a specified property for a given entity kind:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entities;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+
+import java.util.Collection;
+
+Collection&lt;String&gt; representationsOfProperty(DatastoreService ds,
+                                             String kind,
+                                             String property) {
+
+  // Start with unrestricted non-keys-only property query
+  Query q = new Query(Entities.PROPERTY_METADATA_KIND);
+
+  // Limit to specified kind and property
+  q.setFilter(new FilterPredicate('__key__',  Query.FilterOperator.EQUAL, Entities.createPropertyKey(kind, property)));
+
+  // Get query result
+  Entity propInfo = ds.prepare(q).asSingleEntity();
+
+  // Return collection of property representations
+  return (Collection&lt;String&gt;) propInfo.getProperty(&quot;property_representation&quot;);
+}
+</div></section></section></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="structuring-data-for-strong-consistency.html" class="navigation-links__prev">Structuring Data for Strong Consistency</a><a href="datastore-statistics-in-java.html" class="navigation-links__next">Datastore Statistics in Java</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

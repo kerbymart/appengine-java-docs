@@ -1,0 +1,196 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.142178014"><title>Using JDO 3.0 with App Engine | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"contents","level":0,"title":"Contents","anchor":"#contents"},{"id":"build-tools-and-ides-supporting-jdo-2-x-and-3-0","level":0,"title":"Build tools and IDEs supporting JDO 2.x and 3.0","anchor":"#build-tools-and-ides-supporting-jdo-2-x-and-3-0"},{"id":"migrating-to-version-2-x-of-the-datanucleus-plugin","level":0,"title":"Migrating to Version 2.x of the DataNucleus Plugin","anchor":"#migrating-to-version-2-x-of-the-datanucleus-plugin"},{"id":"setting-up-jdo-3-0","level":0,"title":"Setting Up JDO 3.0","anchor":"#setting-up-jdo-3-0"},{"id":"enhancing-data-classes","level":0,"title":"Enhancing Data Classes","anchor":"#enhancing-data-classes"},{"id":"getting-a-persistencemanager-instance","level":0,"title":"Getting a PersistenceManager Instance","anchor":"#getting-a-persistencemanager-instance"},{"id":"unsupported-features-of-jdo-3-0","level":0,"title":"Unsupported Features of JDO 3.0","anchor":"#unsupported-features-of-jdo-3-0"},{"id":"disabling-transactions-and-porting-existing-jdo-apps","level":0,"title":"Disabling Transactions and Porting Existing JDO Apps","anchor":"#disabling-transactions-and-porting-existing-jdo-apps"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Using JDO 3.0 with App Engine | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/using-jdo-3-0-with-app-engine.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Using JDO 3.0 with App Engine | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/using-jdo-3-0-with-app-engine.html#webpage",
+    "url": "writerside-documentation/using-jdo-3-0-with-app-engine.html",
+    "name": "Using JDO 3.0 with App Engine | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Using-JDO-3.0-with-App-Engine" data-main-title="Using JDO 3.0 with App Engine" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Superseded-Storage-Solutions.md|Superseded Storage Solutions///JDO-for-Cloud-Datastore.md|JDO for Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Using-JDO-3.0-with-App-Engine" id="Using-JDO-3.0-with-App-Engine.md">Using JDO 3.0 with App Engine</h1><p id="-clnqyn_3">Java Data Objects (JDO) is a standard interface for accessing databases in Java, providing a mapping between Java classes and database tables. There is an open-source plugin available for using JDO with Datastore, and this page provides information on how to get started with it.</p><p id="-clnqyn_4"><span class="control" id="-clnqyn_16">Warning:</span> We think most developers will have a better experience using the low-level Datastore API, or one of the open-source APIs developed specifically for Datastore, such as <a href="https://web.archive.org/web/20160424230337/https://github.com/objectify/objectify" id="-clnqyn_17" data-external="true" rel="noopener noreferrer" target="_blank">Objectify</a>. JDO was designed for use with traditional relational databases, and so has no way to explicitly represent some of the aspects of Datastore that make it different from relational databases, such as entity groups and ancestor queries. This can lead to subtle issues that are difficult to understand and fix.</p><p id="-clnqyn_5">The App Engine Java SDK includes version 2.x of the DataNucleus plugin for App Engine. This plugin corresponds to version 3.0 of the DataNucleus Access Platform, which enables you to use the App Engine Datastore via JDO 3.0.</p><p id="-clnqyn_6">See <a href="https://web.archive.org/web/20160424230337/http://www.datanucleus.org/products/accessplatform_3_0/index.html" id="-clnqyn_18" data-external="true" rel="noopener noreferrer" target="_blank">the Access Platform 3.0 documentation</a> for more information about JDO. In particular, see <a href="https://web.archive.org/web/20160424230337/http://www.datanucleus.org/products/accessplatform_3_0/jdo/index.html" id="-clnqyn_19" data-external="true" rel="noopener noreferrer" target="_blank">JDO Mapping</a> and <a href="https://web.archive.org/web/20160424230337/http://www.datanucleus.org/products/accessplatform_3_0/jdo/api.html" id="-clnqyn_20" data-external="true" rel="noopener noreferrer" target="_blank">JDO API</a>.</p><p id="-clnqyn_7"><span class="control" id="-clnqyn_21">Warning:</span> The DataNucleus plugin 2.x for App Engine uses DataNucleus v3.x. This new plugin is not fully backwards-compatible with the previous (1.x) plugin. If you upgrade to the new version, be sure to update and test your application.</p><section class="chapter"><h2 id="contents" data-toc="contents">Contents</h2><ol class="list _decimal" id="-clnqyn_22" type="1"><li class="list__item" id="-clnqyn_23"><p id="-clnqyn_30"><span id="-clnqyn_31">Build tools and IDEs supporting JDO 2.x and 3.0</span></p></li><li class="list__item" id="-clnqyn_24"><p id="-clnqyn_32"><span id="-clnqyn_34">Migrating to Version 2.x of the DataNucleus Plugin</span></p><ol class="list _decimal" id="-clnqyn_33" type="1"><li class="list__item" id="-clnqyn_35"><p id="-clnqyn_37"><span id="-clnqyn_38">New Default Behaviors</span></p></li><li class="list__item" id="-clnqyn_36"><p id="-clnqyn_39"><span id="-clnqyn_40">Changes to Configuration Files</span></p></li></ol></li><li class="list__item" id="-clnqyn_25"><p id="-clnqyn_41"><span id="-clnqyn_43">Setting Up JDO 3.0</span></p><ol class="list _decimal" id="-clnqyn_42" type="1"><li class="list__item" id="-clnqyn_44"><p id="-clnqyn_47"><span id="-clnqyn_48">Copying the JARs</span></p></li><li class="list__item" id="-clnqyn_45"><p id="-clnqyn_49"><span id="-clnqyn_50">Creating the jdoconfig.xml File</span></p></li><li class="list__item" id="-clnqyn_46"><p id="-clnqyn_51"><span id="-clnqyn_52">Setting the Datastore Read Policy and Call Deadline</span></p></li></ol></li><li class="list__item" id="-clnqyn_26"><p id="-clnqyn_53"><span id="-clnqyn_54">Enhancing Data Classes</span></p></li><li class="list__item" id="-clnqyn_27"><p id="-clnqyn_55"><span id="-clnqyn_56">Getting a PersistenceManager Instance</span></p></li><li class="list__item" id="-clnqyn_28"><p id="-clnqyn_57"><span id="-clnqyn_58">Unsupported Features of JDO 3.0</span></p></li><li class="list__item" id="-clnqyn_29"><p id="-clnqyn_59"><span id="-clnqyn_60">Disabling Transactions and Porting Existing JDO Apps</span></p></li></ol></section><section class="chapter"><h2 id="build-tools-and-ides-supporting-jdo-2-x-and-3-0" data-toc="build-tools-and-ides-supporting-jdo-2-x-and-3-0">Build tools and IDEs supporting JDO 2.x and 3.0</h2><p id="-clnqyn_61">You can use Apache Ant, the App Engine Eclipse plugin, or Maven to use version 2.x or 3.0 of the DataNucleus plugin for App Engine:</p><ul class="list _bullet" id="-clnqyn_62"><li class="list__item" id="-clnqyn_63"><p id="-clnqyn_66"><span class="control" id="-clnqyn_67">For Ant users:</span> The SDK includes an Ant task that performs the enhancement step. You must copy the JARs and create the configuration file when you set up your project. See <a href="https://web.archive.org/web/20160424230337/https://cloud.google.com/appengine/docs/java/tools/ant" id="-clnqyn_68" data-external="true" rel="noopener noreferrer" target="_blank">Using Apache Ant</a> for more information about the Ant task.</p></li><li class="list__item" id="-clnqyn_64"><p id="-clnqyn_69"><span class="control" id="-clnqyn_70">For Eclipse users:</span> The App Engine Eclipse plugin supports DataNucleus plugin 2.0: you can select which version to use in the GUI configuration window.</p></li><li class="list__item" id="-clnqyn_65"><p id="-clnqyn_71"><span class="control" id="-clnqyn_73">For Maven users:</span> You can enhance the classes with the following configurations in your <code class="code" id="-clnqyn_74">pom.xml</code> file:</p><div class="code-block" data-lang="none">
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.datanucleus&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-datanucleus-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.2.0-m1&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;api&gt;JDO&lt;/api&gt;
+                    &lt;props&gt;${basedir}/datanucleus.properties&lt;/props&gt;
+                    &lt;verbose&gt;true&lt;/verbose&gt;
+                    &lt;enhancerName&gt;ASM&lt;/enhancerName&gt;
+                &lt;/configuration&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;process-classes&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;enhance&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+                &lt;dependencies&gt;
+                    &lt;dependency&gt;
+                        &lt;groupId&gt;org.datanucleus&lt;/groupId&gt;
+                        &lt;artifactId&gt;datanucleus-core&lt;/artifactId&gt;
+                        &lt;version&gt;3.1.3&lt;/version&gt;
+                    &lt;/dependency&gt;
+                &lt;/dependencies&gt;
+            &lt;/plugin&gt;
+</div></li></ul></section><section class="chapter"><h2 id="migrating-to-version-2-x-of-the-datanucleus-plugin" data-toc="migrating-to-version-2-x-of-the-datanucleus-plugin">Migrating to Version 2.x of the DataNucleus Plugin</h2><p id="-clnqyn_75">This section provides instructions for upgrading your app to use version 2.x of the DataNucleus plugin for App Engine, which corresponds to DataNucleus Access Platform 3.0 and JDO 3.0. This plugin is not fully backwards-compatible with the 1.x plugin and may change. If you upgrade, be sure to update and test your application code.</p><section class="chapter"><h3 id="new-default-behaviors" data-toc="new-default-behaviors">New Default Behaviors</h3><p id="-clnqyn_78">Version 2.x of the App Engine DataNucleus plugin has some different defaults than the previous version:</p><ul class="list _bullet" id="-clnqyn_79"><li class="list__item" id="-clnqyn_81"><p id="-clnqyn_84">Non-transactional calls to <code class="code" id="-clnqyn_85">PersistenceManager.makePersistent()</code>, and <code class="code" id="-clnqyn_86">PersistenceManager.deletePersistent()</code> are now executed atomically. (These functions were previously executed in the next transaction or upon <code class="code" id="-clnqyn_87">PersistenceManager.close()</code>.)</p></li><li class="list__item" id="-clnqyn_82"><p id="-clnqyn_88">There is now no longer an exception on duplicate PersistenceManagerFactory (PMF) allocation. Instead, if you have the persistence property <code class="code" id="-clnqyn_89">datanucleus.singletonPMFForName</code> set to <span class="emphasis" id="-clnqyn_90">true</span> then it will return the currently allocated singleton PMF for that name.</p></li><li class="list__item" id="-clnqyn_83"><p id="-clnqyn_91">Unowned relationships are now supported. See <a href="https://web.archive.org/web/20160424230337/https://cloud.google.com/appengine/docs/java/datastore/jdo/relationships.html#Unowned_Relationships" id="-clnqyn_92" data-external="true" rel="noopener noreferrer" target="_blank">Unowned Relationships</a>.</p></li></ul><p id="-clnqyn_80">For a full list of new features, see the <a href="https://web.archive.org/web/20160424230337/http://code.google.com/p/datanucleus-appengine/source/browse/branches/2_1_2/dist/RELEASE_NOTES.ORM" id="-clnqyn_93" data-external="true" rel="noopener noreferrer" target="_blank">release notes</a>.</p></section><section class="chapter"><h3 id="changes-to-configuration-files" data-toc="changes-to-configuration-files">Changes to Configuration Files</h3><p id="-clnqyn_94">To upgrade your application to version 2.x of the App Engine DataNucleus plugin, you need to change the configuration settings in <code class="code" id="-clnqyn_98">build.xml</code> and <code class="code" id="-clnqyn_99">jdoconfig.xml</code>.</p><p id="-clnqyn_95"><span class="control" id="-clnqyn_100">Warning!</span> After updating your configuration, you need to test your application code to ensure backwards-compatibility. If you are setting up a new application and wish to use the latest version of the plugin, proceed to <span id="-clnqyn_101">Setting up JDO 3.0</span>.</p><ol class="list _decimal" id="-clnqyn_96" type="1"><li class="list__item" id="-clnqyn_102"><p id="-clnqyn_103"><code class="code" id="-clnqyn_107">PersistenceManagerFactoryClass</code> property has changed. Change this line in <code class="code" id="-clnqyn_108">jdoconfig.xml</code>:</p><div class="code-block" data-lang="none">
+        &lt;property name=&quot;javax.jdo.PersistenceManagerFactoryClass&quot;
+                  value=&quot;org.datanucleus.store.appengine.jdo.DatastoreJDOPersistenceManagerFactory&quot;/&gt;
+</div><p id="-clnqyn_105">to:</p><div class="code-block" data-lang="none">
+        &lt;property name=&quot;javax.jdo.PersistenceManagerFactoryClass&quot;
+                  value=&quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;/&gt;
+</div></li></ol><section class="chapter"><h4 id="in-build-xml" data-toc="in-build-xml">In build.xml</h4><p id="-clnqyn_109">The <code class="code" id="-clnqyn_111">copyjars</code> target needs to change in order to accommodate DataNucleus 2.x:</p><ol class="list _decimal" id="-clnqyn_110" type="1"><li class="list__item" id="-clnqyn_112"><p id="-clnqyn_114">The <code class="code" id="-clnqyn_118">copyjars</code> target has changed. Update this section:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;copyjars&quot;
+      description=&quot;Copies the App Engine JARs to the WAR.&quot;&gt;
+    &lt;mkdir dir=&quot;war/WEB-INF/lib&quot; /&gt;
+    &lt;copy
+        todir=&quot;war/WEB-INF/lib&quot;
+        flatten=&quot;true&quot;&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/user&quot;&gt;
+        &lt;include name=&quot;**/*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+  &lt;/target&gt;
+</div><p id="-clnqyn_116">to:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;copyjars&quot;
+      description=&quot;Copies the App Engine JARs to the WAR.&quot;&gt;
+    &lt;mkdir dir=&quot;war/WEB-INF/lib&quot; /&gt;
+    &lt;copy
+        todir=&quot;war/WEB-INF/lib&quot;
+        flatten=&quot;true&quot;&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/user&quot;&gt;
+        &lt;include name=&quot;**/appengine-api-1.0-sdk*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/opt/user&quot;&gt;
+        &lt;include name=&quot;appengine-api-labs/v1/*.jar&quot; /&gt;
+        &lt;include name=&quot;jsr107/v1/*.jar&quot; /&gt;
+        &lt;include name=&quot;datanucleus/v2/*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+  &lt;/target&gt;
+</div></li><li class="list__item" id="-clnqyn_113"><p id="-clnqyn_119">The <code class="code" id="-clnqyn_123">datanucleusenhance</code> target has changed. Update this section:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;datanucleusenhance&quot; depends=&quot;compile&quot;
+      description=&quot;Performs enhancement on compiled data classes.&quot;&gt;
+    &lt;enhance_war war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+</div><p id="-clnqyn_121">to:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;datanucleusenhance&quot; depends=&quot;compile&quot;
+      description=&quot;Performs enhancement on compiled data classes.&quot;&gt;
+      &lt;enhance_war war=&quot;war&quot;&gt;
+              &lt;args&gt;
+              &lt;arg value=&quot;-enhancerVersion&quot;/&gt;
+              &lt;arg value=&quot;v2&quot;/&gt;
+          &lt;/args&gt;
+      &lt;/enhance_war&gt;
+  &lt;/target&gt;
+</div></li></ol></section></section></section><section class="chapter"><h2 id="setting-up-jdo-3-0" data-toc="setting-up-jdo-3-0">Setting Up JDO 3.0</h2><p id="-clnqyn_124">To use JDO to access the datastore, an App Engine app needs the following:</p><ul class="list _bullet" id="-clnqyn_125"><li class="list__item" id="-clnqyn_129"><p id="-clnqyn_132">The JARs for JDO and the DataNucleus plugin must be in the app's <code class="code" id="-clnqyn_133">war/WEB-INF/lib/</code> directory.</p></li><li class="list__item" id="-clnqyn_130"><p id="-clnqyn_134">A configuration file named <code class="code" id="-clnqyn_135">jdoconfig.xml</code> must be in the app's <code class="code" id="-clnqyn_136">war/WEB-INF/classes/META-INF/</code> directory, with configuration that tells JDO to use the App Engine datastore.</p></li><li class="list__item" id="-clnqyn_131"><p id="-clnqyn_137">The project's build process must perform a post-compilation &quot;enhancement&quot; step on the compiled data classes to associate them with the JDO implementation.</p></li></ul><section class="chapter"><h3 id="copying-the-jars" data-toc="copying-the-jars">Copying the JARs</h3><p id="-clnqyn_138">The JDO and datastore JARs are included with the App Engine Java SDK. You can find them in the <code class="code" id="-clnqyn_141">appengine-java-sdk/lib/opt/user/datanucleus/v2/</code> directory.</p><p id="-clnqyn_139">Copy the JARs to your application's <code class="code" id="-clnqyn_142">war/WEB-INF/lib/</code> directory.</p><p id="-clnqyn_140">Make sure the <code class="code" id="-clnqyn_143">appengine-api.jar</code> is also in the <code class="code" id="-clnqyn_144">war/WEB-INF/lib/</code> directory. (You may have already copied this when creating your project.) The App Engine DataNucleus plugin uses this JAR to access the datastore.</p></section><section class="chapter"><h3 id="creating-the-jdoconfig-xml-file" data-toc="creating-the-jdoconfig-xml-file">Creating the jdoconfig.xml File</h3><p id="-clnqyn_145">The JDO interface needs a configuration file named <code class="code" id="-clnqyn_148">jdoconfig.xml</code> in the application's <code class="code" id="-clnqyn_149">war/WEB-INF/classes/META-INF/</code> directory. You can create this file in this location directly, or have your build process copy this file from a source directory.</p><p id="-clnqyn_146">Create the file with the following contents:</p><div class="code-block" data-lang="none">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;jdoconfig xmlns=&quot;http://java.sun.com/xml/ns/jdo/jdoconfig&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:noNamespaceSchemaLocation=&quot;http://java.sun.com/xml/ns/jdo/jdoconfig&quot;&gt;
+
+    &lt;persistence-manager-factory name=&quot;transactions-optional&quot;&gt;
+        &lt;property name=&quot;javax.jdo.PersistenceManagerFactoryClass&quot;
+            value=&quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.ConnectionURL&quot; value=&quot;appengine&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalRead&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalWrite&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.RetainValues&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;datanucleus.appengine.autoCreateDatastoreTxns&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;datanucleus.appengine.singletonPMFForName&quot; value=&quot;true&quot;/&gt;
+    &lt;/persistence-manager-factory&gt;
+&lt;/jdoconfig&gt;
+</div></section><section class="chapter"><h3 id="setting-the-datastore-read-policy-and-call-deadline" data-toc="setting-the-datastore-read-policy-and-call-deadline">Setting the Datastore Read Policy and Call Deadline</h3><p id="-clnqyn_150">As described on the <a href="https://web.archive.org/web/20160424230337/https://cloud.google.com/appengine/docs/java/datastore/queries#Java_Data_consistency" id="-clnqyn_160" data-external="true" rel="noopener noreferrer" target="_blank">Datastore Queries</a> page, you can customize the behavior of the Datastore by setting the read policy (strong versus eventual consistency) and call deadline. In JDO, you do this by specifying the desired values in the <code class="code" id="-clnqyn_161">&lt;persistence-manager-factory&gt;</code> element of the <code class="code" id="-clnqyn_162">jdoconfig.xml</code> file. All calls made with a given <code class="code" id="-clnqyn_163">PersistenceManager</code> instance will use the configuration values in effect when the manager was created by the <code class="code" id="-clnqyn_164">PersistenceManagerFactory</code>. You can also override these settings for a single <code class="code" id="-clnqyn_165">Query</code> object.</p><p id="-clnqyn_151">To set the read policy for a <code class="code" id="-clnqyn_166">PersistenceManagerFactory</code>, include a property named <code class="code" id="-clnqyn_167">datanucleus.appengine.datastoreReadConsistency</code>. Possible values are <code class="code" id="-clnqyn_168">EVENTUAL</code> and <code class="code" id="-clnqyn_169">STRONG</code>: if not specified, the default is <code class="code" id="-clnqyn_170">STRONG</code>. (Note, however, that these settings apply only to ancestor queries within a given entity group. Non-ancestor queries are always eventually consistent regardless of the prevailing read policy.)</p><div class="code-block" data-lang="none">
+        &lt;property name=&quot;datanucleus.appengine.datastoreReadConsistency&quot; value=&quot;EVENTUAL&quot; /&gt;
+</div><p id="-clnqyn_153">You can set separate datastore call deadlines for reads and for writes. For reads, use the JDO standard property <code class="code" id="-clnqyn_171">javax.jdo.option.DatastoreReadTimeoutMillis</code>. For writes, use <code class="code" id="-clnqyn_172">javax.jdo.option.DatastoreWriteTimeoutMillis</code>. The value is an amount of time, in milliseconds.</p><div class="code-block" data-lang="none">
+        &lt;property name=&quot;javax.jdo.option.DatastoreReadTimeoutMillis&quot; value=&quot;5000&quot; /&gt;
+        &lt;property name=&quot;javax.jdo.option.DatastoreWriteTimeoutMillis&quot; value=&quot;10000&quot; /&gt;
+</div><p id="-clnqyn_155">If you want to use cross-group (XG) transactions, add the following property:</p><div class="code-block" data-lang="none">
+        &lt;property name=&quot;datanucleus.appengine.datastoreEnableXGTransactions&quot; value=&quot;true&quot; /&gt;
+</div><p id="-clnqyn_157">You can have multiple <code class="code" id="-clnqyn_173">&lt;persistence-manager-factory&gt;</code> elements in the same <code class="code" id="-clnqyn_174">jdoconfig.xml</code> file, using different <code class="code" id="-clnqyn_175">name</code> attributes, to use <code class="code" id="-clnqyn_176">PersistenceManager</code> instances with different configurations in the same app. For example, the following <code class="code" id="-clnqyn_177">jdoconfig.xml</code> file establishes two sets of configuration, one named <code class="code" id="-clnqyn_178">&quot;transactions-optional&quot;</code> and another named <code class="code" id="-clnqyn_179">&quot;eventual-reads-short-deadlines&quot;</code>:</p><div class="code-block" data-lang="none">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;jdoconfig xmlns=&quot;http://java.sun.com/xml/ns/jdo/jdoconfig&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:noNamespaceSchemaLocation=&quot;http://java.sun.com/xml/ns/jdo/jdoconfig&quot;&gt;
+
+    &lt;persistence-manager-factory name=&quot;transactions-optional&quot;&gt;
+        &lt;property name=&quot;javax.jdo.PersistenceManagerFactoryClass&quot;
+            value=&quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.ConnectionURL&quot; value=&quot;appengine&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalRead&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalWrite&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.RetainValues&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;datanucleus.appengine.autoCreateDatastoreTxns&quot; value=&quot;true&quot;/&gt;
+    &lt;/persistence-manager-factory&gt;
+
+    &lt;persistence-manager-factory name=&quot;eventual-reads-short-deadlines&quot;&gt;
+        &lt;property name=&quot;javax.jdo.PersistenceManagerFactoryClass&quot;
+            value=&quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.ConnectionURL&quot; value=&quot;appengine&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalRead&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalWrite&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.RetainValues&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;datanucleus.appengine.autoCreateDatastoreTxns&quot; value=&quot;true&quot;/&gt;
+
+        &lt;property name=&quot;datanucleus.appengine.datastoreReadConsistency&quot; value=&quot;EVENTUAL&quot; /&gt;
+        &lt;property name=&quot;javax.jdo.option.DatastoreReadTimeoutMillis&quot; value=&quot;5000&quot; /&gt;
+        &lt;property name=&quot;javax.jdo.option.DatastoreWriteTimeoutMillis&quot; value=&quot;10000&quot; /&gt;
+        &lt;property name=&quot;datanucleus.singletonPMFForName&quot; value=&quot;true&quot; /&gt;
+    &lt;/persistence-manager-factory&gt;
+&lt;/jdoconfig&gt;
+</div><p id="-clnqyn_159">See <span id="-clnqyn_180">Getting a PersistenceManager Instance</span> below for information on creating a <code class="code" id="-clnqyn_181">PersistenceManager</code> with a named configuration set.</p></section></section><section class="chapter"><h2 id="enhancing-data-classes" data-toc="enhancing-data-classes">Enhancing Data Classes</h2><p id="-clnqyn_182">JDO uses a post-compilation &quot;enhancement&quot; step in the build process to associate data classes with the JDO implementation.</p><p id="-clnqyn_183">You can perform the enhancement step on compiled classes from the command line with the following command:</p><div class="code-block" data-lang="none">
+java -cp classpath com.google.appengine.tools.enhancer.Enhance
+class-files
+</div><p id="-clnqyn_185">The <span class="emphasis" id="-clnqyn_187">classpath</span> must contain the JAR <code class="code" id="-clnqyn_188">appengine-tools-api.jar</code> from the <code class="code" id="-clnqyn_189">appengine-java-sdk/lib/</code> directory, as well as all of your data classes.</p><p id="-clnqyn_186">For more information on the DataNucleus bytecode enhancer, see <a href="https://web.archive.org/web/20160424230337/http://www.datanucleus.org/products/datanucleus/jdo/enhancer.html" id="-clnqyn_190" data-external="true" rel="noopener noreferrer" target="_blank">the DataNucleus documentation</a>.</p></section><section class="chapter"><h2 id="getting-a-persistencemanager-instance" data-toc="getting-a-persistencemanager-instance">Getting a PersistenceManager Instance</h2><p id="-clnqyn_191">An app interacts with JDO using an instance of the PersistenceManager class. You get this instance by instantiating and calling a method on an instance of the PersistenceManagerFactory class. The factory uses the JDO configuration to create PersistenceManager instances.</p><p id="-clnqyn_192">Because a PersistenceManagerFactory instance takes time to initialize, an app should reuse a single instance. An easy way to manage the PersistenceManagerFactory instance is to create a singleton wrapper class with a static instance, as follows:</p><p id="-clnqyn_193"><span class="control" id="-clnqyn_201"><code class="code" id="-clnqyn_202">PMF.java</code></span></p><div class="code-block" data-lang="none">
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManagerFactory;
+
+public final class PMF {
+    private static final PersistenceManagerFactory pmfInstance =
+        JDOHelper.getPersistenceManagerFactory(&quot;transactions-optional&quot;);
+
+    private PMF() {}
+
+    public static PersistenceManagerFactory get() {
+        return pmfInstance;
+    }
+}
+</div><p id="-clnqyn_195"><span class="control" id="-clnqyn_203">Tip:</span> <code class="code" id="-clnqyn_204">&quot;transactions-optional&quot;</code> refers to the name of the configuration set in the <code class="code" id="-clnqyn_205">jdoconfig.xml</code> file. If your app uses multiple configuration sets, you'll have to extend this code to call <code class="code" id="-clnqyn_206">JDOHelper.getPersistenceManagerFactory()</code> as desired. Your code should cache a singleton instance of each <code class="code" id="-clnqyn_207">PersistenceManagerFactory</code>.</p><p id="-clnqyn_196">The app uses the factory instance to create one PersistenceManager instance for each request that accesses the datastore.</p><div class="code-block" data-lang="none">
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+
+import PMF;
+
+// ...
+    PersistenceManager pm = PMF.get().getPersistenceManager();
+</div><p id="-clnqyn_198">You use the PersistenceManager to store, update, and delete data objects, and to perform datastore queries.</p><p id="-clnqyn_199">When you are done with the PersistenceManager instance, you must call its <code class="code" id="-clnqyn_208">close()</code> method. It is an error to use the PersistenceManager instance after calling its <code class="code" id="-clnqyn_209">close()</code> method.</p><div class="code-block" data-lang="none">
+    try {
+        // ... do stuff with pm ...
+    } finally {
+        pm.close();
+    }
+</div></section><section class="chapter"><h2 id="unsupported-features-of-jdo-3-0" data-toc="unsupported-features-of-jdo-3-0">Unsupported Features of JDO 3.0</h2><p id="-clnqyn_210">The following features of the JDO interface are not supported by the App Engine implementation:</p><ul class="list _bullet" id="-clnqyn_211"><li class="list__item" id="-clnqyn_212"><p id="-clnqyn_216">Owned many-to-many relationships.</p></li><li class="list__item" id="-clnqyn_213"><p id="-clnqyn_217">&quot;Join&quot; queries. You cannot use a field of a child entity in a filter when performing a query on the parent kind. Note that you can test the parent's relationship field directly in query using a key.</p></li><li class="list__item" id="-clnqyn_214"><p id="-clnqyn_218">JDOQL grouping and other aggregate queries.</p></li><li class="list__item" id="-clnqyn_215"><p id="-clnqyn_219">Polymorphic queries. You cannot perform a query of a class to get instances of a subclass. Each class is represented by a separate entity kind in the datastore.</p></li></ul></section><section class="chapter"><h2 id="disabling-transactions-and-porting-existing-jdo-apps" data-toc="disabling-transactions-and-porting-existing-jdo-apps">Disabling Transactions and Porting Existing JDO Apps</h2><p id="-clnqyn_220">The JDO configuration we recommend using sets a property named <code class="code" id="-clnqyn_223">datanucleus.appengine.autoCreateDatastoreTxns</code> to <code class="code" id="-clnqyn_224">true</code>. This is an App Engine-specific property that tells the JDO implementation to associate datastore transactions with the JDO transactions that are managed in application code. If you are building a new app from scratch, this is probably what you want. However, if you have an existing, JDO-based application that you want to get running on App Engine, you may want to use an alternate persistence configuration which sets the value of this property to <code class="code" id="-clnqyn_225">false</code>:</p><div class="code-block" data-lang="none">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;jdoconfig xmlns=&quot;http://java.sun.com/xml/ns/jdo/jdoconfig&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:noNamespaceSchemaLocation=&quot;http://java.sun.com/xml/ns/jdo/jdoconfig&quot;&gt;
+
+    &lt;persistence-manager-factory name=&quot;transactions-optional&quot;&gt;
+        &lt;property name=&quot;javax.jdo.PersistenceManagerFactoryClass&quot;
+            value=&quot;org.datanucleus.api.jdo.JDOPersistenceManagerFactory&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.ConnectionURL&quot; value=&quot;appengine&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalRead&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.NontransactionalWrite&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;javax.jdo.option.RetainValues&quot; value=&quot;true&quot;/&gt;
+        &lt;property name=&quot;datanucleus.appengine.autoCreateDatastoreTxns&quot; value=&quot;false&quot;/&gt;
+    &lt;/persistence-manager-factory&gt;
+&lt;/jdoconfig&gt;
+</div><p id="-clnqyn_222">In order to understand why this may be useful, remember that you can only operate on objects that belong to the same entity group within a transaction. Applications built using traditional databases typically assume the availability of global transactions, which allow you to update any set of records inside a transaction. Since the App Engine datastore does not support global transactions, App Engine throws exceptions if your code assumes the availability of global transactions. Instead of going through your (potentially large) codebase and removing all your transaction management code, you can simply disable datastore transactions. This does nothing to address assumptions your code makes about atomicity of multi-record modifications, but it allows you to get your app working so that you can then focus on refactoring your transactional code incrementally and as needed, rather than all at once.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="using-jdo-2-3-with-app-engine.html" class="navigation-links__prev">Using JDO 2.3 with App Engine</a><a href="defining-data-classes-with-jdo.html" class="navigation-links__next">Defining Data Classes with JDO</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

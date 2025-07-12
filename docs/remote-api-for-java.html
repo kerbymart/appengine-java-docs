@@ -1,0 +1,78 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.138564195"><title>Remote API for Java | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"configuring-remote-api-on-the-server","level":0,"title":"Configuring Remote API on the Server","anchor":"#configuring-remote-api-on-the-server"},{"id":"configuring-remote-api-on-a-standalone-client","level":0,"title":"Configuring Remote API on a Standalone Client","anchor":"#configuring-remote-api-on-a-standalone-client"},{"id":"configuring-remote-api-on-an-app-engine-client","level":0,"title":"Configuring Remote API on an App Engine Client","anchor":"#configuring-remote-api-on-an-app-engine-client"},{"id":"using-remote-api-with-maven","level":0,"title":"Using Remote API with Maven","anchor":"#using-remote-api-with-maven"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Remote API for Java | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/remote-api-for-java.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Remote API for Java | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/remote-api-for-java.html#webpage",
+    "url": "writerside-documentation/remote-api-for-java.html",
+    "name": "Remote API for Java | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Remote-API-for-Java" data-main-title="Remote API for Java" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="APIs-Reference.md|APIs &amp;amp; Reference///Development-Tools.md|Development Tools///Remote-API.md|Remote API"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Remote-API-for-Java" id="Remote-API-for-Java.md">Remote API for Java</h1><ol class="list _decimal" id="-u5ja03_3" type="1"><li class="list__item" id="-u5ja03_10"><p id="-u5ja03_14"><span id="-u5ja03_15">Configuring Remote API on the Server</span></p></li><li class="list__item" id="-u5ja03_11"><p id="-u5ja03_16"><span id="-u5ja03_17">Configuring Remote API on a Standalone Client</span></p></li><li class="list__item" id="-u5ja03_12"><p id="-u5ja03_18"><span id="-u5ja03_19">Configuring Remote API on an App Engine Client</span></p></li><li class="list__item" id="-u5ja03_13"><p id="-u5ja03_20"><span id="-u5ja03_21">Using Remote API with Maven</span></p></li></ol><p id="-u5ja03_4">The Java SDK includes a library called Remote API that lets you transparently access App Engine services from any Java application. For example, you can use Remote API to access a production datastore from an app running on your local machine. You can also use Remote API to access the datastore of one App Engine app from a different App Engine app.</p><p id="-u5ja03_5"><span class="control" id="-u5ja03_22">Important:</span> Using RemoteApi over a network proxy is not supported.</p><section class="chapter"><h2 id="configuring-remote-api-on-the-server" data-toc="configuring-remote-api-on-the-server">Configuring Remote API on the Server</h2><p id="-u5ja03_23">The server component of Remote API is a Java servlet that is part of the App Engine runtime for Java. This servlet receives requests from the Remote API client, dispatches them to the appropriate backend service, and then returns the result of the service call to the client. To install the Remote API servlet, add the following to your <code class="code" id="-u5ja03_27">web.xml</code>:</p><div class="code-block" data-lang="none">
+&lt;servlet&gt;
+    &lt;display-name&gt;Remote API Servlet&lt;/display-name&gt;
+    &lt;servlet-name&gt;RemoteApiServlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;com.google.apphosting.utils.remoteapi.RemoteApiServlet&lt;/servlet-class&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;RemoteApiServlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/remote_api&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;
+</div><p id="-u5ja03_25"><span class="control" id="-u5ja03_28">Note:</span> for more information on using <code class="code" id="-u5ja03_29">web.xml</code>, see the <a href="https://web.archive.org/web/20160424230746/https://cloud.google.com/appengine/docs/java/config/webxml" id="-u5ja03_30" data-external="true" rel="noopener noreferrer" target="_blank">Deployment Descriptor</a> page.</p><p id="-u5ja03_26">The servlet returns an error if there is no authenticated user or the authenticated user is not an admin of your application, so there is no need to configure any additional security. Once you've deployed your app with these settings, any app with the Remote API client installed can use its services. This includes Python clients that are using the Python Remote API.</p></section><section class="chapter"><h2 id="configuring-remote-api-on-a-standalone-client" data-toc="configuring-remote-api-on-a-standalone-client">Configuring Remote API on a Standalone Client</h2><p id="-u5ja03_31">These instructions show the use of OAuth 2.0. If you have an older application that uses ClientLogin (where you supply username and password), you should migrate the app to use OAuth 2.0 as shown on this page because <a href="https://web.archive.org/web/20160424230746/https://cloud.google.com/appengine/docs/deprecations/clientlogin" id="-u5ja03_42" data-external="true" rel="noopener noreferrer" target="_blank">ClientLogin is being turned off soon</a>. After making the code changes shown on this page, you must also remove the <code class="code" id="-u5ja03_43">&lt;security-constraint&gt;</code> for your remote-api servlet in your application's <code class="code" id="-u5ja03_44">web.xml</code> file and then redeploy your application. Note that the servlet still performs admin authentication even without this constraint, so your application continues to be protected.</p><p id="-u5ja03_32">To configure the client component of Remote API for use inside a Java application, add <code class="code" id="-u5ja03_45">${SDK_ROOT}/lib/impl/appengine-api.jar</code> and <code class="code" id="-u5ja03_46">${SDK_ROOT}/lib/appengine-remote-api.jar</code> to your classpath. Then, in your code, configure and install Remote API:</p><div class="code-block" data-lang="none">
+import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
+import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+
+// ...
+RemoteApiOptions options = new RemoteApiOptions()
+    .server(&quot;your_app_id.appspot.com&quot;, 443)
+    .useApplicationDefaultCredential();
+
+RemoteApiInstaller installer = new RemoteApiInstaller();
+installer.install(options);
+// ... all API calls executed remotely
+installer.uninstall();
+</div><p id="-u5ja03_34">The Remote API client will rely on Application Default Credentials that use OAuth 2.0.</p><p id="-u5ja03_35">In order to get a credential run:</p><div class="code-block" data-lang="none">
+$ gcloud auth login
+</div><p id="-u5ja03_37"><span class="control" id="-u5ja03_47">Note:</span> The Remote API call to <code class="code" id="-u5ja03_48">useApplicationDefaultCredential()</code> can only use credentials provided by the <code class="code" id="-u5ja03_49">gcloud</code> command.</p><p id="-u5ja03_38">You can just as easily connect to an App Engine app running locally in the <a href="https://web.archive.org/web/20160424230746/https://cloud.google.com/appengine/docs/java/tools/devserver" id="-u5ja03_50" data-external="true" rel="noopener noreferrer" target="_blank">Development Server</a>:</p><div class="code-block" data-lang="none">
+RemoteApiOptions options = new RemoteApiOptions()
+    .server(&quot;localhost&quot;, 8888) // server name must equal &quot;localhost&quot;
+    .useDevelopmentServerCredential();
+</div><p id="-u5ja03_40">Here's a complete Java application that, when run, inserts an Entity into the datastore:</p><div class="code-block" data-lang="none">
+package remoteapiexample;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
+import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+import java.io.IOException;
+
+public class RemoteApiExample {
+    public static void main(String[] args) throws IOException {
+        RemoteApiOptions options = new RemoteApiOptions()
+            .server(&quot;&lt;i&gt;your_app_id&lt;/i&gt;.appspot.com&quot;, 443)
+            .useApplicationDefaultCredential();
+        RemoteApiInstaller installer = new RemoteApiInstaller();
+        installer.install(options);
+        try {
+            DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+            System.out.println(&quot;Key of new entity is &quot; +
+                ds.put(new Entity(&quot;Hello Remote API!&quot;)));
+        } finally {
+            installer.uninstall();
+        }
+    }
+}
+</div></section><section class="chapter"><h2 id="configuring-remote-api-on-an-app-engine-client" data-toc="configuring-remote-api-on-an-app-engine-client">Configuring Remote API on an App Engine Client</h2><p id="-u5ja03_51">You can also use Remote API to access the services of one App Engine application from a different App Engine application. You need to add <code class="code" id="-u5ja03_53">${SDK_ROOT}/lib/appengine-remote-api.jar</code> to your <code class="code" id="-u5ja03_54">WEB-INF/lib</code> directory and then, in your client App Engine app, configure and install Remote API just as you did in your standalone Java client.</p><p id="-u5ja03_52">Notice that <code class="code" id="-u5ja03_55">RemoteApiInstaller</code> only installs Remote API on the thread performing the installation, so be careful not to share instances of this class across threads.</p></section><section class="chapter"><h2 id="using-remote-api-with-maven" data-toc="using-remote-api-with-maven">Using Remote API with Maven</h2><p id="-u5ja03_56">To use the Remote API feature in your Maven project, add the following dependency to your project <code class="code" id="-u5ja03_58">pom.xml</code> file:</p><div class="code-block" data-lang="none">
+&lt;dependency&gt;
+  &lt;groupId&gt;com.google.appengine&lt;/groupId&gt;
+  &lt;artifactId&gt;appengine-remote-api&lt;/artifactId&gt;
+  &lt;version&gt;1.9.34 &lt;/version&gt;
+&lt;/dependency&gt;
+</div></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="remote-api-javadoc.html" class="navigation-links__prev">Remote API Javadoc</a><a href="glossary-of-app-engine-terms.html" class="navigation-links__next">Glossary of App Engine Terms</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

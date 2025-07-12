@@ -1,0 +1,205 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.184726238"><title>Adding JavaScript | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"adding-javascript-in-base-js","level":0,"title":"Adding JavaScript in base.js","anchor":"#adding-javascript-in-base-js"},{"id":"running-and-testing-your-client","level":0,"title":"Running and testing your client","anchor":"#running-and-testing-your-client"},{"id":"next","level":0,"title":"Next...","anchor":"#next"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Adding JavaScript | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/adding-javascript.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Adding JavaScript | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/adding-javascript.html#webpage",
+    "url": "writerside-documentation/adding-javascript.html",
+    "name": "Adding JavaScript | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Adding-JavaScript" data-main-title="Adding JavaScript" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Mobile-Backends.md|Mobile Backends///Google-Cloud-Endpoints.md|Google Cloud Endpoints///Getting-Started-Cloud-Endpoints.md|Getting Started///Web-Client-Tutorial.md|Web Client Tutorial"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Adding-JavaScript" id="Adding-JavaScript.md">Adding JavaScript</h1><ol class="list _decimal" id="e9u6tg_3" type="1"><li class="list__item" id="e9u6tg_9"><p id="e9u6tg_12"><span id="e9u6tg_13">Adding JavaScript in base.js</span></p></li><li class="list__item" id="e9u6tg_10"><p id="e9u6tg_14"><span id="e9u6tg_15">Running and testing your client</span></p></li><li class="list__item" id="e9u6tg_11"><p id="e9u6tg_16"><a href="#next" id="e9u6tg_17" data-tooltip="Continue to Adding a POST Request.">Next...</a></p></li></ol><p id="e9u6tg_4">In this part of the tutorial, you'll create the JavaScript to support the UI in the <code class="code" id="e9u6tg_18">index.html</code> page that makes a simple GET request to the backend API. The JavaScript will perform two basic functions:</p><ul class="list _bullet" id="e9u6tg_5"><li class="list__item" id="e9u6tg_19"><p id="e9u6tg_21">Load the backend API interface.</p></li><li class="list__item" id="e9u6tg_20"><p id="e9u6tg_22">Send the Get Greeting request to the backend when the user clicks <span class="control" id="e9u6tg_23">Submit</span> and display the results.</p></li></ul><section class="chapter"><h2 id="adding-javascript-in-base-js" data-toc="adding-javascript-in-base-js">Adding JavaScript in <code class="code" id="e9u6tg_28">base.js</code></h2><p id="e9u6tg_25">To add the JavaScript:</p><p id="e9u6tg_26">1\. Create the subdirectory <code class="code" id="e9u6tg_29">js</code> in the <a href="https://web.archive.org/web/20160424230932/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/backend" id="e9u6tg_30" data-external="true" rel="noopener noreferrer" target="_blank">backend API project</a> subdirectory <code class="code" id="e9u6tg_31">src/main/webapp/</code>.</p><ol class="list _decimal" id="e9u6tg_27" type="1"><li class="list__item" id="e9u6tg_32"><p id="e9u6tg_39">In the <code class="code" id="e9u6tg_40">js</code> subdirectory, add a file named <code class="code" id="e9u6tg_41">base.js</code>. There is nothing magic about the subdirectory and file name; in your own code you can use whatever you want. Our tutorial expects <code class="code" id="e9u6tg_42">/js/base.js</code>.</p></li><li class="list__item" id="e9u6tg_33"><p id="e9u6tg_43">In <code class="code" id="e9u6tg_45">base.js</code>, add the following lines to set namespaces expected for this sample:</p><div class="code-block" data-lang="none">
+/**
+ * @fileoverview
+ * Provides methods for the Hello Endpoints sample UI and interaction with the
+ * Hello Endpoints API.
+ */
+
+/** google global namespace for Google projects. */
+var google = google || {};
+
+/** appengine namespace for Google Developer Relations projects. */
+google.appengine = google.appengine || {};
+
+/** samples namespace for App Engine sample code. */
+google.appengine.samples = google.appengine.samples || {};
+
+/** hello namespace for this sample. */
+google.appengine.samples.hello = google.appengine.samples.hello || {};
+</div></li><li class="list__item" id="e9u6tg_34"><p id="e9u6tg_46">In <code class="code" id="e9u6tg_50">base.js</code>, append the following lines to load the backend API interface and perform some initialization upon page load:</p><div class="code-block" data-lang="none">
+/**
+ * Initializes the application.
+ * @param {string} apiRoot Root of the API's path.
+ */
+google.appengine.samples.hello.init = function(apiRoot) {
+  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
+  // when they have completed.
+  var apisToLoad;
+  var callback = function() {
+    if (--apisToLoad == 0) {
+      google.appengine.samples.hello.enableButtons();
+    }
+  }
+
+  apisToLoad = 1; // must match number of calls to gapi.client.load()
+  gapi.client.load('helloworld', 'v1', callback, apiRoot);
+};
+</div><p id="e9u6tg_48">In the above code, the <code class="code" id="e9u6tg_51">google.devrel.samples.hello.init</code> function gets passed the backend API's URL (<code class="code" id="e9u6tg_52">apiRoot</code>) from the <code class="code" id="e9u6tg_53">index.html</code> when that page is loaded, through the <code class="code" id="e9u6tg_54">init</code> function defined in <code class="code" id="e9u6tg_55">index.html</code>. We specify the API version we want to load, and provide a callback function to execute after the API is loaded. In our callback, we turn on the buttons, which are disabled otherwise.</p><p id="e9u6tg_49">Notice that the callback is executed only after all the APIs are loaded in the calls to <code class="code" id="e9u6tg_56">gapi.client.load</code>. If you wish to use multiple Endpoints APIs or other Google APIs in your JavaScript, increment <code class="code" id="e9u6tg_57">apisToLoad</code> once for each API and add an additional call to <code class="code" id="e9u6tg_58">gapi.client.load</code> for each API you want to use.</p></li><li class="list__item" id="e9u6tg_35"><p id="e9u6tg_59">In <code class="code" id="e9u6tg_61">base.js</code>, append the following lines that enable the buttons for the above callback when the backend API loads successsfully:</p><div class="code-block" data-lang="none">
+/**
+ * Enables the button callbacks in the UI.
+ */
+google.appengine.samples.hello.enableButtons = function() {
+  var getGreeting = document.querySelector('#getGreeting');
+  getGreeting.addEventListener('click', function(e) {
+    google.appengine.samples.hello.getGreeting(
+        document.querySelector('#id').value);
+  });
+
+  var listGreeting = document.querySelector('#listGreeting');
+  listGreeting.addEventListener('click',
+      google.appengine.samples.hello.listGreeting);
+
+};
+</div></li><li class="list__item" id="e9u6tg_36"><p id="e9u6tg_62">In <code class="code" id="e9u6tg_67">base.js</code>, append the following code:</p><div class="code-block" data-lang="none">
+/**
+ * Prints a greeting to the greeting log.
+ * param {Object} greeting Greeting to print.
+ */
+google.appengine.samples.hello.print = function(greeting) {
+  var element = document.createElement('div');
+  element.classList.add('row');
+  element.innerHTML = greeting.message;
+  document.querySelector('#outputLog').appendChild(element);
+};
+
+/**
+ * Gets a numbered greeting via the API.
+ * @param {string} id ID of the greeting.
+ */
+google.appengine.samples.hello.getGreeting = function(id) {
+  gapi.client.helloworld.greetings.getGreeting({'id': id}).execute(
+      function(resp) {
+        if (!resp.code) {
+          google.appengine.samples.hello.print(resp);
+        }
+      });
+};
+
+/**
+ * Lists greetings via the API.
+ */
+google.appengine.samples.hello.listGreeting = function() {
+  gapi.client.helloworld.greetings.listGreeting().execute(
+      function(resp) {
+        if (!resp.code) {
+          resp.items = resp.items || [];
+          for (var i = 0; i &lt; resp.items.length; i++) {
+            google.appengine.samples.hello.print(resp.items[i]);
+          }
+        }
+      });
+};
+</div><p id="e9u6tg_64">This code handles the user's <span class="control" id="e9u6tg_68">Submit</span> button clicks and displays the results in the browser. The <span class="control" id="e9u6tg_69">List Greetings</span> button gets all the greetings, and the <span class="control" id="e9u6tg_70">Get Greeting</span> button gets the greeting specified in the form.</p><p id="e9u6tg_65">Notice how the <code class="code" id="e9u6tg_71">getGreeting</code> function in <code class="code" id="e9u6tg_72">base.js</code> invokes the backend API to send the ID parameter in the GET request:</p><div class="code-block" data-lang="none">
+gapi.client.helloWorld.greetings.getGreeting({'id': id})
+</div></li><li class="list__item" id="e9u6tg_37"><p id="e9u6tg_73">When you are finished, your file should look like this:</p><div class="code-block" data-lang="none">
+/**
+ * @fileoverview
+ * Provides methods for the Hello Endpoints sample UI and interaction with the
+ * Hello Endpoints API.
+ */
+
+/** google global namespace for Google projects. */
+var google = google || {};
+
+/** appengine namespace for Google Developer Relations projects. */
+google.appengine = google.appengine || {};
+
+/** samples namespace for App Engine sample code. */
+google.appengine.samples = google.appengine.samples || {};
+
+/** hello namespace for this sample. */
+google.appengine.samples.hello = google.appengine.samples.hello || {};
+
+/**
+ * Prints a greeting to the greeting log.
+ * param {Object} greeting Greeting to print.
+ */
+google.appengine.samples.hello.print = function(greeting) {
+  var element = document.createElement('div');
+  element.classList.add('row');
+  element.innerHTML = greeting.message;
+  document.querySelector('#outputLog').appendChild(element);
+};
+
+/**
+ * Gets a numbered greeting via the API.
+ * @param {string} id ID of the greeting.
+ */
+google.appengine.samples.hello.getGreeting = function(id) {
+  gapi.client.helloworld.greetings.getGreeting({'id': id}).execute(
+      function(resp) {
+        if (!resp.code) {
+          google.appengine.samples.hello.print(resp);
+        }
+      });
+};
+
+/**
+ * Lists greetings via the API.
+ */
+google.appengine.samples.hello.listGreeting = function() {
+  gapi.client.helloworld.greetings.listGreeting().execute(
+      function(resp) {
+        if (!resp.code) {
+          resp.items = resp.items || [];
+          for (var i = 0; i &lt; resp.items.length; i++) {
+            google.appengine.samples.hello.print(resp.items[i]);
+          }
+        }
+      });
+};
+
+/**
+ * Enables the button callbacks in the UI.
+ */
+google.appengine.samples.hello.enableButtons = function() {
+  var getGreeting = document.querySelector('#getGreeting');
+  getGreeting.addEventListener('click', function(e) {
+    google.appengine.samples.hello.getGreeting(
+        document.querySelector('#id').value);
+  });
+
+  var listGreeting = document.querySelector('#listGreeting');
+  listGreeting.addEventListener('click',
+      google.appengine.samples.hello.listGreeting);
+
+};
+/**
+ * Initializes the application.
+ * @param {string} apiRoot Root of the API's path.
+ */
+google.appengine.samples.hello.init = function(apiRoot) {
+  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
+  // when they have completed.
+  var apisToLoad;
+  var callback = function() {
+    if (--apisToLoad == 0) {
+      google.appengine.samples.hello.enableButtons();
+    }
+  }
+
+  apisToLoad = 1; // must match number of calls to gapi.client.load()
+  gapi.client.load('helloworld', 'v1', callback, apiRoot);
+};
+</div></li><li class="list__item" id="e9u6tg_38"><p id="e9u6tg_75">This completes the coding; you are ready to run and test.</p></li></ol></section><section class="chapter"><h2 id="running-and-testing-your-client" data-toc="running-and-testing-your-client">Running and testing your client</h2><ol class="list _decimal" id="e9u6tg_76" type="1"><li class="list__item" id="e9u6tg_77"><p id="e9u6tg_81">Rebuild your project with the new client:</p><div class="code-block" data-lang="none">
+mvn clean install
+</div></li><li class="list__item" id="e9u6tg_78"><p id="e9u6tg_83">Upload and deploy the project and client code:</p><div class="code-block" data-lang="none">
+mvn appengine:update
+</div><p id="e9u6tg_85">When the backend finishes deploying, a message similar to this one is displayed:</p><div class="code-block" data-lang="none">
+09:08 AM Completed update of app: your-app-id, version: 1
+</div></li><li class="list__item" id="e9u6tg_79"><p id="e9u6tg_87">Visit the App Engine URL: <code class="code" id="e9u6tg_90">https://&lt;your-app-id&gt;.appspot.com/</code>, to display the UI:</p><figure id="e9u6tg_88"><img alt="Hello-Endpoints" src="https://web.archive.org/web/20160424230932im_/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/images/hello.png" title="Hello-Endpoints"></figure><p id="e9u6tg_89"><span class="control" id="e9u6tg_91">Important:</span> You should use <code class="code" id="e9u6tg_92">https</code>, not <code class="code" id="e9u6tg_93">http</code>, to access your web client app. Serving the HTML over <code class="code" id="e9u6tg_94">http</code> will trigger a mixed content warning and may prevent the page from fully loading in browsers with strict security configurations.</p></li><li class="list__item" id="e9u6tg_80"><p id="e9u6tg_95">Enter a <code class="code" id="e9u6tg_96">0</code> or <code class="code" id="e9u6tg_97">1</code> in the text box and click <span class="control" id="e9u6tg_98">Submit</span> to display a hardcoded Greeting from the backend API. Click <span class="control" id="e9u6tg_99">Submit</span> under <span class="control" id="e9u6tg_100">List Greetings</span> to get all the Greetings.</p></li></ol></section><section class="chapter"><h2 id="next" data-toc="next">Next...</h2><p id="e9u6tg_101">Continue to <a href="https://web.archive.org/web/20160424230932/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/add_post" id="e9u6tg_102" data-external="true" rel="noopener noreferrer" target="_blank">Adding a POST Request</a>.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="adding-the-client-ui.html" class="navigation-links__prev">Adding the Client UI</a><a href="adding-a-simple-post.html" class="navigation-links__next">Adding a Simple POST</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

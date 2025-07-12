@@ -1,0 +1,178 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.258462938"><title>The Deployment Descriptor: web.xml | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"about-deployment-descriptors","level":0,"title":"About Deployment Descriptors","anchor":"#about-deployment-descriptors"},{"id":"servlets-and-url-paths","level":0,"title":"Servlets and URL Paths","anchor":"#servlets-and-url-paths"},{"id":"jsps","level":0,"title":"JSPs","anchor":"#jsps"},{"id":"security-and-authentication","level":0,"title":"Security and Authentication","anchor":"#security-and-authentication"},{"id":"secure-urls","level":0,"title":"Secure URLs","anchor":"#secure-urls"},{"id":"the-welcome-file-list","level":0,"title":"The Welcome File List","anchor":"#the-welcome-file-list"},{"id":"filters","level":0,"title":"Filters","anchor":"#filters"},{"id":"error-handlers","level":0,"title":"Error Handlers","anchor":"#error-handlers"},{"id":"web-xml-features-not-supported","level":0,"title":"web.xml Features Not Supported","anchor":"#web-xml-features-not-supported"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="The Deployment Descriptor: web.xml | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/the-deployment-descriptor-web-xml.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="The Deployment Descriptor: web.xml | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/the-deployment-descriptor-web-xml.html#webpage",
+    "url": "writerside-documentation/the-deployment-descriptor-web-xml.html",
+    "name": "The Deployment Descriptor: web.xml | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="The-Deployment-Descriptor_-web.xml" data-main-title="The Deployment Descriptor: web.xml" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Managing-and-Configuring-Your-App.md|Managing and Configuring Your App"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="The-Deployment-Descriptor_-web.xml" id="The-Deployment-Descriptor_-web.xml.md">The Deployment Descriptor: web.xml</h1><p id="d010ah_3">Java web applications use a deployment descriptor file to determine how URLs map to servlets, which URLs require authentication, and other information. This file is named <code class="code" id="d010ah_15">web.xml</code>, and resides in the app's WAR under the <code class="code" id="d010ah_16">WEB-INF/</code> directory. <code class="code" id="d010ah_17">web.xml</code> is part of the servlet standard for web applications.</p><p id="d010ah_4">For more information about the <code class="code" id="d010ah_18">web.xml</code> standard, see <a href="https://web.archive.org/web/20160424230427/http://wiki.metawerx.net/wiki/Web.xml" id="d010ah_19" data-external="true" rel="noopener noreferrer" target="_blank">the Metawerx web.xml reference wiki</a> and <a href="https://web.archive.org/web/20160424230427/http://jcp.org/aboutJava/communityprocess/final/jsr154/index.html" id="d010ah_20" data-external="true" rel="noopener noreferrer" target="_blank">the Servlet specification</a>.</p><ol class="list _decimal" id="d010ah_5" type="1"><li class="list__item" id="d010ah_21"><p id="d010ah_30"><span id="d010ah_31">About Deployment Descriptors</span></p></li><li class="list__item" id="d010ah_22"><p id="d010ah_32"><span id="d010ah_33">Servlets and URL Paths</span></p></li><li class="list__item" id="d010ah_23"><p id="d010ah_34"><span id="d010ah_35">JSPs</span></p></li><li class="list__item" id="d010ah_24"><p id="d010ah_36"><span id="d010ah_37">Security and Authentication</span></p></li><li class="list__item" id="d010ah_25"><p id="d010ah_38"><span id="d010ah_39">Secure URLs</span></p></li><li class="list__item" id="d010ah_26"><p id="d010ah_40"><span id="d010ah_41">The Welcome File List</span></p></li><li class="list__item" id="d010ah_27"><p id="d010ah_42"><span id="d010ah_43">Filters</span></p></li><li class="list__item" id="d010ah_28"><p id="d010ah_44"><span id="d010ah_45">Error Handlers</span></p></li><li class="list__item" id="d010ah_29"><p id="d010ah_46"><span id="d010ah_47">web.xml Features Not Supported</span></p></li></ol><section class="chapter"><h2 id="about-deployment-descriptors" data-toc="about-deployment-descriptors">About Deployment Descriptors</h2><p id="d010ah_48">A web application's deployment descriptor describes the classes, resources and configuration of the application and how the web server uses them to serve web requests. When the web server receives a request for the application, it uses the deployment descriptor to map the URL of the request to the code that ought to handle the request.</p><p id="d010ah_49">The deployment descriptor is a file named <code class="code" id="d010ah_53">web.xml</code>. It resides in the app's WAR under the <code class="code" id="d010ah_54">WEB-INF/</code> directory. The file is an XML file whose root element is <code class="code" id="d010ah_55">&lt;web-app&gt;</code>.</p><p id="d010ah_50">Here is a simple <code class="code" id="d010ah_56">web.xml</code> example that maps all URL paths (<code class="code" id="d010ah_57">/*</code>) to the servlet class <code class="code" id="d010ah_58">mysite.server.ComingSoonServlet</code>:</p><div class="code-block" data-lang="none">
+&lt;web-app xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; version=&quot;2.5&quot;&gt;
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;comingsoon&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;mysite.server.ComingSoonServlet&lt;/servlet-class&gt;
+    &lt;/servlet&gt;
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;comingsoon&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+&lt;/web-app&gt;
+</div><p id="d010ah_52"><span class="control" id="d010ah_59">Note:</span> If you factor your application into Modules you will need to specify additional configuration parameters for each module. These are described in the <a href="https://web.archive.org/web/20160424230427/https://cloud.google.com/appengine/docs/java/modules/#Java_Configuration" id="d010ah_60" data-external="true" rel="noopener noreferrer" target="_blank">Modules</a> documentation.</p></section><section class="chapter"><h2 id="servlets-and-url-paths" data-toc="servlets-and-url-paths">Servlets and URL Paths</h2><p id="d010ah_61"><code class="code" id="d010ah_71">web.xml</code> defines mappings between URL paths and the servlets that handle requests with those paths. The web server uses this configuration to identify the servlet to handle a given request and call the class method that corresponds to the request method (e.g. the <code class="code" id="d010ah_72">doGet()</code> method for HTTP GET requests).</p><p id="d010ah_62">To map a URL to a servlet, you declare the servlet with the <code class="code" id="d010ah_73">&lt;servlet&gt;</code> element, then define a mapping from a URL path to a servlet declaration with the <code class="code" id="d010ah_74">&lt;servlet-mapping&gt;</code> element.</p><p id="d010ah_63">The <code class="code" id="d010ah_75">&lt;servlet&gt;</code> element declares the servlet, including a name used to refer to the servlet by other elements in the file, the class to use for the servlet, and initialization parameters. You can declare multiple servlets using the same class with different initialization parameters. The name for each servlet must be unique across the deployment descriptor.</p><div class="code-block" data-lang="none">
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;redteam&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;mysite.server.TeamServlet&lt;/servlet-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;teamColor&lt;/param-name&gt;
+            &lt;param-value&gt;red&lt;/param-value&gt;
+        &lt;/init-param&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;bgColor&lt;/param-name&gt;
+            &lt;param-value&gt;#CC0000&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/servlet&gt;
+
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;blueteam&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;mysite.server.TeamServlet&lt;/servlet-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;teamColor&lt;/param-name&gt;
+            &lt;param-value&gt;blue&lt;/param-value&gt;
+        &lt;/init-param&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;bgColor&lt;/param-name&gt;
+            &lt;param-value&gt;#0000CC&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/servlet&gt;
+</div><p id="d010ah_65">The <code class="code" id="d010ah_76">&lt;servlet-mapping&gt;</code> element specifies a URL pattern and the name of a declared servlet to use for requests whose URL matches the pattern. The URL pattern can use an asterisk (<code class="code" id="d010ah_77">*</code>) at the beginning or end of the pattern to indicate zero or more of any character. (The standard does not support wildcards in the middle of a string, and does not allow multiple wildcards in one pattern.) The pattern matches the full path of the URL, starting with and including the forward slash (<code class="code" id="d010ah_78">/</code>) following the domain name.</p><div class="code-block" data-lang="none">
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;redteam&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/red/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;blueteam&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/blue/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+</div><p id="d010ah_67">With this example, a request for the URL <code class="code" id="d010ah_79">http://www.example.com/blue/teamProfile</code> is handled by the TeamServlet class, with the <code class="code" id="d010ah_80">teamColor</code> parameter equal to <code class="code" id="d010ah_81">blue</code> and the <code class="code" id="d010ah_82">bgColor</code> parameter equal to <code class="code" id="d010ah_83">#0000CC</code>. The servlet can get the portion of the URL path matched by the wildcard using the ServletRequest object's <code class="code" id="d010ah_84">getPathInfo()</code> method.</p><p id="d010ah_68"><span class="control" id="d010ah_85">Note:</span> Static files, files that are served verbatim to users such as images, CSS or JavaScript, are handled separately from paths mentioned in the deployment descriptor. A request for a URL path that matches a path to a file in the WAR that's considered a static file will serve the file, regardless of servlet and filter mappings in the deployment descriptor. You can exclude files from those treated as static files using the <a href="https://web.archive.org/web/20160424230427/https://cloud.google.com/appengine/docs/java/config/appconfig" id="d010ah_86" data-external="true" rel="noopener noreferrer" target="_blank">appengine-web.xml</a> file.</p><p id="d010ah_69">The servlet can access its initialization parameters by getting its servlet configuration using its own <code class="code" id="d010ah_87">getServletConfig()</code> method, then calling the <code class="code" id="d010ah_88">getInitParameter()</code> method on the configuration object using the name of the parameter as an argument.</p><div class="code-block" data-lang="none">
+        String teamColor = getServletConfig().getInitParameter(&quot;teamColor&quot;);
+</div></section><section class="chapter"><h2 id="jsps" data-toc="jsps">JSPs</h2><p id="d010ah_89">An app can use JavaServer Pages (JSPs) to implement web pages. JSPs are servlets defined using static content (such as HTML) mixed with Java code.</p><p id="d010ah_90">App Engine supports automatic compilation and URL mapping for JSPs. A JSP file in the application's WAR (outside of <code class="code" id="d010ah_96">WEB-INF/</code>) whose filename ends in <code class="code" id="d010ah_97">.jsp</code> is compiled into a servlet class automatically, and mapped to the URL path equivalent to the path to the JSP file from the WAR root. For example, if an app has a JSP file named <code class="code" id="d010ah_98">start.jsp</code> in a subdirectory named <code class="code" id="d010ah_99">register/</code> in its WAR, App Engine compiles it and maps it to the URL path <code class="code" id="d010ah_100">/register/start.jsp</code>.</p><p id="d010ah_91">If you want more control over how the JSP is mapped to a URL, you can specify the mapping explicitly by declaring it with a <code class="code" id="d010ah_101">&lt;servlet&gt;</code> element in the deployment descriptor. Instead of a <code class="code" id="d010ah_102">&lt;servlet-class&gt;</code> element, you specify a <code class="code" id="d010ah_103">&lt;jsp-file&gt;</code> element with the path to the JSP file from the WAR root. The <code class="code" id="d010ah_104">&lt;servlet&gt;</code> element for the JSP can contain initialization parameters.</p><div class="code-block" data-lang="none">
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;register&lt;/servlet-name&gt;
+        &lt;jsp-file&gt;/register/start.jsp&lt;/jsp-file&gt;
+    &lt;/servlet&gt;
+
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;register&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/register/*&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+</div><p id="d010ah_93"><span class="control" id="d010ah_105">Note:</span> The <code class="code" id="d010ah_106">&lt;jsp-file&gt;</code> must start with a forward slash (<code class="code" id="d010ah_107">/</code>) if the JSP is in the application's root directory.</p><p id="d010ah_94">You can install JSP tag libraries with the <code class="code" id="d010ah_108">&lt;taglib&gt;</code> element. A tag library has a path to the JSP Tag Library Descriptor (TLD) file (<code class="code" id="d010ah_109">&lt;taglib-location&gt;</code>) and a URI that JSPs use to select the library for loading (<code class="code" id="d010ah_110">&lt;taglib-uri&gt;</code>). Note that App Engine provides the <a href="https://web.archive.org/web/20160424230427/http://java.sun.com/products/jsp/jstl/" id="d010ah_111" data-external="true" rel="noopener noreferrer" target="_blank">JavaServer Pages Standard Tag Library</a> (JSTL), and you do not need to install it.</p><div class="code-block" data-lang="none">
+    &lt;taglib&gt;
+        &lt;taglib-uri&gt;/escape&lt;/taglib-uri&gt;
+        &lt;taglib-location&gt;/WEB-INF/escape-tags.tld&lt;/taglib-location&gt;
+    &lt;/taglib&gt;
+</div></section><section class="chapter"><h2 id="security-and-authentication" data-toc="security-and-authentication">Security and Authentication</h2><p id="d010ah_112">An App Engine application can use Google Accounts for user authentication. The app can use <a href="https://web.archive.org/web/20160424230427/https://cloud.google.com/appengine/docs/java/users" id="d010ah_119" data-external="true" rel="noopener noreferrer" target="_blank">the Google Accounts API</a> to detect whether the user is signed in, get the currently signed-in user's email address, and generate sign-in and sign-out URLs. An app can also specify access restrictions for URL paths based on Google Accounts, using the deployment descriptor.</p><p id="d010ah_113">The <code class="code" id="d010ah_120">&lt;security-constraint&gt;</code> element defines a security constraint for URLs that match a pattern. If a user accesses a URL whose path has a security constraint and the user is not signed in, App Engine redirects the user to the Google Accounts sign-in page. Google Accounts redirects the user back to the application URL after successfully signing in or registering a new account. The app does not need to do anything else to ensure that only signed-in users can access the URL.</p><p id="d010ah_114">A security constraint includes an authorization constraint that specifies which Google Accounts users can access the path. If the authorization constraint specifies a user role of <code class="code" id="d010ah_121">*</code>, then any users signed in with a Google Account can access the URL. If the constraint specifies a user role of <code class="code" id="d010ah_122">admin</code>, then only registered developers of the application can access the URL. The <code class="code" id="d010ah_123">admin</code> role makes it easy to build administrator-only sections of your site.</p><div class="code-block" data-lang="none">
+    &lt;security-constraint&gt;
+        &lt;web-resource-collection&gt;
+            &lt;web-resource-name&gt;profile&lt;/web-resource-name&gt;
+            &lt;url-pattern&gt;/profile/*&lt;/url-pattern&gt;
+        &lt;/web-resource-collection&gt;
+        &lt;auth-constraint&gt;
+            &lt;role-name&gt;*&lt;/role-name&gt;
+        &lt;/auth-constraint&gt;
+    &lt;/security-constraint&gt;
+
+    &lt;security-constraint&gt;
+        &lt;web-resource-collection&gt;
+            &lt;web-resource-name&gt;admin&lt;/web-resource-name&gt;
+            &lt;url-pattern&gt;/admin/*&lt;/url-pattern&gt;
+        &lt;/web-resource-collection&gt;
+        &lt;auth-constraint&gt;
+            &lt;role-name&gt;admin&lt;/role-name&gt;
+        &lt;/auth-constraint&gt;
+    &lt;/security-constraint&gt;
+</div><p id="d010ah_116"><span class="control" id="d010ah_124">Note:</span> Google Apps domain administrators and App Engine domain administrators are not included in the <code class="code" id="d010ah_125">admin</code> role in this context. Only the application developers, such as those in Viewer/Owner/Developer roles, can access these portions of the application.</p><p id="d010ah_117">App Engine does not support custom security roles (<code class="code" id="d010ah_126">&lt;security-role&gt;</code>) or alternate authentication mechanisms (<code class="code" id="d010ah_127">&lt;login-config&gt;</code>) in the deployment descriptor.</p><p id="d010ah_118">Security constraints apply to static files as well as servlets.</p></section><section class="chapter"><h2 id="secure-urls" data-toc="secure-urls">Secure URLs</h2><p id="d010ah_128">Google App Engine supports secure connections via HTTPS for URLs using the <code class="code" id="d010ah_140">*.appspot.com</code> domain. When a request accesses a URL using HTTPS, and that URL is configured to use HTTPS in the <code class="code" id="d010ah_141">web.xml</code> file, both the request data and the response data are encrypted by the sender before they are transmitted, and decrypted by the recipient after they are received. Secure connections are useful for protecting customer data, such as contact information, passwords, and private messages.</p><p id="d010ah_129"><span class="control" id="d010ah_142">Note:</span> To use Google Apps domains with HTTPS, you must first <a href="https://web.archive.org/web/20160424230427/https://cloud.google.com/appengine/docs/ssl" id="d010ah_143" data-external="true" rel="noopener noreferrer" target="_blank">activate and configure SSL for App Engine with your domain</a>. Otherwise, users attempting to view pages via https on your domain will likely see timeouts, errors, or warnings.</p><p id="d010ah_130">To declare that HTTPS should be used for a URL, you set up a security constraint in the deployment descriptor (as described in <span id="d010ah_144">Security and Authentication</span>) with a <code class="code" id="d010ah_145">&lt;user-data-constraint&gt;</code> whose <code class="code" id="d010ah_146">&lt;transport-guarantee&gt;</code> is <code class="code" id="d010ah_147">CONFIDENTIAL</code>, as follows:</p><div class="code-block" data-lang="none">
+    &lt;security-constraint&gt;
+        &lt;web-resource-collection&gt;
+            &lt;web-resource-name&gt;profile&lt;/web-resource-name&gt;
+            &lt;url-pattern&gt;/profile/*&lt;/url-pattern&gt;
+        &lt;/web-resource-collection&gt;
+        &lt;user-data-constraint&gt;
+            &lt;transport-guarantee&gt;CONFIDENTIAL&lt;/transport-guarantee&gt;
+        &lt;/user-data-constraint&gt;
+    &lt;/security-constraint&gt;
+</div><p id="d010ah_132">Requests using HTTP (non-secure) for URLs whose transport guarantee is <code class="code" id="d010ah_148">CONFIDENTIAL</code> are automatically redirected to the same URL using HTTPS.</p><p id="d010ah_133">Any URL can use the <code class="code" id="d010ah_149">CONFIDENTIAL</code> transport guarantee, including JSPs and static files.</p><p id="d010ah_134">The development web server does not support HTTPS connections. It ignores the transport guarantee, so paths intended for use with HTTPS can be tested using regular HTTP connections to the development web server.</p><p id="d010ah_135">When you test your app's HTTPS handlers using the versioned appspot.com URL, such as <code class="code" id="d010ah_150">https://1.latest.</code><span class="emphasis" id="d010ah_151"><code class="code" id="d010ah_156">your_app_id</code></span><code class="code" id="d010ah_152">.appspot.com/</code>, your browser warns you that the HTTPS certificate was not signed for that specific domain path. If you accept the certificate for that domain, pages will load successfully. Users will not see the certificate warning when accessing <code class="code" id="d010ah_153">https://</code><span class="emphasis" id="d010ah_154"><code class="code" id="d010ah_157">your_app_id</code></span><code class="code" id="d010ah_155">.appspot.com/</code>.</p><p id="d010ah_136">You can also use an alternate form of the versioned appspot.com URL designed to avoid this problem by replacing the periods separating the subdomain components with the string &quot; <code class="code" id="d010ah_158">-dot-</code> &quot;. For instance, the previous example could be accessed without a certificate warning at <code class="code" id="d010ah_159">https://1-dot-latest-dot-</code><span class="emphasis" id="d010ah_160"><code class="code" id="d010ah_162">your_app_id</code></span><code class="code" id="d010ah_161">.appspot.com/</code>.</p><p id="d010ah_137">Google Accounts sign-in and sign-out are always performed using a secure connection, unrelated to how the application's URLs are configured.</p><p id="d010ah_138">As mentioned above, security constraints apply to static files as well as servlets. This includes the transport guarantee.</p><p id="d010ah_139"><span class="control" id="d010ah_163">Note:</span> After April 2013 Google does not issue SSL certificates for double-wildcard domains hosted at <code class="code" id="d010ah_164">appspot.com</code> (i.e. <code class="code" id="d010ah_165">*.*.appspot.com</code>). If you rely on such URLs for HTTPS access to your application, change any application logic to use &quot; <code class="code" id="d010ah_166">-dot-</code> &quot; instead of &quot; <code class="code" id="d010ah_167">.</code> &quot;. For example, to access version v1 of application myapp use <code class="code" id="d010ah_168">https://v1-dot-myapp.appspot.com</code>. The certificate will not match if you use <code class="code" id="d010ah_169">https://v1.myapp.appspot.com</code>, and an error occurs for any User-Agent that expects the URL and certificate to match exactly.</p></section><section class="chapter"><h2 id="the-welcome-file-list" data-toc="the-welcome-file-list">The Welcome File List</h2><p id="d010ah_170">When the URLs for your site represent paths to static files or JSPs in your WAR, it is often a good idea for paths to directories to do something useful as well. A user visiting the URL path <code class="code" id="d010ah_173">/help/accounts/password.jsp</code> for information on account passwords may try to visit <code class="code" id="d010ah_174">/help/accounts/</code> to find a page introducing the account system documentation. The deployment descriptor can specify a list of filenames that the server should try when the user accesses a path that represents a WAR subdirectory (that is not already explicitly mapped to a servlet). The servlet standard calls this the &quot;welcome file list.&quot;</p><p id="d010ah_171">For example, if the user accesses the URL path <code class="code" id="d010ah_175">/help/accounts/</code>, the following <code class="code" id="d010ah_176">&lt;welcome-file-list&gt;</code> element in the deployment descriptor tells the server to check for <code class="code" id="d010ah_177">help/accounts/index.jsp</code> and <code class="code" id="d010ah_178">help/accounts/index.html</code> before reporting that the URL does not exist:</p><div class="code-block" data-lang="none">
+    &lt;welcome-file-list&gt;
+        &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
+        &lt;welcome-file&gt;index.html&lt;/welcome-file&gt;
+    &lt;/welcome-file-list&gt;
+</div></section><section class="chapter"><h2 id="filters" data-toc="filters">Filters</h2><p id="d010ah_179">A <span class="emphasis" id="d010ah_188">filter</span> is a class that acts on a request like a servlet, but may allow the handling of the request to continue with other filters or servlets. A filter may perform an auxiliary task such as logging, performing specialized authentication checks, or annotating the request or response objects before calling the servlet. Filters allow you to compose request processing tasks from the deployment descriptor.</p><p id="d010ah_180">A filter class implements the <code class="code" id="d010ah_189">javax.servlet.Filter</code> interface, including the <code class="code" id="d010ah_190">doFilter()</code> method. Here is an simple filter implementation that logs a message, and passes control down the chain, which may include other filters or a servlet, as described by the deployment descriptor:</p><div class="code-block" data-lang="none">
+package mysite.server;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+public class LogFilterImpl implements Filter {
+
+    private FilterConfig filterConfig;
+    private static final Logger log = Logger.getLogger(LogFilterImpl.class.getName());
+
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
+        throws IOException, ServletException {
+        log.warning(&quot;Log filter processed a &quot; + getFilterConfig().getInitParameter(&quot;logType&quot;)
+            + &quot; request&quot;);
+
+        filterChain.doFilter(request, response);
+    }
+
+    public FilterConfig getFilterConfig() {
+        return filterConfig;
+    }
+
+    public void init(FilterConfig filterConfig) {
+        this.filterConfig = filterConfig;
+    }
+
+    public void destroy() {}
+
+}
+
+</div><p id="d010ah_182">Similar to servlets, you configure a filter in the deployment descriptor by declaring the filter with the <code class="code" id="d010ah_191">&lt;filter&gt;</code> element, then mapping it to a URL pattern with the <code class="code" id="d010ah_192">&lt;filter-mapping&gt;</code> element. You can also map filters directly to other servlets.</p><p id="d010ah_183">The <code class="code" id="d010ah_193">&lt;filter&gt;</code> element contains a <code class="code" id="d010ah_194">&lt;filter-name&gt;</code>, <code class="code" id="d010ah_195">&lt;filter-class&gt;</code>, and optional <code class="code" id="d010ah_196">&lt;init-param&gt;</code> elements.</p><div class="code-block" data-lang="none">
+    &lt;filter&gt;
+        &lt;filter-name&gt;logSpecial&lt;/filter-name&gt;
+        &lt;filter-class&gt;mysite.server.LogFilterImpl&lt;/filter-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;logType&lt;/param-name&gt;
+            &lt;param-value&gt;special&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/filter&gt;
+</div><p id="d010ah_185">The <code class="code" id="d010ah_197">&lt;filter-mapping&gt;</code> element contains a <code class="code" id="d010ah_198">&lt;filter-name&gt;</code> that matches the name of a declared filter, and either a <code class="code" id="d010ah_199">&lt;url-pattern&gt;</code> element for applying the filter to URLs, or a <code class="code" id="d010ah_200">&lt;servlet-name&gt;</code> element that matches the name of a declared servlet for applying the filter whenever the servlet is called.</p><div class="code-block" data-lang="none">
+    &lt;!-- Log for all URLs ending in &quot;.special&quot; --&gt;
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;logSpecial&lt;/filter-name&gt;
+        &lt;url-pattern&gt;*.special&lt;/url-pattern&gt;
+    &lt;/filter-mapping&gt;
+
+    &lt;!-- Log for all URLs that use the &quot;comingsoon&quot; servlet --&gt;
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;logSpecial&lt;/filter-name&gt;
+        &lt;servlet-name&gt;comingsoon&lt;/servlet-name&gt;
+    &lt;/filter-mapping&gt;
+</div><p id="d010ah_187"><span class="control" id="d010ah_201">Note:</span> Filters are not invoked on static assets, even if the path matches a <code class="code" id="d010ah_202">filter-mapping</code> pattern. Static files are served directly to the browser.</p></section><section class="chapter"><h2 id="error-handlers" data-toc="error-handlers">Error Handlers</h2><p id="d010ah_203">You can customize what the server sends to the user when an error occurs, using the deployment descriptor. The server can display an alternate page location when it's about to send a particular HTTP status code, or when a servlet raises a particular Java exception.</p><p id="d010ah_204">The <code class="code" id="d010ah_207">&lt;error-page&gt;</code> element contains either an <code class="code" id="d010ah_208">&lt;error-code&gt;</code> element with an HTTP error code value (such as <code class="code" id="d010ah_209">500</code>), or an <code class="code" id="d010ah_210">&lt;exception-type&gt;</code> element with the class name of the expected exception (such as <code class="code" id="d010ah_211">java.io.IOException</code>). It also contains a <code class="code" id="d010ah_212">&lt;location&gt;</code> element containing the URL path of the resource to show when the error occurs.</p><div class="code-block" data-lang="none">
+    &lt;error-page&gt;
+        &lt;error-code&gt;500&lt;/error-code&gt;
+        &lt;location&gt;/errors/servererror.jsp&lt;/location&gt;
+    &lt;/error-page&gt;
+</div><p id="d010ah_206"><span class="control" id="d010ah_213">Note:</span> At present, you cannot configure custom error handlers for some error conditions. Specifically, you cannot customize the 404 response page when no servlet mapping is defined for a URL, the 403 quota error page, or the 500 server error page that appears after an App Engine internal error.</p></section><section class="chapter"><h2 id="web-xml-features-not-supported" data-toc="web-xml-features-not-supported">web.xml Features Not Supported</h2><p id="d010ah_214">The following web.xml features are not supported by App Engine:</p><ul class="list _bullet" id="d010ah_215"><li class="list__item" id="d010ah_216"><p id="d010ah_223">App Engine supports the <code class="code" id="d010ah_224">&lt;load-on-startup&gt;</code> element for servlet declarations. However, the load actually occurs during the first request handled by the web server instance, not prior to it.</p></li><li class="list__item" id="d010ah_217"><p id="d010ah_225">Some deployment descriptor elements can take a human readable display name, description and icon for use in IDEs. App Engine doesn't use these, and ignores them.</p></li><li class="list__item" id="d010ah_218"><p id="d010ah_226">App Engine doesn't support JNDI environment variables (<code class="code" id="d010ah_227">&lt;env-entry&gt;</code>).</p></li><li class="list__item" id="d010ah_219"><p id="d010ah_228">App Engine doesn't support EJB resources (<code class="code" id="d010ah_229">&lt;resource-ref&gt;</code>).</p></li><li class="list__item" id="d010ah_220"><p id="d010ah_230">Notification of the destruction of servlets, servlet context, or filters is not supported.</p></li><li class="list__item" id="d010ah_221"><p id="d010ah_231">The <code class="code" id="d010ah_232">&lt;distributable&gt;</code> element is ignored.</p></li><li class="list__item" id="d010ah_222"><p id="d010ah_233">Servlet scheduling with <code class="code" id="d010ah_234">&lt;run-at&gt;</code> is not supported.</p></li></ul></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="dos-protection-service-for-java.html" class="navigation-links__prev">DoS Protection Service for Java</a><a href="configuring-your-java-app-with-yaml-files.html" class="navigation-links__next">Configuring Your Java App with YAML Files</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

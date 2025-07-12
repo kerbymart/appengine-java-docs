@@ -1,0 +1,172 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:46.330234757"><title>Transactions | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"contents","level":0,"title":"Contents","anchor":"#contents"},{"id":"using-transactions","level":0,"title":"Using transactions","anchor":"#using-transactions"},{"id":"what-can-be-done-in-a-transaction","level":0,"title":"What can be done in a transaction","anchor":"#what-can-be-done-in-a-transaction"},{"id":"isolation-and-consistency","level":0,"title":"Isolation and consistency","anchor":"#isolation-and-consistency"},{"id":"uses-for-transactions","level":0,"title":"Uses for transactions","anchor":"#uses-for-transactions"},{"id":"transactional-task-enqueuing","level":0,"title":"Transactional task enqueuing","anchor":"#transactional-task-enqueuing"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Transactions | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/transactions.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Transactions | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/transactions.html#webpage",
+    "url": "writerside-documentation/transactions.html",
+    "name": "Transactions | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Transactions" data-main-title="Transactions" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Google-Cloud-Datastore.md|Google Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Transactions" id="Transactions.md">Transactions</h1><p id="-3q9620_3">The App Engine Datastore supports <span class="emphasis" id="-3q9620_10">transactions</span>. A transaction is an operation or set of operations that is atomic&mdash;either all of the operations in the transaction occur, or none of them occur. An application can perform multiple operations and calculations in a single transaction.</p><section class="chapter"><h2 id="contents" data-toc="contents">Contents</h2><ol class="list _decimal" id="-3q9620_11" type="1"><li class="list__item" id="-3q9620_12"><p id="-3q9620_17"><span id="-3q9620_18">Using transactions</span></p></li><li class="list__item" id="-3q9620_13"><p id="-3q9620_19"><span id="-3q9620_20">What can be done in a transaction</span></p></li><li class="list__item" id="-3q9620_14"><p id="-3q9620_21"><span id="-3q9620_22">Isolation and consistency</span></p></li><li class="list__item" id="-3q9620_15"><p id="-3q9620_23"><span id="-3q9620_24">Uses for transactions</span></p></li><li class="list__item" id="-3q9620_16"><p id="-3q9620_25"><span id="-3q9620_26">Transactional task enqueuing</span></p></li></ol></section><section class="chapter"><h2 id="using-transactions" data-toc="using-transactions">Using transactions</h2><p id="-3q9620_27">A <span class="emphasis" id="-3q9620_39">transaction</span> is a set of Datastore operations on one or more entities. Each transaction is guaranteed to be atomic, which means that transactions are never partially applied. Either all of the operations in the transaction are applied, or none of them are applied. Transactions have a maximum duration of 60 seconds with a 10 second idle expiration time after 30 seconds.</p><p id="-3q9620_28">An operation may fail when:</p><ul class="list _bullet" id="-3q9620_29"><li class="list__item" id="-3q9620_40"><p id="-3q9620_43">Too many concurrent modifications are attempted on the same entity group.</p></li><li class="list__item" id="-3q9620_41"><p id="-3q9620_44">The transaction exceeds a resource limit.</p></li><li class="list__item" id="-3q9620_42"><p id="-3q9620_45">The Datastore encounters an internal error.</p></li></ul><p id="-3q9620_30">In all these cases, the Datastore API raises an exception.</p><p id="-3q9620_31"><span class="control" id="-3q9620_46">Note:</span> If your application receives an exception when committing a transaction, it does not always mean that the transaction failed. You can receive <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/DatastoreTimeoutException" id="-3q9620_47" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-3q9620_49">DatastoreTimeoutException</code></a> or <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/DatastoreFailureException" id="-3q9620_48" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-3q9620_50">DatastoreFailureException</code></a> exceptions in cases where transactions have been committed and eventually will be applied successfully. Whenever possible, make your Datastore transactions idempotent so that if you repeat a transaction, the end result will be the same.</p><p id="-3q9620_32">Transactions are an optional feature of the Datastore; you're not required to use transactions to perform Datastore operations.</p><p id="-3q9620_33">Here is an example of updating field named <code class="code" id="-3q9620_51">vacationDays</code> in an entity of kind <code class="code" id="-3q9620_52">Employee</code> named <code class="code" id="-3q9620_53">Joe</code>:</p><div class="code-block" data-lang="none">
+DatastoreService datastore = DatastoreServiceFactory.getDatastoreService()
+Transaction txn = datastore.beginTransaction();
+try {
+    Key employeeKey = KeyFactory.createKey(&quot;Employee&quot;, &quot;Joe&quot;);
+    Entity employee = datastore.get(employeeKey);
+    employee.setProperty(&quot;vacationDays&quot;, 10);
+
+    datastore.put(employee);
+
+    txn.commit();
+} finally {
+    if (txn.isActive()) {
+        txn.rollback();
+    }
+}
+</div><p id="-3q9620_35">Note that in order to keep our examples more succinct we sometimes omit the <code class="code" id="-3q9620_54">finally</code> block that performs a rollback if the transaction is still active. In production code it is important to ensure that every transaction is either explicitly committed or rolled back.</p><section class="chapter"><h3 id="entity-groups" data-toc="entity-groups">Entity groups</h3><p id="-3q9620_55">Every entity belongs to an <span class="emphasis" id="-3q9620_60">entity group</span>, a set of one or more entities that can be manipulated in a single transaction. Entity group relationships tell App Engine to store several entities in the same part of the distributed network. A transaction sets up Datastore operations for an entity group, and all of the operations are applied as a group, or not at all if the transaction fails.</p><p id="-3q9620_56">When the application creates an entity, it can assign another entity as the <span class="emphasis" id="-3q9620_61">parent</span> of the new entity. Assigning a parent to a new entity puts the new entity in the same entity group as the parent entity.</p><p id="-3q9620_57">An entity without a parent is a <span class="emphasis" id="-3q9620_62">root</span> entity. An entity that is a parent for another entity can also have a parent. A chain of parent entities from an entity up to the root is the <span class="emphasis" id="-3q9620_63">path</span> for the entity, and members of the path are the entity's <span class="emphasis" id="-3q9620_64">ancestors</span>. The parent of an entity is defined when the entity is created, and cannot be changed later.</p><p id="-3q9620_58">Every entity with a given root entity as an ancestor is in the same entity group. All entities in a group are stored in the same Datastore node. A single transaction can modify multiple entities in a single group, or add new entities to the group by making the new entity's parent an existing entity in the group. The following code snippet demonstrates transactions on various types of entities:</p><div class="code-block" data-lang="none">
+DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+Entity person = new Entity(&quot;Person&quot;, &quot;tom&quot;);
+datastore.put(person);
+
+// Transactions on root entities
+Transaction tx = datastore.beginTransaction();
+
+Entity tom = datastore.get(person.getKey());
+tom.setProperty(&quot;age&quot;, 40);
+datastore.put(tom);
+tx.commit();
+
+// Transactions on child entities
+tx = datastore.beginTransaction();
+tom = datastore.get(person.getKey());
+Entity photo = new Entity(&quot;Photo&quot;, tom.getKey());
+
+// Create a Photo that is a child of the Person entity named &quot;tom&quot;
+photo.setProperty(&quot;photoUrl&quot;, &quot;http://domain.com/path/to/photo.jpg&quot;);
+datastore.put(photo);
+tx.commit();
+
+// Transactions on entities in different entity groups
+tx = datastore.beginTransaction();
+tom = datastore.get(person.getKey());
+Entity photoNotAChild = new Entity(&quot;Photo&quot;);
+photoNotAChild.setProperty(&quot;photoUrl&quot;, &quot;http://domain.com/path/to/photo.jpg&quot;);
+datastore.put(photoNotAChild);
+
+// Throws IllegalArgumentException because the Person entity
+// and the Photo entity belong to different entity groups.
+tx.commit();
+</div></section><section class="chapter"><h3 id="creating-an-entity-in-a-specific-entity-group" data-toc="creating-an-entity-in-a-specific-entity-group">Creating an entity in a specific entity group</h3><p id="-3q9620_65">When your application constructs a new entity, you can assign it to an entity group by supplying the key of another entity. The example below constructs the key of a MessageBoard entity, then uses that key to create and persist a Message entity that resides in the same entity group as the MessageBoard:</p><div class="code-block" data-lang="none">
+DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+String messageTitle = req.getParameter(&quot;title&quot;);
+String messageText = req.getParameter(&quot;body&quot;);
+Date postDate = new Date();
+
+Transaction txn = datastore.beginTransaction();
+
+Key messageBoardKey = KeyFactory.createKey(&quot;MessageBoard&quot;, boardName);
+
+Entity message = new Entity(&quot;Message&quot;, messageBoardKey);
+message.setProperty(&quot;message_title&quot;, messageTitle);
+message.setProperty(&quot;message_text&quot;, messageText);
+message.setProperty(&quot;post_date&quot;, postDate);
+datastore.put(message);
+
+txn.commit();
+</div></section><section class="chapter"><h3 id="using-cross-group-transactions" data-toc="using-cross-group-transactions">Using cross-group transactions</h3><p id="-3q9620_67">Using a <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/datastore/#Java_Cross_group_transactions" id="-3q9620_69" data-external="true" rel="noopener noreferrer" target="_blank">cross-group (XG) transaction</a> is similar to using a single group transaction, except that you need to specify that you want the transaction to be XG when you begin the transaction, using <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/TransactionOptions" id="-3q9620_70" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-3q9620_71">TransactionOptions</code></a>:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.TransactionOptions;
+
+void myTxn() {
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  TransactionOptions options = TransactionOptions.Builder.withXG(true);
+  Transaction txn = datastore.beginTransaction(options);
+
+  Entity a = new Entity(&quot;A&quot;);
+  a.setProperty(&quot;a&quot;, 22);
+  datastore.put(txn, a);
+
+  Entity b = new Entity(&quot;B&quot;);
+  b.setProperty(&quot;b&quot;, 11);
+  datastore.put(txn, b);
+
+  txn.commit();
+}
+</div></section></section><section class="chapter"><h2 id="what-can-be-done-in-a-transaction" data-toc="what-can-be-done-in-a-transaction">What can be done in a transaction</h2><p id="-3q9620_72">The Datastore imposes restrictions on what can be done inside a single transaction.</p><p id="-3q9620_73">All Datastore operations in a transaction must operate on entities in the same entity group if the transaction is a single group transaction, or on entities in a maximum of twenty-five entity groups if the transaction is a <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/datastore/#Java_Cross_group_transactions" id="-3q9620_76" data-external="true" rel="noopener noreferrer" target="_blank">cross-group (XG) transaction</a>. This includes querying for entities by ancestor, retrieving entities by key, updating entities, and deleting entities. Notice that each root entity belongs to a separate entity group, so a single transaction cannot create or operate on more than one root entity unless it is an XG transaction.</p><p id="-3q9620_74">When two or more transactions simultaneously attempt to modify entities in one or more common entity groups, only the first transaction to commit its changes can succeed; all the others will fail on commit. Because of this design, using entity groups limits the number of concurrent writes you can do on any entity in the groups. When a transaction starts, App Engine uses <a href="https://web.archive.org/web/20160424230814/http://en.wikipedia.org/wiki/Optimistic_concurrency_control" id="-3q9620_77" data-external="true" rel="noopener noreferrer" target="_blank">optimistic concurrency control</a> by checking the last update time for the entity groups used in the transaction. Upon commiting a transaction for the entity groups, App Engine again checks the last update time for the entity groups used in the transaction. If it has changed since our initial check, an exception is thrown. For an explanation of entity groups, see the <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/datastore/#Java_Ancestor_paths" id="-3q9620_78" data-external="true" rel="noopener noreferrer" target="_blank">Datastore Overview</a> page.</p><p id="-3q9620_75">An app can perform a <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/datastore/queries" id="-3q9620_79" data-external="true" rel="noopener noreferrer" target="_blank">query</a> during a transaction, but only if it includes an ancestor filter. An app can also get Datastore entities by key during a transaction. You can prepare keys prior to the transaction, or you can build keys inside the transaction with key names or IDs.</p></section><section class="chapter"><h2 id="isolation-and-consistency" data-toc="isolation-and-consistency">Isolation and consistency</h2><p id="-3q9620_80">Outside of transactions, the Datastore's isolation level is closest to read committed. Inside of transactions, serializable isolation is enforced. This means that another transaction cannot concurrently modify the data that is <span class="control" id="-3q9620_83">read or modified</span> by this transaction. Read the <a href="https://web.archive.org/web/20160424230814/http://en.wikipedia.org/wiki/Serializability" id="-3q9620_84" data-external="true" rel="noopener noreferrer" target="_blank">serializable isolation</a> wiki and the <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/articles/transaction_isolation" id="-3q9620_85" data-external="true" rel="noopener noreferrer" target="_blank">Transaction Isolation</a> article for more information on isolation levels.</p><p id="-3q9620_81">In a transaction, all reads reflect the current, consistent state of the Datastore at the time the transaction started. Queries and gets inside a transaction are guaranteed to see a single, consistent snapshot of the Datastore as of the beginning of the transaction. Entities and index rows in the transaction's entity group are fully updated so that queries return the complete, correct set of result entities, without the false positives or false negatives described in <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/articles/transaction_isolation" id="-3q9620_86" data-external="true" rel="noopener noreferrer" target="_blank">Transaction Isolation</a> that can occur in queries outside of transactions.</p><p id="-3q9620_82">This consistent snapshot view also extends to reads after writes inside transactions. Unlike with most databases, queries and gets inside a Datastore transaction do <span class="emphasis" id="-3q9620_87">not</span> see the results of previous writes inside that transaction. Specifically, if an entity is modified or deleted within a transaction, a query or get returns the <span class="emphasis" id="-3q9620_88">original</span> version of the entity as of the beginning of the transaction, or nothing if the entity did not exist then.</p></section><section class="chapter"><h2 id="uses-for-transactions" data-toc="uses-for-transactions">Uses for transactions</h2><p id="-3q9620_89">This example demonstrates one use of transactions: updating an entity with a new property value relative to its current value. Since the Datastore API does not retry transactions, we can add logic for the transaction to be retried in case another request updates the same MessageBoard or any of its Messages at the same time.</p><div class="code-block" data-lang="none">
+int retries = 3;
+while (true) {
+    Transaction txn = datastore.beginTransaction();
+    try {
+        Key boardKey = KeyFactory.createKey(&quot;MessageBoard&quot;, boardName);
+        Entity messageBoard = datastore.get(boardKey);
+
+        long count = (Long) messageBoard.getProperty(&quot;count&quot;);
+        ++count;
+        messageBoard.setProperty(&quot;count&quot;, count);
+        datastore.put(messageBoard);
+
+        txn.commit();
+        break;
+    } catch (ConcurrentModificationException e) {
+        if (retries == 0) {
+            throw e;
+        }
+        // Allow retry to occur
+        --retries;
+    } finally {
+        if (txn.isActive()) {
+            txn.rollback();
+        }
+    }
+}
+</div><p id="-3q9620_91"><span class="control" id="-3q9620_101">Warning:</span> The above sample depicts transactionally incrementing a counter only for the sake of simplicity. If your app has counters that are updated frequently, you should not increment them transactionally, or even within a single entity. A best practice for working with counters is to use a technique known as <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/articles/sharding_counters" id="-3q9620_102" data-external="true" rel="noopener noreferrer" target="_blank">counter-sharding</a>.</p><p id="-3q9620_92">This requires a transaction because the value may be updated by another user after this code fetches the object, but before it saves the modified object. Without a transaction, the user's request uses the value of <code class="code" id="-3q9620_103">count</code> prior to the other user's update, and the save overwrites the new value. With a transaction, the application is told about the other user's update. If the entity is updated during the transaction, then the transaction fails with a <code class="code" id="-3q9620_104">ConcurrentModificationException</code>. The application can repeat the transaction to use the new data.</p><p id="-3q9620_93"><span class="control" id="-3q9620_105">Note:</span> In extremely rare cases, the transaction is fully committed even if a transaction returns a timeout or internal error exception. For this reason, it's best to make transactions idempotent whenever possible.</p><p id="-3q9620_94">Another common use for transactions is to fetch an entity with a named key, or create it if it doesn't yet exist:</p><div class="code-block" data-lang="none">
+Transaction txn = datastore.beginTransaction();
+try {
+    Key boardKey = KeyFactory.createKey(&quot;MessageBoard&quot;, &quot;Foo&quot;);
+    Entity messageBoard = datastore.get(boardKey);
+} catch (EntityNotFoundException e) {
+    messageBoard = new Entity(&quot;MessageBoard&quot;, boardName);
+    messageBoard.setProperty(&quot;count&quot;, 0L);
+    boardKey = datastore.put(messageBoard);
+}
+txn.commit();
+</div><p id="-3q9620_96">As before, a transaction is necessary to handle the case where another user is attempting to create or update an entity with the same string ID. Without a transaction, if the entity does not exist and two users attempt to create it, the second overwrites the first without knowing that it happened. With a transaction, the second attempt fails atomically. If it makes sense to do, the application can try again to fetch the entity and update it.</p><p id="-3q9620_97">When a transaction fails, you can have your app retry the transaction until it succeeds, or you can let your users deal with the error by propagating it to your app's user interface level. You do not have to create a retry loop around every transaction.</p><p id="-3q9620_98"><span class="control" id="-3q9620_106">Note:</span> A transaction should happen as quickly as possible to reduce the likelihood that the entities used by the transaction will change, causing the transaction to fail. As much as possible, prepare data outside of the transaction, then execute the transaction to perform Datastore operations that depend on a consistent state. The application should prepare keys for objects used outside the transaction, then fetch the entities inside the transaction.</p><p id="-3q9620_99">Finally, you can use a transaction to read a consistent snapshot of the Datastore. This can be useful when multiple reads are needed to render a page or export data that must be consistent. These kinds of transactions are often called <span class="emphasis" id="-3q9620_107">read-only</span> transactions, since they perform no writes. Read-only single-group transactions never fail due to concurrent modifications, so you don't have to implement retries upon failure. However, XG transactions can fail due to concurrent modifications, so these should have retries. Committing and rolling back a read-only transaction are both no-ops.</p><div class="code-block" data-lang="none">
+DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+
+// Display information about a message board and its first 10 messages.
+Key boardKey = KeyFactory.createKey(&quot;MessageBoard&quot;, boardName);
+
+Transaction txn = datastore.beginTransaction();
+
+Entity messageBoard = datastore.get(boardKey);
+long count = (Long) messageBoard.getProperty(&quot;count&quot;);
+
+Query q = new Query(&quot;Message&quot;, boardKey);
+
+// This is an ancestor query.
+PreparedQuery pq = datastore.prepare(txn, q);
+List&lt;Entity&gt; messages = pq.asList(FetchOptions.Builder.withLimit(10)));
+
+txn.commit();
+</div></section><section class="chapter"><h2 id="transactional-task-enqueuing" data-toc="transactional-task-enqueuing">Transactional task enqueuing</h2><p id="-3q9620_108">You can enqueue a task as part of a Datastore transaction, such that the task is only enqueued&mdash;and guaranteed to be enqueued&mdash;if the transaction is committed successfully. If the transaction does get committed, the task is guaranteed to be enqueued. Once enqueued, the task is not guaranteed to execute immediately and any operations performed within the task execute independent of the original transaction. The task retries until it succeeds. This applies to any task enqueued in the context of a transaction.</p><p id="-3q9620_109">Transactional tasks are useful because they allow you to enlist non-Datastore actions in a Datastore transaction (such as sending an email to confirm a purchase). You can also tie Datastore actions to the transaction, such as committing changes to additional entity groups outside of the transaction if and only if the transaction succeeds.</p><p id="-3q9620_110">An application cannot insert more than five <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/taskqueue/#Java_Tasks_within_transactions" id="-3q9620_112" data-external="true" rel="noopener noreferrer" target="_blank">transactional tasks</a> into <a href="https://web.archive.org/web/20160424230814/https://cloud.google.com/appengine/docs/java/taskqueue/#Java_Queue_concepts" id="-3q9620_113" data-external="true" rel="noopener noreferrer" target="_blank">task queues</a> during a single transaction. Transactional tasks must not have user-specified names.</p><div class="code-block" data-lang="none">
+DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+Queue queue = QueueFactory.getDefaultQueue();
+Transaction txn = datastore.beginTransaction();
+// ...
+
+queue.add(TaskOptions.Builder.withUrl(&quot;/path/to/handler&quot;));
+
+// ...
+
+txn.commit();
+</div></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="datastore-indexes.html" class="navigation-links__prev">Datastore Indexes</a><a href="structuring-data-for-strong-consistency.html" class="navigation-links__next">Structuring Data for Strong Consistency</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

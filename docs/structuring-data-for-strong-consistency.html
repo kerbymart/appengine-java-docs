@@ -1,0 +1,66 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:46.350634904"><title>Structuring Data for Strong Consistency | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Structuring Data for Strong Consistency | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/structuring-data-for-strong-consistency.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Structuring Data for Strong Consistency | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/structuring-data-for-strong-consistency.html#webpage",
+    "url": "writerside-documentation/structuring-data-for-strong-consistency.html",
+    "name": "Structuring Data for Strong Consistency | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Structuring-Data-for-Strong-Consistency" data-main-title="Structuring Data for Strong Consistency" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Google-Cloud-Datastore.md|Google Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Structuring-Data-for-Strong-Consistency" id="Structuring-Data-for-Strong-Consistency.md">Structuring Data for Strong Consistency</h1><p id="uua1sh_3">The Google App Engine High Replication Datastore (HRD) provides high availability, scalability and durability by distributing data over many machines and using masterless, synchronous replication over a wide geographic area. However, there is a tradeoff in this design, which is that the write throughput for any single <a href="https://web.archive.org/web/20160424231001/https://cloud.google.com/appengine/docs/java/datastore/entities#Java_Ancestor_paths" id="uua1sh_16" data-external="true" rel="noopener noreferrer" target="_blank"><span class="emphasis" id="uua1sh_17">entity group</span></a> is limited to about one commit per second, and there are limitations on queries or transactions that span multiple entity groups. This page describes these limitations in more detail and discusses best practices for structuring your data to support strong consistency while still meeting your application's write throughput requirements.</p><p id="uua1sh_4">Strongly-consistent reads always return current data, and, if performed within a transaction, will appear to come from a single, consistent snapshot. However, queries must specify an ancestor filter in order to be strongly-consistent or participate in a transaction, and transactions can involve at most 25 entity groups. Eventually-consistent reads do not have those limitations, and are adequate in many cases. Using eventually-consistent reads may allow you to distribute your data among a larger number of entity groups, enabling you to obtain greater write throughput by executing commits in parallel on the different entity groups. But, you need to understand the characteristics of eventually-consistent reads in order to determine whether they are suitable for your application:</p><ul class="list _bullet" id="uua1sh_5"><li class="list__item" id="uua1sh_18"><p id="uua1sh_21">The results from these reads may not reflect the latest transactions. This can occur because these reads do not ensure that the replica they are running on is up-to-date. Instead, they use whatever data is available on that replica at the time of query execution. Replication latency is almost always less than a few seconds.</p></li><li class="list__item" id="uua1sh_19"><p id="uua1sh_22">A committed transaction that spanned multiple entities may appear to have been applied to some of the entities and not others. Note, though, that a transaction will never appear to have been partially applied within a single entity.</p></li><li class="list__item" id="uua1sh_20"><p id="uua1sh_23">The query results may include entities that should not have been included according to the filter criteria, and may exclude entities that should have been included. This can occur because indexes may be read at a different version than the entity itself is read at.</p></li></ul><p id="uua1sh_6">To understand how to structure your data for strong consistency, compare two different approaches for the <a href="https://web.archive.org/web/20160424231001/http://code.google.com/p/googleappengine/source/browse/trunk/java/demos/guestbook/src/guestbook/SignGuestbookServlet.java" id="uua1sh_24" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="uua1sh_26">guestbook</code> example application</a> from the App Engine <a href="https://web.archive.org/web/20160424231001/https://cloud.google.com/appengine/docs/java/gettingstarted/" id="uua1sh_25" data-external="true" rel="noopener noreferrer" target="_blank">Getting Started</a> exercise. The first approach creates a new root entity for each greeting:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Entity;
+
+Entity greeting = new Entity(&quot;Greeting&quot;);
+// No parent key specified, so Greeting is a root entity.
+
+greeting.setProperty(&quot;user&quot;, user);
+greeting.setProperty(&quot;date&quot;, date);
+greeting.setProperty(&quot;content&quot;, content);
+</div><p id="uua1sh_8">It then queries on the entity kind <code class="code" id="uua1sh_27">Greeting</code> for the ten most recent greetings.</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
+DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+Query query = new Query(&quot;Greeting&quot;)
+                    .addSort(&quot;date&quot;, Query.SortDirection.DESCENDING);
+
+List&lt;Entity&gt; greetings = datastore.prepare(query)
+                                  .asList(FetchOptions.Builder.withLimit(10));
+</div><p id="uua1sh_10">However, because we are using a non-ancestor query, the replica used to perform the query in this scheme may not have seen the new greeting by the time the query is executed. Nonetheless, nearly all writes will be available for non-ancestor queries within a few seconds of commit. For many applications, a solution that provides the results of a non-ancestor query in the context of the current user's own changes will usually be sufficient to make such replication latencies completely acceptable.</p><p id="uua1sh_11">If strong consistency is important to your application, an alternate approach is to write entities with an ancestor path that identifies the same root entity across all entities that must be read in a single, strongly-consistent ancestor query:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
+String guestbookName = req.getParameter(&quot;guestbookName&quot;);
+Key guestbookKey = KeyFactory.createKey(&quot;Guestbook&quot;, guestbookName);
+String content = req.getParameter(&quot;content&quot;);
+Date date = new Date();
+
+// Place greeting in same entity group as guestbook
+Entity greeting = new Entity(&quot;Greeting&quot;, guestbookKey);
+greeting.setProperty(&quot;user&quot;, user);
+greeting.setProperty(&quot;date&quot;, date);
+greeting.setProperty(&quot;content&quot;, content);
+</div><p id="uua1sh_13">You will then be able to perform a strongly-consistent ancestor query within the entity group identified by the common root entity:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
+DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+Key guestbookKey = KeyFactory.createKey(&quot;Guestbook&quot;, guestbookName);
+Query query = new Query(&quot;Greeting&quot;, guestbookKey)
+                    .setAncestor(guestbookKey)
+                    .addSort(&quot;date&quot;, Query.SortDirection.DESCENDING);
+
+List&lt;Entity&gt; greetings = datastore.prepare(query)
+                                  .asList(FetchOptions.Builder.withLimit(10));
+</div><p id="uua1sh_15">This approach achieves strong consistency by writing to a single entity group per guestbook, but it also limits changes to the guestbook to no more than 1 write per second (the supported limit for entity groups). If your application is likely to encounter heavier write usage, you may need to consider using other means: for example, you might put recent posts in a <a href="https://web.archive.org/web/20160424231001/https://cloud.google.com/appengine/docs/java/memcache/overview" id="uua1sh_28" data-external="true" rel="noopener noreferrer" target="_blank">memcache</a> with an expiration and display a mix of recent posts from the memcache and the Datastore, or you might cache them in a cookie, put some state in the URL, or something else entirely. The goal is to find a caching solution that provides the data for the current user for the period of time in which the user is posting to your application. Remember, if you do a get, an ancestor query, or any operation within a transaction, you will always see the most recently written data.</p><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="transactions.html" class="navigation-links__prev">Transactions</a><a href="metadata.html" class="navigation-links__next">Metadata</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

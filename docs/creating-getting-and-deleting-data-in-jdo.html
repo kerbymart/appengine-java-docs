@@ -1,0 +1,149 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.329431321"><title>Creating, Getting and Deleting Data in JDO | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"making-objects-persistent","level":0,"title":"Making Objects Persistent","anchor":"#making-objects-persistent"},{"id":"keys","level":0,"title":"Keys","anchor":"#keys"},{"id":"getting-an-object-by-key","level":0,"title":"Getting an Object by Key","anchor":"#getting-an-object-by-key"},{"id":"updating-an-object","level":0,"title":"Updating an Object","anchor":"#updating-an-object"},{"id":"deleting-an-object","level":0,"title":"Deleting an Object","anchor":"#deleting-an-object"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Creating, Getting and Deleting Data in JDO | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/creating-getting-and-deleting-data-in-jdo.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Creating, Getting and Deleting Data in JDO | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/creating-getting-and-deleting-data-in-jdo.html#webpage",
+    "url": "writerside-documentation/creating-getting-and-deleting-data-in-jdo.html",
+    "name": "Creating, Getting and Deleting Data in JDO | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Creating--Getting-and-Deleting-Data-in-JDO" data-main-title="Creating, Getting and Deleting Data in JDO" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Superseded-Storage-Solutions.md|Superseded Storage Solutions///JDO-for-Cloud-Datastore.md|JDO for Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Creating--Getting-and-Deleting-Data-in-JDO" id="Creating--Getting-and-Deleting-Data-in-JDO.md">Creating, Getting and Deleting Data in JDO</h1><p id="byjxhm_3">Saving a JDO data object to the datastore is a simple matter of calling the <code class="code" id="byjxhm_10">makePersistent()</code> method of the PersistenceManager instance. The App Engine JDO implementation uses the primary key field of the object to keep track of which datastore entity corresponds with the data object, and can generate keys for new objects automatically. You can use keys to retrieve entities quickly, and you can construct keys from known values (such as account IDs).</p><ol class="list _decimal" id="byjxhm_4" type="1"><li class="list__item" id="byjxhm_11"><p id="byjxhm_16"><span id="byjxhm_17">Making Objects Persistent</span></p></li><li class="list__item" id="byjxhm_12"><p id="byjxhm_18"><span id="byjxhm_19">Keys</span></p></li><li class="list__item" id="byjxhm_13"><p id="byjxhm_20"><span id="byjxhm_21">Getting an Object By Key</span></p></li><li class="list__item" id="byjxhm_14"><p id="byjxhm_22"><span id="byjxhm_23">Updating an Object</span></p></li><li class="list__item" id="byjxhm_15"><p id="byjxhm_24"><span id="byjxhm_25">Deleting an Object</span></p></li></ol><section class="chapter"><h2 id="making-objects-persistent" data-toc="making-objects-persistent">Making Objects Persistent</h2><p id="byjxhm_26">To store a simple data object in the datastore, you call the PersistenceManager's <code class="code" id="byjxhm_31">makePersistent()</code> method, passing it the instance.</p><div class="code-block" data-lang="none">
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        Employee e = new Employee(&quot;Alfred&quot;, &quot;Smith&quot;, new Date());
+
+        try {
+            pm.makePersistent(e);
+        } finally {
+            pm.close();
+        }
+</div><p id="byjxhm_28">The call to <code class="code" id="byjxhm_32">makePersistent()</code> is synchronous, and doesn't return until the object is saved and indexes are updated.</p><p id="byjxhm_29">To save multiple objects in JDO, call the <code class="code" id="byjxhm_33">makePersistentAll(...)</code> method with a Collection of objects. This method will use a single low-level batch save operation that is more efficient than a series of individual <code class="code" id="byjxhm_34">makePersistent(...)</code> invocations.</p><p id="byjxhm_30"><span class="control" id="byjxhm_35">Note:</span> If any of the data object's persistent fields are references to other persistent data objects, and any of those objects have never been saved or have changed since they were loaded, the referenced objects are also saved to the datastore. See <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/relationships" id="byjxhm_36" data-external="true" rel="noopener noreferrer" target="_blank">Relationships</a>.</p></section><section class="chapter"><h2 id="keys" data-toc="keys">Keys</h2><p id="byjxhm_37">Every entity has a key that is unique over all entities in App Engine. A complete key includes several pieces of information, including the application ID, the kind, and an entity ID. (Keys also contain information about entity groups; see <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/transactions" id="byjxhm_61" data-external="true" rel="noopener noreferrer" target="_blank">Transactions</a> for more information.)</p><p id="byjxhm_38">An object's key is stored in a field on the instance. You identify the primary key field using the <code class="code" id="byjxhm_62">@PrimaryKey</code> annotation.</p><p id="byjxhm_39">The app can provide the ID portion of the key as a string when the object is created, or it can allow the datastore to generate a numeric ID automatically. The complete key must be unique across all entities in the datastore. In other words, an object must have an ID that is unique across all objects of the same kind and with the same entity group parent (if any). You select the desired behavior of the key using the type of the field and annotations.</p><p id="byjxhm_40">If the class is used as a &quot;child&quot; class in a relationship, the key field must be of a type capable of representing an entity group parent: either a Key instance, or a Key value encoded as a string. See <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/transactions" id="byjxhm_63" data-external="true" rel="noopener noreferrer" target="_blank">Transactions</a> for more information on entity groups, and <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/relationships" id="byjxhm_64" data-external="true" rel="noopener noreferrer" target="_blank">Relationships</a> for more information on relationships.</p><p id="byjxhm_41"><span class="control" id="byjxhm_65">Tip:</span> If the app creates a new object and gives it the same string ID as another object of the same kind (and the same entity group parent), saving the new object overwrites the other object in the datastore. To detect whether a string ID is already in use prior to creating a new object, you can use a transaction to attempt to get an entity with a given ID, then create one if it doesn't exist. See <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/transactions" id="byjxhm_66" data-external="true" rel="noopener noreferrer" target="_blank">Transactions</a>.</p><p id="byjxhm_42">There are four types of primary key fields:</p><p id="byjxhm_43">Long<br> A long integer (<code class="code" id="byjxhm_68">java.lang.Long</code>), an entity ID automatically generated by the datastore. Use this for objects without entity group parents whose IDs should be generated automatically by the datastore. The long key field of an instance is populated when the instance is saved.</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+// ...
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Long id;
+</div><p id="byjxhm_45">Unencoded String<br> A string (<code class="code" id="byjxhm_70">java.lang.String</code>), an entity ID (&quot;key name&quot;) provided by the application when the object is created. Use this for objects without entity group parents whose IDs should be provided by the application. The application sets this field to the desired ID prior to saving.</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.PrimaryKey;
+
+// ...
+    @PrimaryKey
+    private String name;
+</div><p id="byjxhm_47">Key<br> A Key instance (<code class="code" id="byjxhm_72">com.google.appengine.api.datastore.Key</code>). The key value includes the key of the entity group parent (if any) and either the app-assigned string ID or the system-generated numeric ID. To create the object with an app-assigned string ID, you create the Key value with the ID and set the field to the value. To create the object with a system-assigned numeric ID, you leave the key field null. (For information on how to use entity group parents, see <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/transactions" id="byjxhm_73" data-external="true" rel="noopener noreferrer" target="_blank">Transactions</a>.)</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+import com.google.appengine.api.datastore.Key;
+
+// ...
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    public void setKey(Key key) {
+        this.key = key;
+    }
+</div><p id="byjxhm_49">The app can create a Key instance using the KeyFactory class:</p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
+// ...
+        Key key = KeyFactory.createKey(Employee.class.getSimpleName(), &quot;Alfred.Smith@example.com&quot;);
+        Employee e = new Employee();
+        e.setKey(key);
+        pm.makePersistent(e);
+</div><p id="byjxhm_51">Key as Encoded String<br> Similar to Key, but the value is the encoded string form of the key. Encoded string keys allow you to write your application in a portable manner and still take advantage of App Engine datastore entity groups.</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+// ...
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName=&quot;datanucleus&quot;, key=&quot;gae.encoded-pk&quot;, value=&quot;true&quot;)
+    private String encodedKey;
+</div><p id="byjxhm_53">The app can populate this value prior to saving using a key with a name, or it can leave it null. If the encoded key field is null, the field is populated with a system-generated key when the object is saved.</p><p id="byjxhm_54">Key instances can be converted to and from the encoded string representation using the KeyFactory methods <code class="code" id="byjxhm_75">keyToString()</code> and <code class="code" id="byjxhm_76">stringToKey()</code>.</p><p id="byjxhm_55">When using encoded key strings, you can provide access to an object's string or numeric ID with an additional field:</p><div class="code-block" data-lang="none">
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    @Extension(vendorName=&quot;datanucleus&quot;, key=&quot;gae.encoded-pk&quot;, value=&quot;true&quot;)
+    private String encodedKey;
+
+    @Persistent
+    @Extension(vendorName=&quot;datanucleus&quot;, key=&quot;gae.pk-name&quot;, value=&quot;true&quot;)
+    private String keyName;
+
+    // OR:
+
+    @Persistent
+    @Extension(vendorName=&quot;datanucleus&quot;, key=&quot;gae.pk-id&quot;, value=&quot;true&quot;)
+    private Long keyId;
+</div><p id="byjxhm_57">A <code class="code" id="byjxhm_77">&quot;gae.pk-name&quot;</code> field can be set to a key name prior to saving the object. When the object is saved, the encoded key field is populated with the complete key that includes the key name. Its type must be <code class="code" id="byjxhm_78">String</code>.</p><p id="byjxhm_58">A <code class="code" id="byjxhm_79">&quot;gae.pk-id&quot;</code> field is populated when the object is saved, and cannot be modified. Its type must be Long.</p><p id="byjxhm_59">When a new object with a generated key (a key field using <code class="code" id="byjxhm_80">valueStrategy = IdGeneratorStrategy.IDENTITY</code>) is created, its key value starts out <code class="code" id="byjxhm_81">null</code>. The key field is populated when the object is written to the datastore. If you are using a transaction, the object is written when the transaction is committed. Otherwise, the object is written when the <code class="code" id="byjxhm_82">makePersistent()</code> method is called if the object is being created, or when the PersistenceManager instance's <code class="code" id="byjxhm_83">close()</code> method is called if the object is being updated.</p><p id="byjxhm_60">For more information about making keys, see <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/entities#Java_Generating_keys" id="byjxhm_84" data-external="true" rel="noopener noreferrer" target="_blank">Entities, Properties, and Keys</a>.</p></section><section class="chapter"><h2 id="getting-an-object-by-key" data-toc="getting-an-object-by-key">Getting an Object by Key</h2><p id="byjxhm_85">To retrieve an object given its key, use the PersistenceManager's <code class="code" id="byjxhm_90">getObjectById()</code> method. The method takes the class for the object, and key:</p><div class="code-block" data-lang="none">
+        Key k = KeyFactory.createKey(Employee.class.getSimpleName(), &quot;Alfred.Smith@example.com&quot;);
+        Employee e = pm.getObjectById(Employee.class, k);
+</div><p id="byjxhm_87">If the class uses a key field that is an unencoded string ID (<code class="code" id="byjxhm_91">String</code>) or numeric ID (<code class="code" id="byjxhm_92">Long</code>), <code class="code" id="byjxhm_93">getObjectByID()</code> can take the simple value as the key parameter:</p><div class="code-block" data-lang="none">
+        Employee e = pm.getObjectById(Employee.class, &quot;Alfred.Smith@example.com&quot;);
+</div><p id="byjxhm_89">The key argument can be of any of the supported key field types (string ID, numeric ID, Key value, encoded key string), and can be of a different type than the key field in the class. App Engine must be able to derive the complete key from the class name and the provided value. String IDs and numeric IDs are exclusive, so a call using a numeric ID never returns an entity with a string ID. If a Key value or encoded key string is used, the key must refer to an entity whose kind is represented by the class.</p></section><section class="chapter"><h2 id="updating-an-object" data-toc="updating-an-object">Updating an Object</h2><p id="byjxhm_94">One way to update an object with JDO is to fetch the object, then modify it while the PersistenceManager that returned the object is still open. Changes are persisted when the PersistenceManager is closed. For example:</p><div class="code-block" data-lang="none">
+public void updateEmployeeTitle(User user, String newTitle) {
+    PersistenceManager pm = PMF.get().getPersistenceManager();
+    try {
+        Employee e = pm.getObjectById(Employee.class, user.getEmail());
+        if (titleChangeIsAuthorized(e, newTitle) {
+            e.setTitle(newTitle);
+        } else {
+            throw new UnauthorizedTitleChangeException(e, newTitle);
+        }
+    } finally {
+        pm.close();
+    }
+}
+</div><p id="byjxhm_96">Since the <code class="code" id="byjxhm_102">Employee</code> instance was returned by the PersistenceManager, the PersistenceManager knows about any modifications that are made to Persistent fields on the <code class="code" id="byjxhm_103">Employee</code> and automatically updates the datastore with these modifications when the PersistenceManager is closed. It knows this because the Employee instance is &quot;attached&quot; to the PersistenceManager.</p><p id="byjxhm_97">You can modify an object after the PersistenceManager has been closed by declaring the class as &quot;detachable.&quot; To do this, add the <code class="code" id="byjxhm_104">detachable</code> attribute to the <code class="code" id="byjxhm_105">@PersistenceCapable</code> annotation:</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.PersistenceCapable;
+
+@PersistenceCapable(detachable=&quot;true&quot;)
+public class Employee {
+    // ...
+}
+</div><p id="byjxhm_99">Now you can read and write the fields of an Employee object after the PersistenceManager that loaded it has been closed. The following example illustrates how a detached object might be useful:</p><div class="code-block" data-lang="none">
+public Employee getEmployee(User user) {
+    PersistenceManager pm = PMF.get().getPersistenceManager();
+    Employee employee, detached = null;
+    try {
+        employee = pm.getObjectById(Employee.class,
+            &quot;Alfred.Smith@example.com&quot;);
+
+        // If you're using transactions, you can call
+        // pm.setDetachAllOnCommit(true) before committing to automatically
+        // detach all objects without calls to detachCopy or detachCopyAll.
+        detached = pm.detachCopy(employee);
+    } finally {
+        pm.close();
+    }
+    return detached;
+}
+
+public void updateEmployeeTitle(Employee e, String newTitle) {
+    if (titleChangeIsAuthorized(e, newTitle) {
+        e.setTitle(newTitle);
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        try {
+            pm.makePersistent(e);
+        } finally {
+            pm.close();
+        }
+    } else {
+        throw new UnauthorizedTitleChangeException(e, newTitle);
+    }
+}
+</div><p id="byjxhm_101">Detached objects are a nice alternative to creating data transfer objects. For more information on working with detached objects please see the <a href="https://web.archive.org/web/20160424230243/http://www.datanucleus.org/products/accessplatform_4_0/jdo/attach_detach.html" id="byjxhm_106" data-external="true" rel="noopener noreferrer" target="_blank">DataNucleus documentation</a>.</p></section><section class="chapter"><h2 id="deleting-an-object" data-toc="deleting-an-object">Deleting an Object</h2><p id="byjxhm_107">To delete an object from the datastore, call the PersistenceManager's <code class="code" id="byjxhm_112">deletePersistent()</code> method with the object:</p><div class="code-block" data-lang="none">
+        pm.deletePersistent(e);
+</div><p id="byjxhm_109">To delete multiple objects in JDO, call the <code class="code" id="byjxhm_113">deletePersistentAll(...)</code> method with a Collection of objects. This method will use a single low-level batch delete operation that is more efficient than a series of individual <code class="code" id="byjxhm_114">deletePersistent(...)</code> invocations.</p><p id="byjxhm_110">If an object has fields containing child objects that are also persistent, the child objects are also deleted. See <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/relationships" id="byjxhm_115" data-external="true" rel="noopener noreferrer" target="_blank">Relationships</a> for more information.</p><p id="byjxhm_111">To delete all objects that match a query you can use JDOQL's &quot;delete by query&quot; feature. See <a href="https://web.archive.org/web/20160424230243/https://cloud.google.com/appengine/docs/java/datastore/jdo/queries#Deleting_Entities_by_Query" id="byjxhm_116" data-external="true" rel="noopener noreferrer" target="_blank">Deleting Entities By Query</a> for more information.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="defining-data-classes-with-jdo.html" class="navigation-links__prev">Defining Data Classes with JDO</a><a href="entity-relationships-in-jdo.html" class="navigation-links__next">Entity Relationships in JDO</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

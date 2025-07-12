@@ -1,0 +1,215 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.348694726"><title>Using Apache Ant | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"installing-ant","level":0,"title":"Installing Ant","anchor":"#installing-ant"},{"id":"the-project-directory","level":0,"title":"The Project Directory","anchor":"#the-project-directory"},{"id":"creating-the-build-file","level":0,"title":"Creating the Build File","anchor":"#creating-the-build-file"},{"id":"defining-the-class-path","level":0,"title":"Defining the Class Path","anchor":"#defining-the-class-path"},{"id":"copying-jars","level":0,"title":"Copying JARs","anchor":"#copying-jars"},{"id":"compiling-source-files","level":0,"title":"Compiling Source Files","anchor":"#compiling-source-files"},{"id":"turning-all-class-files-into-a-single-jar-file","level":0,"title":"Turning all *.class files into a single jar file","anchor":"#turning-all-class-files-into-a-single-jar-file"},{"id":"enhancing-jdo-classes","level":0,"title":"Enhancing JDO Classes","anchor":"#enhancing-jdo-classes"},{"id":"running-the-development-server","level":0,"title":"Running the Development Server","anchor":"#running-the-development-server"},{"id":"uploading-and-other-appcfg-tasks","level":0,"title":"Uploading and Other AppCfg Tasks","anchor":"#uploading-and-other-appcfg-tasks"},{"id":"the-complete-build-file","level":0,"title":"The Complete Build File","anchor":"#the-complete-build-file"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Using Apache Ant | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/using-apache-ant.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Using Apache Ant | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/using-apache-ant.html#webpage",
+    "url": "writerside-documentation/using-apache-ant.html",
+    "name": "Using Apache Ant | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Using-Apache-Ant" data-main-title="Using Apache Ant" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="APIs-Reference.md|APIs &amp;amp; Reference///Development-Tools.md|Development Tools"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Using-Apache-Ant" id="Using-Apache-Ant.md">Using Apache Ant</h1><p id="nonorg_3">If you are not using <a href="https://web.archive.org/web/20160424225634/http://www.eclipse.org/" id="nonorg_17" data-external="true" rel="noopener noreferrer" target="_blank">Eclipse</a> and <a href="https://web.archive.org/web/20160424225634/https://developers.google.com/eclipse/docs/appengine" id="nonorg_18" data-external="true" rel="noopener noreferrer" target="_blank">the Google Plugin for Eclipse</a>, you'll probably want some other way to manage the process of building and testing your App Engine application. <a href="https://web.archive.org/web/20160424225634/http://ant.apache.org/" id="nonorg_19" data-external="true" rel="noopener noreferrer" target="_blank">Apache Ant</a> makes it easy to manage your project from the command line, or from other IDEs that work with Ant. The Java SDK includes a set of Ant macros to perform common App Engine development tasks, including starting the development server and uploading the app to App Engine.</p><p id="nonorg_4">This article describes an Ant build file useful for most projects. To skip the description and go directly to the complete file for copying and pasting, see <span id="nonorg_20">The Complete Build</span>.</p><p id="nonorg_5"><span class="control" id="nonorg_21">Note:</span> If you are using Apache Ant with <a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/datastore/jdo/" id="nonorg_22" data-external="true" rel="noopener noreferrer" target="_blank">JDO</a>/<a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/datastore/jpa/" id="nonorg_23" data-external="true" rel="noopener noreferrer" target="_blank">JPA</a>, please note that this article applies to JDO version 2.3 and JPA version 1.0. Upgrading to the latest (experimental) versions requires changes to the <code class="code" id="nonorg_24">build.xml</code> file that are not documented on this page. For more information, see <a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/datastore/jdo/overview-dn2#Migrating_to_Version_2.0_of_the_DataNucleus_Plugin" id="nonorg_25" data-external="true" rel="noopener noreferrer" target="_blank">JDO upgrade instructions</a> and <a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/datastore/jpa/overview-dn2#Migrating_to_Version_2.0_of_the_DataNucleus_Plugin" id="nonorg_26" data-external="true" rel="noopener noreferrer" target="_blank">JPA upgrade instructions</a>.</p><section class="chapter"><h2 id="installing-ant" data-toc="installing-ant">Installing Ant</h2><p id="nonorg_27">If you do not already have Ant installed on your system, visit <a href="https://web.archive.org/web/20160424225634/http://ant.apache.org/" id="nonorg_30" data-external="true" rel="noopener noreferrer" target="_blank">the Apache Ant web site</a> to download and install it.</p><p id="nonorg_28">When Ant is installed and the <code class="code" id="nonorg_31">ant</code> command is on your command path, you can run the following command to verify that it works, and see which version is installed:</p><div class="code-block" data-lang="none">
+ant -version
+</div></section><section class="chapter"><h2 id="the-project-directory" data-toc="the-project-directory">The Project Directory</h2><p id="nonorg_32">As described in the <a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/gettingstarted" id="nonorg_38" data-external="true" rel="noopener noreferrer" target="_blank">Getting Started Guide</a>, your App Engine project must produce a directory structure using the <a href="https://web.archive.org/web/20160424225634/http://java.sun.com/j2ee/tutorial/1_3-fcs/doc/WCC3.html" id="nonorg_39" data-external="true" rel="noopener noreferrer" target="_blank">WAR</a> standard layout for Java web applications. (WAR archive files are not yet supported by the SDK.)</p><p id="nonorg_33">For these instructions, we will put all project-related files in a single directory named <code class="code" id="nonorg_40">Guestbook/</code> (for the guest book project described in the Getting Started Guide, with a subdirectory named <code class="code" id="nonorg_41">src/</code> for Java source code and a subdirectory named <code class="code" id="nonorg_42">war/</code> for the finished application files. The build process will compile the source code, and put the compiled Java bytecode in the appropriate location under <code class="code" id="nonorg_43">war/</code>. You will create other files for the WAR directly in the <code class="code" id="nonorg_44">war/</code> directory.</p><p id="nonorg_34">The complete project directory should look like this:</p><div class="code-block" data-lang="none">
+Guestbook/
+  src/
+    ...Java source code...
+    META-INF/
+      ...other configuration...
+  war/
+    ...JSPs, images, data files...
+    WEB-INF/
+      ...app configuration...
+      classes/
+        ...compiled classes...
+      lib/
+        ...JARs for libraries...
+</div><p id="nonorg_36">To create this directory structure from the command prompt, use the following commands. If you are using Windows, change the forward slashes <code class="code" id="nonorg_45">/</code> in these paths to backslashes <code class="code" id="nonorg_46">\</code>. (Within the Ant file itself, paths using forward slashes <code class="code" id="nonorg_47">/</code> work for all operating systems.)</p><div class="code-block" data-lang="none">
+mkdir Guestbook
+cd Guestbook
+mkdir -p src/META-INF
+mkdir -p war/WEB-INF/classes
+mkdir -p war/WEB-INF/lib
+</div></section><section class="chapter"><h2 id="creating-the-build-file" data-toc="creating-the-build-file">Creating the Build File</h2><p id="nonorg_48">In the <code class="code" id="nonorg_53">Guestbook/</code> directory, create a file named <code class="code" id="nonorg_54">build.xml</code> with the following contents:</p><div class="code-block" data-lang="none">
+&lt;project&gt;
+  &lt;property name=&quot;sdk.dir&quot; location=&quot;../appengine-java-sdk&quot; /&gt;
+
+  &lt;import file=&quot;${sdk.dir}/config/user/ant-macros.xml&quot; /&gt;
+
+&lt;/project&gt;
+</div><p id="nonorg_50">This build file doesn't do anything yet: it doesn't contain a &quot;target&quot; with instructions to perform tasks. The file defines two Ant properties, which we will use when we define targets and paths later.</p><p id="nonorg_51">The <code class="code" id="nonorg_55">sdk.dir</code> property is the path to the App Engine Java SDK, the <code class="code" id="nonorg_56">appengine-java-sdk</code> directory created when you unpacked the SDK Zip file. <code class="code" id="nonorg_57">&quot;../appengine-java-sdk&quot;</code> assumes this directory is in the parent directory above the project directory. Adjust this value, if necessary. (Paths are relative to the location of the <code class="code" id="nonorg_58">build.xml</code> file.)</p><p id="nonorg_52">The <code class="code" id="nonorg_59">&lt;import&gt;</code> element loads a set of Ant macros for App Engine development, included in the App Engine Java SDK. We will use several of these macros later.</p></section><section class="chapter"><h2 id="defining-the-class-path" data-toc="defining-the-class-path">Defining the Class Path</h2><p id="nonorg_60">When you compile your classes, the Java class path must contain the JARs for the App Engine API, and any other JARs you may have added to your project's <code class="code" id="nonorg_63">war/WEB-INF/lib/</code> directory (such as the DataNucleus JDO/JPA JARs). The application can access classes from JARs added to this directory. Additionally, the JARs in the SDK's <code class="code" id="nonorg_64">lib/shared/</code> directory will be on the class path.</p><p id="nonorg_61">Edit <code class="code" id="nonorg_65">build.xml</code> and add the following lines above the closing <code class="code" id="nonorg_66">&lt;/project&gt;</code> tag to define a class path containing these JARs:</p><div class="code-block" data-lang="none">
+  &lt;path id=&quot;project.classpath&quot;&gt;
+    &lt;pathelement path=&quot;war/WEB-INF/classes&quot; /&gt;
+    &lt;fileset dir=&quot;war/WEB-INF/lib&quot;&gt;
+      &lt;include name=&quot;**/*.jar&quot; /&gt;
+    &lt;/fileset&gt;
+    &lt;fileset dir=&quot;${sdk.dir}/lib&quot;&gt;
+      &lt;include name=&quot;shared/**/*.jar&quot; /&gt;
+    &lt;/fileset&gt;
+  &lt;/path&gt;
+</div></section><section class="chapter"><h2 id="copying-jars" data-toc="copying-jars">Copying JARs</h2><p id="nonorg_67">Your app must include <code class="code" id="nonorg_75">appengine-api-*.jar</code> (where <code class="code" id="nonorg_76">&lt;i&gt;*&lt;/i&gt;</code> represents a version number of the API and SDK), a JAR included with the SDK, in the directory <code class="code" id="nonorg_77">war/WEB-INF/lib/</code>. App Engine checks for classes from this JAR to determine which version of the API your app is using. If your application uses the JDO or JPA interfaces to the App Engine datastore, the app must include the JDO/JPA implementation in <code class="code" id="nonorg_78">war/WEB-INF/lib/</code>. All of these JARs are in the SDK's <code class="code" id="nonorg_79">lib/user/</code> directory.</p><p id="nonorg_68">You could copy these JARs into the WAR manually. However, it's useful to make copying these JARs part of the build process. This ensures that your app is using the same versions of these interfaces as the ones included in the SDK, even if you upgrade the SDK at a later date.</p><p id="nonorg_69">All of the JARs must be in the <code class="code" id="nonorg_80">war/WEB-INF/lib/</code> directory, they cannot be in subdirectories. This Ant target will copy JARs recursively from <code class="code" id="nonorg_81">${sdk.dir}/lib/user/</code> using the <code class="code" id="nonorg_82">copy</code> task's <code class="code" id="nonorg_83">flatten=&quot;true&quot;</code> attribute so all JARs end up in the same directory.</p><p id="nonorg_70">Edit <code class="code" id="nonorg_84">build.xml</code> and add the following lines above the closing <code class="code" id="nonorg_85">&lt;/project&gt;</code> tag:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;copyjars&quot;
+      description=&quot;Copies the App Engine JARs to the WAR.&quot;&gt;
+    &lt;copy
+        todir=&quot;war/WEB-INF/lib&quot;
+        flatten=&quot;true&quot;&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/user&quot;&gt;
+        &lt;include name=&quot;**/*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+  &lt;/target&gt;
+</div><p id="nonorg_72">This creates a build target named <code class="code" id="nonorg_86">&quot;copyjars&quot;</code> that copies the JARs to the appropriate location. To test this target, make sure the current working directory is the project directory (<code class="code" id="nonorg_87">Guestbook/</code>), then run the following command:</p><div class="code-block" data-lang="none">
+ant copyjars
+</div><p id="nonorg_74">Check the contents of <code class="code" id="nonorg_88">war/WEB-INF/lib/</code> to make sure the JARs are there.</p></section><section class="chapter"><h2 id="compiling-source-files" data-toc="compiling-source-files">Compiling Source Files</h2><p id="nonorg_89">Edit <code class="code" id="nonorg_94">build.xml</code> and add the following lines above the closing <code class="code" id="nonorg_95">&amp;lt/project&gt;</code> tag:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;compile&quot; depends=&quot;copyjars&quot;
+      description=&quot;Compiles Java source and copies other source files to the WAR.&quot;&gt;
+    &lt;mkdir dir=&quot;war/WEB-INF/classes&quot; /&gt;
+    &lt;copy todir=&quot;war/WEB-INF/classes&quot;&gt;
+      &lt;fileset dir=&quot;src&quot;&gt;
+        &lt;exclude name=&quot;**/*.java&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+    &lt;javac
+        srcdir=&quot;src&quot;
+        destdir=&quot;war/WEB-INF/classes&quot;
+        classpathref=&quot;project.classpath&quot;
+        debug=&quot;on&quot; /&gt;
+  &lt;/target&gt;
+</div><p id="nonorg_91">This defines a build target named <code class="code" id="nonorg_96">&quot;compile&quot;</code> that compiles all Java source files found in the <code class="code" id="nonorg_97">src/</code> directory and stores the compiled classes in <code class="code" id="nonorg_98">war/WEB-INF/classes/</code>. All other files found in <code class="code" id="nonorg_99">src/</code>, such as the <code class="code" id="nonorg_100">META-INF/</code> directory, are copied verbatim to <code class="code" id="nonorg_101">war/WEB-INF/classes/</code>. The target depends on <code class="code" id="nonorg_102">&quot;copyjars&quot;</code>, so both targets are built, if necessary.</p><p id="nonorg_92">To compile your project's source files, run the following command:</p><div class="code-block" data-lang="none">
+ant compile
+</div></section><section class="chapter"><h2 id="turning-all-class-files-into-a-single-jar-file" data-toc="turning-all-class-files-into-a-single-jar-file">Turning all *.class files into a single jar file</h2><p id="nonorg_104">If you want to jar all the classes of your Ant project in a single jar file, you can follow <a href="https://web.archive.org/web/20160424225634/https://ant.apache.org/manual/Tasks/jar.html" id="nonorg_105" data-external="true" rel="noopener noreferrer" target="_blank">these instructions</a>.</p></section><section class="chapter"><h2 id="enhancing-jdo-classes" data-toc="enhancing-jdo-classes">Enhancing JDO Classes</h2><p id="nonorg_106">This section describes how to use Ant to build your project with support for the Java Data Objects (JDO) interface to the datastore. If your project does not use the JDO interface, you can <span id="nonorg_113">proceed to the next section</span>.</p><p id="nonorg_107">As described in <a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/gettingstarted" id="nonorg_114" data-external="true" rel="noopener noreferrer" target="_blank">Getting Started Guide</a> and the <a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/datastore" id="nonorg_115" data-external="true" rel="noopener noreferrer" target="_blank">datastore documentation</a>, the JDO interface allows you to store instances of your classes in the datastore, and retrieve them later as objects. You describe how instances are to be stored and retrieved using Java annotations in the class definition.</p><p id="nonorg_108">In order for JDO to see the annotations, you must process the bytecode for your data classes after they have been compiled using a tool included with DataNucleus Access Platform, the JDO implementation distributed with App Engine. DataNucleus describes this process as &quot;enhancing&quot; the classes.</p><p id="nonorg_109">The App Engine SDK includes Ant macros for enhancing JDO data classes. The <code class="code" id="nonorg_116">&lt;enhance_war&gt;</code> macro enhances every JDO data class in the project, using the correct class path for the project. For more precise control, you can use the <code class="code" id="nonorg_117">&lt;enhance&gt;</code> macro.</p><p id="nonorg_110">Edit <code class="code" id="nonorg_118">build.xml</code> and add the following lines above the closing <code class="code" id="nonorg_119">&lt;/project&gt;;</code> tag:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;datanucleusenhance&quot; depends=&quot;compile&quot;
+      description=&quot;Performs JDO enhancement on compiled data classes.&quot;&gt;
+    &lt;enhance_war war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+</div><p id="nonorg_112">This target depends on <code class="code" id="nonorg_120">&quot;compile&quot;</code>, so building this target ensures that the classes have been compiled and are up to date before performing the enhancement task.</p></section><section class="chapter"><h2 id="running-the-development-server" data-toc="running-the-development-server">Running the Development Server</h2><p id="nonorg_121">You can run the development web server using an Ant macro. By making this target depend on the <code class="code" id="nonorg_129">&quot;datanucleusenhance&quot;</code> target (or the <code class="code" id="nonorg_130">&quot;compile&quot;</code> target if not using DataNucleus), you can build your project and start the server all with one easy command.</p><p id="nonorg_122">Edit <code class="code" id="nonorg_131">build.xml</code> and add the following lines above the closing <code class="code" id="nonorg_132">&lt;/project&gt;</code> tag:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;runserver&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Starts the development server.&quot;&gt;
+    &lt;dev_appserver war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+</div><p id="nonorg_124">You can give the development server arguments using attributes and an <code class="code" id="nonorg_133">&lt;options&gt;</code> element. For example, the following target starts the server using the port 8888, and enables remote Java debugging on port 9999:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;runserver&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Starts the development server.&quot;&gt;
+    &lt;dev_appserver war=&quot;war&quot; port=&quot;8888&quot; &gt;
+      &lt;options&gt;
+        &lt;arg value=&quot;--jvm_flag=-Xdebug&quot;/&gt;
+        &lt;arg value=&quot;--jvm_flag=-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9999&quot;/&gt;
+        &lt;arg value=&quot;--jvm_flag=-Ddatastore.default_high_rep_job_policy_unapplied_job_pct=20&quot;/&gt;
+      &lt;/options&gt;
+    &lt;/dev_appserver&gt;
+  &lt;/target&gt;
+</div><p id="nonorg_126">To build the project and run the server, use the following command:</p><div class="code-block" data-lang="none">
+ant runserver
+</div><p id="nonorg_128">To stop the server, hit Control-C.</p></section><section class="chapter"><h2 id="uploading-and-other-appcfg-tasks" data-toc="uploading-and-other-appcfg-tasks">Uploading and Other AppCfg Tasks</h2><p id="nonorg_134">You can define Ant tasks to upload the application to App Engine and perform other actions provided by <a href="https://web.archive.org/web/20160424225634/https://cloud.google.com/appengine/docs/java/tools/uploadinganapp" id="nonorg_138" data-external="true" rel="noopener noreferrer" target="_blank">AppCfg</a>.</p><p id="nonorg_135">The <code class="code" id="nonorg_139">&lt;appcfg&gt;</code> macro takes the name of the action as the <code class="code" id="nonorg_140">action</code> attribute, and the path to the project's WAR as the <code class="code" id="nonorg_141">war</code> attribute. The element can have optional <code class="code" id="nonorg_142">&lt;options&gt;</code> and <code class="code" id="nonorg_143">&lt;args&gt;</code> elements.</p><p id="nonorg_136">Edit <code class="code" id="nonorg_144">build.xml</code> and add the following lines:</p><div class="code-block" data-lang="none">
+  &lt;target name=&quot;update&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Uploads the application to App Engine.&quot;&gt;
+    &lt;appcfg action=&quot;update&quot; war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;update_indexes&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Uploads just the datastore index configuration to App Engine.&quot;&gt;
+    &lt;appcfg action=&quot;update_indexes&quot; war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;rollback&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Rolls back an interrupted application update.&quot;&gt;
+    &lt;appcfg action=&quot;rollback&quot; war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;request_logs&quot;
+      description=&quot;Downloads log data from App Engine for the application.&quot;&gt;
+    &lt;appcfg action=&quot;request_logs&quot; war=&quot;war&quot;&gt;
+      &lt;options&gt;
+        &lt;arg value=&quot;--num_days=5&quot;/&gt;
+      &lt;/options&gt;
+      &lt;args&gt;
+        &lt;arg value=&quot;logs.txt&quot;/&gt;
+      &lt;/args&gt;
+    &lt;/appcfg&gt;
+  &lt;/target&gt;
+</div></section><section class="chapter"><h2 id="the-complete-build-file" data-toc="the-complete-build-file">The Complete Build File</h2><p id="nonorg_145">Here is the complete <code class="code" id="nonorg_147">build.xml</code> file described by these instructions:</p><div class="code-block" data-lang="none">
+&lt;project&gt;
+  &lt;property name=&quot;sdk.dir&quot; location=&quot;../appengine-java-sdk&quot; /&gt;
+
+  &lt;import file=&quot;${sdk.dir}/config/user/ant-macros.xml&quot; /&gt;
+
+  &lt;path id=&quot;project.classpath&quot;&gt;
+    &lt;pathelement path=&quot;war/WEB-INF/classes&quot; /&gt;
+    &lt;fileset dir=&quot;war/WEB-INF/lib&quot;&gt;
+      &lt;include name=&quot;**/*.jar&quot; /&gt;
+    &lt;/fileset&gt;
+    &lt;fileset dir=&quot;${sdk.dir}/lib&quot;&gt;
+      &lt;include name=&quot;shared/**/*.jar&quot; /&gt;
+    &lt;/fileset&gt;
+  &lt;/path&gt;
+
+  &lt;target name=&quot;copyjars&quot;
+      description=&quot;Copies the App Engine JARs to the WAR.&quot;&gt;
+    &lt;copy
+        todir=&quot;war/WEB-INF/lib&quot;
+        flatten=&quot;true&quot;&gt;
+      &lt;fileset dir=&quot;${sdk.dir}/lib/user&quot;&gt;
+        &lt;include name=&quot;**/*.jar&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;compile&quot; depends=&quot;copyjars&quot;
+      description=&quot;Compiles Java source and copies other source files to the WAR.&quot;&gt;
+    &lt;mkdir dir=&quot;war/WEB-INF/classes&quot; /&gt;
+    &lt;copy todir=&quot;war/WEB-INF/classes&quot;&gt;
+      &lt;fileset dir=&quot;src&quot;&gt;
+        &lt;exclude name=&quot;**/*.java&quot; /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+    &lt;javac
+        srcdir=&quot;src&quot;
+        destdir=&quot;war/WEB-INF/classes&quot;
+        classpathref=&quot;project.classpath&quot;
+        debug=&quot;on&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;datanucleusenhance&quot; depends=&quot;compile&quot;
+      description=&quot;Performs JDO enhancement on compiled data classes.&quot;&gt;
+    &lt;enhance_war war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;runserver&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Starts the development server.&quot;&gt;
+    &lt;dev_appserver war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;update&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Uploads the application to App Engine.&quot;&gt;
+    &lt;appcfg action=&quot;update&quot; war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;update_indexes&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Uploads just the datastore index configuration to App Engine.&quot;&gt;
+    &lt;appcfg action=&quot;update_indexes&quot; war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;rollback&quot; depends=&quot;datanucleusenhance&quot;
+      description=&quot;Rolls back an interrupted application update.&quot;&gt;
+    &lt;appcfg action=&quot;rollback&quot; war=&quot;war&quot; /&gt;
+  &lt;/target&gt;
+
+  &lt;target name=&quot;request_logs&quot;
+      description=&quot;Downloads log data from App Engine for the application.&quot;&gt;
+    &lt;appcfg action=&quot;request_logs&quot; war=&quot;war&quot;&gt;
+      &lt;options&gt;
+        &lt;arg value=&quot;--num_days=5&quot;/&gt;
+      &lt;/options&gt;
+      &lt;args&gt;
+        &lt;arg value=&quot;logs.txt&quot;/&gt;
+      &lt;/args&gt;
+    &lt;/appcfg&gt;
+  &lt;/target&gt;
+
+&lt;/project&gt;
+</div></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="using-apache-maven.html" class="navigation-links__prev">Using Apache Maven</a><a href="using-the-eclipse-web-tools-platform-with-google-app-engine.html" class="navigation-links__next">Using the Eclipse Web Tools Platform with Google App Engine</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:44.149174592"><title>Adding the Client UI | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"adding-a-ui-using-index-html","level":0,"title":"Adding a UI using index.html","anchor":"#adding-a-ui-using-index-html"},{"id":"next","level":0,"title":"Next...","anchor":"#next"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Adding the Client UI | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/adding-the-client-ui.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Adding the Client UI | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/adding-the-client-ui.html#webpage",
+    "url": "writerside-documentation/adding-the-client-ui.html",
+    "name": "Adding the Client UI | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Adding-the-Client-UI" data-main-title="Adding the Client UI" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Mobile-Backends.md|Mobile Backends///Google-Cloud-Endpoints.md|Google Cloud Endpoints///Getting-Started-Cloud-Endpoints.md|Getting Started///Web-Client-Tutorial.md|Web Client Tutorial"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Adding-the-Client-UI" id="Adding-the-Client-UI.md">Adding the Client UI</h1><ol class="list _decimal" id="rrmdnj_3" type="1"><li class="list__item" id="rrmdnj_11"><p id="rrmdnj_13"><span id="rrmdnj_14">Adding a UI using index.html</span></p></li><li class="list__item" id="rrmdnj_12"><p id="rrmdnj_15"><a href="#next" id="rrmdnj_16" data-tooltip="Adding JavaScript.">Next...</a></p></li></ol><p id="rrmdnj_4">In this part of the tutorial, you'll create an <code class="code" id="rrmdnj_17">index.html</code> page that provides a UI for making two simple GET requests to the backend API and displays the results.</p><p id="rrmdnj_5">This is what the UI is going to look like:</p><figure id="rrmdnj_6"><img alt="Hello-Endpoints" src="https://web.archive.org/web/20160424225820im_/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/images/hello.png" title="Hello-Endpoints"></figure><p id="rrmdnj_7">where the user specifies a Greeting and presses <span class="control" id="rrmdnj_18">Submit</span> to retrieve it, or optionally lists all the greetings from the backend API.</p><p id="rrmdnj_8"><span class="control" id="rrmdnj_19">Note:</span> the sample backend API we are using has two hardcoded Greetings, one with the ID <code class="code" id="rrmdnj_20">0</code>, and one with the ID <code class="code" id="rrmdnj_21">1</code>.</p><section class="chapter"><h2 id="adding-a-ui-using-index-html" data-toc="adding-a-ui-using-index-html">Adding a UI using <code class="code" id="rrmdnj_26">index.html</code></h2><p id="rrmdnj_23">To add the UI:</p><p id="rrmdnj_24">1\. Add a file named <code class="code" id="rrmdnj_27">index.html</code> to the <a href="https://web.archive.org/web/20160424225820/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/backend" id="rrmdnj_28" data-external="true" rel="noopener noreferrer" target="_blank">backend API project</a> subdirectory <code class="code" id="rrmdnj_29">src/main/webapp/</code>.</p><ol class="list _decimal" id="rrmdnj_25" type="1"><li class="list__item" id="rrmdnj_30"><p id="rrmdnj_34">In <code class="code" id="rrmdnj_37">index.html</code>, add the following:</p><div class="code-block" data-lang="none">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello Endpoints!&lt;/title&gt;
+    &lt;script async src=&quot;/js/base.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap-responsive.css&quot;&gt;
+    &lt;style&gt;
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        blockquote {
+            margin-bottom: 10px;
+            border-left-color: #bbb;
+        }
+        form {
+            margin-top: 10px;
+        }
+        form label {
+          width: 90px;
+          display: inline-block;
+        }
+        .form-signin input[type=&quot;text&quot;] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        }
+        .row {
+            margin-left: 0px;
+            margin-top: 10px;
+            overflow: scroll;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;navbar navbar-inverse navbar-fixed-top&quot;&gt;
+    &lt;div class=&quot;navbar-inner&quot;&gt;
+        &lt;div class=&quot;container&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;btn btn-navbar&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.nav-collapse&quot;&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;a class=&quot;brand&quot; href=&quot;#&quot;&gt;Hello Endpoints!&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</div><p id="rrmdnj_36">where the line <code class="code" id="rrmdnj_38">&lt;script src=&quot;/js/base.js&quot;&gt;&lt;/script&gt;</code> specifies the JavaScript file we're using for this client. (We'll add the javascript file later.)</p></li><li class="list__item" id="rrmdnj_31"><p id="rrmdnj_39">In that same file, append the following, which adds the UI for a text field and two command buttons:</p><div class="code-block" data-lang="none">
+&lt;div class=&quot;container&quot;&gt;
+
+    &lt;output id=&quot;outputLog&quot;&gt;&lt;/output&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;Get Greeting&lt;/h2&gt;
+        &lt;div&gt;&lt;label for=&quot;id&quot;&gt;Greeting ID:&lt;/label&gt;&lt;input id=&quot;id&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;input id=&quot;getGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;List Greetings&lt;/h2&gt;
+        &lt;div&gt;&lt;input id=&quot;listGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+</div><p id="rrmdnj_41">where <code class="code" id="rrmdnj_42">id</code> is the text field where the user specifies the desired Greeting, and <code class="code" id="rrmdnj_43">getGreeting</code> is the button that sends the request to the backend API. The <code class="code" id="rrmdnj_44">listGreeting</code> button gets all the Greeting objects from the backend API.</p></li><li class="list__item" id="rrmdnj_32"><p id="rrmdnj_45">Finally, in that same file append these lines:</p><div class="code-block" data-lang="none">
+&lt;script&gt;
+    function init() {
+        google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
+    }
+&lt;/script&gt;
+&lt;script src=&quot;https://apis.google.com/js/client.js?onload=init&quot;&gt;&lt;/script&gt;
+</div><p id="rrmdnj_47">where we specify the function to be executed on page load. There is nothing special about the name <code class="code" id="rrmdnj_49">init</code>: you can use any name you want. Just make sure you set <code class="code" id="rrmdnj_50">onload=</code> to whatever function name you use. Whatever name you give the function, and whatever tasks you perform in this function, there is one requirement for an Endpoints client: you have to load the backend API you wish to use.</p><p id="rrmdnj_48">In the above snippet, the actual API loading is delegated to <code class="code" id="rrmdnj_51">google.appengine.samples.hello.init</code>, which gets the URL of the backend API passed to it, as shown above. Loading the API in the <code class="code" id="rrmdnj_52">google.appengine.samples.hello.init</code> function will be described in <a href="https://web.archive.org/web/20160424225820/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/add_javascript" id="rrmdnj_53" data-external="true" rel="noopener noreferrer" target="_blank">Adding JavaScript</a>.</p></li><li class="list__item" id="rrmdnj_33"><p id="rrmdnj_54">At this point, your <code class="code" id="rrmdnj_56">index.html</code> file should look like this:</p><div class="code-block" data-lang="none">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello Endpoints!&lt;/title&gt;
+    &lt;script async src=&quot;/js/base.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap/css/bootstrap-responsive.css&quot;&gt;
+    &lt;style&gt;
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        blockquote {
+            margin-bottom: 10px;
+            border-left-color: #bbb;
+        }
+        form {
+            margin-top: 10px;
+        }
+        form label {
+          width: 90px;
+          display: inline-block;
+        }
+        .form-signin input[type=&quot;text&quot;] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        }
+        .row {
+            margin-left: 0px;
+            margin-top: 10px;
+            overflow: scroll;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;navbar navbar-inverse navbar-fixed-top&quot;&gt;
+    &lt;div class=&quot;navbar-inner&quot;&gt;
+        &lt;div class=&quot;container&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;btn btn-navbar&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.nav-collapse&quot;&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+                &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+            &lt;/button&gt;
+            &lt;a class=&quot;brand&quot; href=&quot;#&quot;&gt;Hello Endpoints!&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;container&quot;&gt;
+
+    &lt;output id=&quot;outputLog&quot;&gt;&lt;/output&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;Get Greeting&lt;/h2&gt;
+        &lt;div&gt;&lt;label for=&quot;id&quot;&gt;Greeting ID:&lt;/label&gt;&lt;input id=&quot;id&quot; /&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;input id=&quot;getGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;form onsubmit=&quot;return false;&quot;&gt;
+        &lt;h2&gt;List Greetings&lt;/h2&gt;
+        &lt;div&gt;&lt;input id=&quot;listGreeting&quot; type=&quot;submit&quot; class=&quot;btn btn-small&quot; value=&quot;Submit&quot;&gt;&lt;/div&gt;
+    &lt;/form&gt;
+    &lt;script&gt;
+        function init() {
+            google.appengine.samples.hello.init('//' + window.location.host + '/_ah/api');
+        }
+    &lt;/script&gt;
+    &lt;script src=&quot;https://apis.google.com/js/client.js?onload=init&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div></li></ol></section><section class="chapter"><h2 id="next" data-toc="next">Next...</h2><p id="rrmdnj_57"><a href="https://web.archive.org/web/20160424225820/https://cloud.google.com/appengine/docs/java/endpoints/getstarted/clients/js/add_javascript" id="rrmdnj_58" data-external="true" rel="noopener noreferrer" target="_blank">Adding JavaScript</a>.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="web-client-tutorial-setup.html" class="navigation-links__prev">Setup</a><a href="adding-javascript.html" class="navigation-links__next">Adding JavaScript</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

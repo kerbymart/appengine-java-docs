@@ -1,0 +1,128 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.290181773"><title>Handling Search Results | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"results","level":0,"title":"Results","anchor":"#results"},{"id":"scored-documents","level":0,"title":"Scored documents","anchor":"#scored-documents"},{"id":"using-offsets","level":0,"title":"Using offsets","anchor":"#using-offsets"},{"id":"using-cursors","level":0,"title":"Using cursors","anchor":"#using-cursors"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Handling Search Results | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/handling-search-results.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Handling Search Results | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/handling-search-results.html#webpage",
+    "url": "writerside-documentation/handling-search-results.html",
+    "name": "Handling Search Results | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Handling-Search-Results" data-main-title="Handling Search Results" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Searchable-Document-Indexes.md|Searchable Document Indexes"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Handling-Search-Results" id="Handling-Search-Results.md">Handling Search Results</h1><p id="-kih9wc_3">When a query call completes normally, it returns the result as a <a href="https://web.archive.org/web/20160424230742/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/search/Results" id="-kih9wc_9" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-kih9wc_11">Results</code></a> object. The Results object tells you how many matching documents were found in the index, and how many matched documents were returned. It also includes a collection of matching <a href="https://web.archive.org/web/20160424230742/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/search/ScoredDocument" id="-kih9wc_10" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-kih9wc_12">ScoredDocuments</code></a>. The collection usually contains a portion of all the matching documents found, since search returns a limited number of documents each time it's called. By using an offset or a cursor you can retrieve all the matching documents, a subset at a time.</p><ol class="list _decimal" id="-kih9wc_4" type="1"><li class="list__item" id="-kih9wc_13"><p id="-kih9wc_17"><span id="-kih9wc_18">Results</span></p></li><li class="list__item" id="-kih9wc_14"><p id="-kih9wc_19"><span id="-kih9wc_20">Scored documents</span></p></li><li class="list__item" id="-kih9wc_15"><p id="-kih9wc_21"><span id="-kih9wc_22">Using offsets</span></p></li><li class="list__item" id="-kih9wc_16"><p id="-kih9wc_23"><span id="-kih9wc_24">Using cursors</span></p></li></ol><section class="chapter"><h2 id="results" data-toc="results">Results</h2><p id="-kih9wc_25">Your calling code should be prepared to handle exceptions which might be thrown if the query is invalid or there were problems processing it:</p><div class="code-block" data-lang="none">
+// index and query have already been defined ... 
+try {
+    Results&lt;ScoredDocument&gt; result = index.search(query);
+    long totalMatches = result.getNumberFound();
+    int numberOfDocsReturned = result.getNumberReturned();
+    Collection&lt;ScoredDocument&gt; listOfDocs = result.getResults();
+} catch (SearchException e) {
+    // handle exception...
+}
+</div><p id="-kih9wc_27">Depending on the value of the <code class="code" id="-kih9wc_29">limit</code> <a href="https://web.archive.org/web/20160424230742/https://cloud.google.com/appengine/docs/java/search/options#Java_QueryOptions" id="-kih9wc_30" data-external="true" rel="noopener noreferrer" target="_blank">query option</a>, the number of matching documents returned in the result may be less than the number found. Remember that the number found will be an estimate if the number found accuracy is less than the number found. No matter how you configure the search options, a <code class="code" id="-kih9wc_31">search()</code> call will find no more than 10,000 matching documents.</p><p id="-kih9wc_28">If more documents were found than returned, and you want to retrieve all of them, you need to repeat the search using either an offset or a cursor, as explained below.</p></section><section class="chapter"><h2 id="scored-documents" data-toc="scored-documents">Scored documents</h2><p id="-kih9wc_32">The search results will include a Collection of <a href="https://web.archive.org/web/20160424230742/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/search/ScoredDocument" id="-kih9wc_35" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-kih9wc_37">ScoredDocuments</code></a> that match the query. You can retrieve the collection using the method <code class="code" id="-kih9wc_36">getResults()</code> or iterate over its members directly from the search results itself. Both methods are shown here:</p><div class="code-block" data-lang="none">
+// index and query have already been defined ...
+Results&lt;ScoredDocument&gt; result = index.search(query);
+
+// Grab the collection for later use:
+Collection&lt;ScoredDocument&gt; theDocs = result.getResults();
+
+// Alternatively, iterate over the results directly:
+for (ScoredDocument doc : result) {
+    // do work
+}
+</div><p id="-kih9wc_34">By default, a scored document contains all the fields of the original document that was indexed. If your <a href="https://web.archive.org/web/20160424230742/https://cloud.google.com/appengine/docs/java/search/options#Java_QueryOptions" id="-kih9wc_38" data-external="true" rel="noopener noreferrer" target="_blank">query options</a> specified <code class="code" id="-kih9wc_39">setFieldsToReturn</code>, only those fields will appear in the results when you call <a href="https://web.archive.org/web/20160424230742/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/search/Document#getFields()" id="-kih9wc_40" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-kih9wc_44">getFields()</code></a> on the document. If you used <code class="code" id="-kih9wc_41">addExpressionToReturn</code> or <code class="code" id="-kih9wc_42">setFieldsToSnippet</code> to create computed fields, retrieve them separately by calling <a href="https://web.archive.org/web/20160424230742/https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/search/ScoredDocument#getExpressions()" id="-kih9wc_43" data-external="true" rel="noopener noreferrer" target="_blank"><code class="code" id="-kih9wc_45">getExpressions()</code></a> on the document.</p></section><section class="chapter"><h2 id="using-offsets" data-toc="using-offsets">Using offsets</h2><p id="-kih9wc_46">If your search finds more documents than you can return at once, use an offset to index into the list of matching documents. For example, the default query limit is 20 documents. After you've executed a search the first time (with offset 0) and retrieved the first 20 documents, retrieve the next 20 documents by setting the offset to 20 and running the same search again. Keep repeating the search, incrementing the offset each time by the number of documents returned:</p><div class="code-block" data-lang="none">
+// index and queryString have already been defined
+
+try {
+    int numberRetrieved = 0;
+    int offset = 0;
+    do {
+        // build options and query
+        QueryOptions options = QueryOptions.newBuilder()
+            .setOffset(offset)
+            .build();
+        Query query = Query.newBuilder().setOptions(options).build(queryString);
+        
+        // search at least once
+        Results&lt;ScoredDocument&gt; result = index.search(query);
+        numberRetrieved = result.getNumberReturned();
+        if (numberRetrieved &gt; 0) {
+            offset += numberRetrieved;
+            // process the matched docs
+        }
+        
+    }
+    while (numberRetrieved &gt; 0);
+} catch (SearchException e) {
+    // handle exception...
+}
+</div><p id="-kih9wc_48">Offsets can be inefficient when iterating over a very large result set.</p></section><section class="chapter"><h2 id="using-cursors" data-toc="using-cursors">Using cursors</h2><p id="-kih9wc_49">You can also use cursors to retrieve a subrange of results. Cursors are useful when you intend to present your search results in consecutive pages and you want to be sure you do not skip any documents in the case where an index could be modified between queries. Cursors are also more efficient when iterating across a very large result set.</p><p id="-kih9wc_50">In order to use cursors, you must create an initial cursor and include it in the query options. There are two kinds of cursors, <span class="emphasis" id="-kih9wc_54">per-query</span> and <span class="emphasis" id="-kih9wc_55">per-result</span>. A per-query cursor causes a separate cursor to be associated with the results object returned by the search call. A per-result cursor causes a cursor to be associated with every scored document in the results.</p><section class="chapter"><h3 id="using-a-per-query-cursor" data-toc="using-a-per-query-cursor">Using a per-query cursor</h3><p id="-kih9wc_56">By default, a newly constructed cursor is a per-query cursor. This cursor holds the position of the last document returned in the search's results. It is updated with each search. To enumerate all matching documents in an index, execute the same search until the result returns a null cursor:</p><div class="code-block" data-lang="none">
+// index and queryString have already been defined
+    
+try {
+    // create the initial cursor
+    Cursor cursor = Cursor.newBuilder().build();
+
+    do {
+        // build options and query
+        QueryOptions options = QueryOptions.newBuilder()
+            .setCursor(cursor)
+            .build();
+        Query query = Query.newBuilder().setOptions(options).build(queryString);
+    
+        // search at least once
+        Results&lt;ScoredDocument&gt; result = index.search(query);
+        int numberRetrieved = result.getNumberReturned();
+        cursor = result.getCursor();
+
+        if (numberRetrieved &gt; 0) {
+            // process the matched docs
+        }
+    
+    }
+    while (cursor != null);
+    // all done!
+} catch (SearchException e) {
+    // handle exception...
+}
+</div></section><section class="chapter"><h3 id="using-a-per-result-cursor" data-toc="using-a-per-result-cursor">Using a per-result cursor</h3><p id="-kih9wc_58">To create per-result cursors, you must set the cursor perResult property to true when you create the initial cursor. When the search returns, every document will have a cursor associated with it. You can use that cursor to specify a new search with results that begin with a specific document. Note that when you pass a per-result cursor to search, there will be no per-query cursor associated with the result itself; result.getCursor() will return null so you can't use this to test whether you've retrieved all the matches.</p><div class="code-block" data-lang="none">
+// index and queryString have already been defined
+    
+try {
+    // create an initial per-result cursor
+    Cursor cursor = Cursor.newBuilder().setPerResult(true).build();
+    // build options and query
+    QueryOptions options = QueryOptions.newBuilder()
+        .setCursor(cursor)
+        .build();
+    Query query = Query.newBuilder().setOptions(options).build(queryString);
+    Results&lt;ScoredDocument&gt; result = index.search(query);
+
+    // process the matched docs
+    cursor = null;
+    for (ScoredDocument doc : result) {
+        // discover some document of interest and grab its cursor
+        if (...)
+            cursor = doc.getCursor();
+     }
+    
+    // Start the next search from the document of interest
+    if (cursor != null) {
+        options = QueryOptions.newBuilder()
+            .setCursor(cursor)
+            .build();
+        query = Query.newBuilder().setOptions(options).build(queryString);
+        result = index.search(query);
+    }
+} catch (SearchException e) {
+    // handle exception
+}
+</div></section><section class="chapter"><h3 id="saving-and-restoring-cursors" data-toc="saving-and-restoring-cursors">Saving and restoring cursors</h3><p id="-kih9wc_60">A cursor can be serialized as a web-safe string, saved, and then restored for later use:</p><div class="code-block" data-lang="none">
+String cursorString = cursor.toWebSafeString();
+// Save the string ... and restore:
+Cursor cursor = Cursor.newBuilder().build(cursorString));
+</div></section></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="query-and-sorting-options.html" class="navigation-links__prev">Query and Sorting Options</a><a href="faceted-search.html" class="navigation-links__next">Faceted Search</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

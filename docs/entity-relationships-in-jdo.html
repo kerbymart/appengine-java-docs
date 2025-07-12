@@ -1,0 +1,294 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-07-13T01:56:45.376374051"><title>Entity Relationships in JDO | Google App Engine Java Documentation</title><script type="application/json" id="virtual-toc-data">[{"id":"owned-one-to-one-relationships","level":0,"title":"Owned One-to-One Relationships","anchor":"#owned-one-to-one-relationships"},{"id":"owned-one-to-many-relationships","level":0,"title":"Owned One-to-Many Relationships","anchor":"#owned-one-to-many-relationships"},{"id":"unowned-relationships","level":0,"title":"Unowned Relationships","anchor":"#unowned-relationships"},{"id":"relationships-entity-groups-and-transactions","level":0,"title":"Relationships, Entity Groups, and Transactions","anchor":"#relationships-entity-groups-and-transactions"},{"id":"dependent-children-and-cascading-deletes","level":0,"title":"Dependent Children and Cascading Deletes","anchor":"#dependent-children-and-cascading-deletes"},{"id":"polymorphic-relationships","level":0,"title":"Polymorphic Relationships","anchor":"#polymorphic-relationships"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><meta name="msapplication-TileColor" content="#000000"><link rel="apple-touch-icon" sizes="180x180" href="https://jetbrains.com/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="https://jetbrains.com/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="https://jetbrains.com/favicon-16x16.png"><meta name="msapplication-TileImage" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-144x144.png"><meta name="msapplication-square70x70logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-70x70.png"><meta name="msapplication-square150x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x150.png"><meta name="msapplication-square310x310logo" content="https://resources.jetbrains.com/storage/ui/favicons/mstile-310x310.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Entity Relationships in JDO | Google App Engine Java Documentation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Google App Engine Java Documentation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/entity-relationships-in-jdo.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Entity Relationships in JDO | Google App Engine Java Documentation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/entity-relationships-in-jdo.html#webpage",
+    "url": "writerside-documentation/entity-relationships-in-jdo.html",
+    "name": "Entity Relationships in JDO | Google App Engine Java Documentation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Google App Engine Java Documentation Help"
+}</script><!-- End Schema.org --></head><body data-id="Entity-Relationships-in-JDO" data-main-title="Entity Relationships in JDO" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Guides.md|Guides///Storing-Data.md|Storing Data///Superseded-Storage-Solutions.md|Superseded Storage Solutions///JDO-for-Cloud-Datastore.md|JDO for Cloud Datastore"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Google App Engine Java Documentation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Entity-Relationships-in-JDO" id="Entity-Relationships-in-JDO.md">Entity Relationships in JDO</h1><p id="o43vv8_3">You can model relationships between persistent objects using fields of the object types. A relationship between persistent objects can be described as <span class="emphasis" id="o43vv8_13">owned</span>, where one of the objects cannot exist without the other, or <span class="emphasis" id="o43vv8_14">unowned</span>, where both objects can exist independently of their relationship with one another. The App Engine implementation of the JDO interface can model both owned and unowned one-to-one relationships and one-to-many relationships, both unidirectional and bidirectional.</p><p id="o43vv8_4">Unowned relationships are not supported in version 1.0 of the DataNucleus plugin for App Engine, but you can manage these relationships yourself by storing datastore keys in fields directly. App Engine creates related entities in entity groups automatically to support updating related objects together&mdash; but it is the app's responsibility to know when to use datastore transactions.</p><p id="o43vv8_5">Version 2.x of the DataNucleus plugin for App Engine supports unowned relationships with a natural syntax. The <span id="o43vv8_15">Unowned Relationships</span> section calls out how to create unowned relationships in each plugin version. To upgrade to version 2.x of the DataNucleus plugin for App Engine, see <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/jdo/overview-dn2#Migrating_to_Version_2.0_of_the_DataNucleus_Plugin" id="o43vv8_16" data-external="true" rel="noopener noreferrer" target="_blank">Migrating to Version 2.x of the DataNucleus Plugin for App Engine</a>.</p><ol class="list _decimal" id="o43vv8_6" type="1"><li class="list__item" id="o43vv8_17"><p id="o43vv8_23"><span id="o43vv8_24">Owned One-to-One Relationships</span></p></li><li class="list__item" id="o43vv8_18"><p id="o43vv8_25"><span id="o43vv8_26">Owned One-to-Many Relationships</span></p></li><li class="list__item" id="o43vv8_19"><p id="o43vv8_27"><span id="o43vv8_28">Unowned Relationships</span></p></li><li class="list__item" id="o43vv8_20"><p id="o43vv8_29"><span id="o43vv8_30">Relationships, Entity Groups, and Transactions</span></p></li><li class="list__item" id="o43vv8_21"><p id="o43vv8_31"><span id="o43vv8_32">Dependent Children and Cascading Deletes</span></p></li><li class="list__item" id="o43vv8_22"><p id="o43vv8_33"><span id="o43vv8_34">Polymorphic Relationships</span></p></li></ol><section class="chapter"><h2 id="owned-one-to-one-relationships" data-toc="owned-one-to-one-relationships">Owned One-to-One Relationships</h2><p id="o43vv8_35">You create a unidirectional one-to-one owned relationship between two persistent objects by using a field whose type is the class of the related class.</p><p id="o43vv8_36">The following example defines a ContactInfo data class and an Employee data class, with a one-to-one relationship from Employee to ContactInfo.</p><p id="o43vv8_37"><span class="control" id="o43vv8_49"><code class="code" id="o43vv8_50">ContactInfo.java</code></span></p><div class="code-block" data-lang="none">
+import com.google.appengine.api.datastore.Key;
+// ... imports ...
+
+@PersistenceCapable
+public class ContactInfo {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private String streetAddress;
+
+    // ...
+}
+</div><p id="o43vv8_39"><span class="control" id="o43vv8_51"><code class="code" id="o43vv8_52">Employee.java</code></span></p><div class="code-block" data-lang="none">
+import ContactInfo;
+// ... imports ...
+
+@PersistenceCapable
+public class Employee {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private ContactInfo contactInfo;
+
+    ContactInfo getContactInfo() {
+        return contactInfo;
+    }
+    void setContactInfo(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
+    // ...
+}
+</div><p id="o43vv8_41">The persistent objects are represented as two distinct entities in the datastore, with two different kinds. The relationship is represented using an entity group relationship: the child's key uses the parent's key as its entity group parent. When the app accesses the child object using the parent object's field, the JDO implementation performs an entity group parent query to get the child.</p><p id="o43vv8_42">The child class must have a key field whose type can contain the parent key information: either a Key, or a Key value encoded as a string. See <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/jdo/creatinggettinganddeletingdata#Keys" id="o43vv8_53" data-external="true" rel="noopener noreferrer" target="_blank">Creating Data: Keys</a> for information on key field types.</p><p id="o43vv8_43">You create a bidirectional one-to-one relationship using fields on both classes, with an annotation on the child class's field to declare that the fields represent a bidirectional relationship. The field of the child class must have a <code class="code" id="o43vv8_54">@Persistent</code> annotation with the argument <code class="code" id="o43vv8_55">mappedBy = &quot;...&quot;</code>, where the value is the name of the field on the parent class. If the field on one object is populated, then the corresponding reference field on the other object is populated automatically.</p><p id="o43vv8_44"><span class="control" id="o43vv8_56"><code class="code" id="o43vv8_57">ContactInfo.java</code></span></p><div class="code-block" data-lang="none">
+import Employee;
+
+// ...
+    @Persistent(mappedBy = &quot;contactInfo&quot;)
+    private Employee employee;
+</div><p id="o43vv8_46">Child objects are loaded from the datastore when they are accessed for the first time. If you do not access the child object on a parent object, the entity for the child object is never loaded. If you want to load the child, you can either &quot;touch&quot; it <span class="emphasis" id="o43vv8_58">before</span> closing the PersistenceManager (e.g. by calling <code class="code" id="o43vv8_59">getContactInfo()</code> in the above example) or explicitly add the child field to the default fetch group so it's retrieved and loaded with the parent:</p><p id="o43vv8_47"><span class="control" id="o43vv8_60"><code class="code" id="o43vv8_61">Employee.java</code></span></p><div class="code-block" data-lang="none">
+import ContactInfo;
+
+// ...
+    @Persistent(defaultFetchGroup = &quot;true&quot;)
+    private ContactInfo contactInfo;
+</div></section><section class="chapter"><h2 id="owned-one-to-many-relationships" data-toc="owned-one-to-many-relationships">Owned One-to-Many Relationships</h2><p id="o43vv8_62">To create a one-to-many relationship between objects of one class and multiple objects of another, use a Collection of the related class:</p><p id="o43vv8_63"><span class="control" id="o43vv8_73"><code class="code" id="o43vv8_74">Employee.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.List;
+
+// ...
+    @Persistent
+    private List&lt;ContactInfo&gt; contactInfoSets;
+</div><p id="o43vv8_65">A one-to-many bidirectional relationship is similar to a one-to-one, with a field on the parent class using the annotation <code class="code" id="o43vv8_75">@Persistent(mappedBy = &quot;...&quot;)</code>, where the value is the name of the field on the child class:</p><p id="o43vv8_66"><span class="control" id="o43vv8_76"><code class="code" id="o43vv8_77">Employee.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.List;
+
+// ...
+    @Persistent(mappedBy = &quot;employee&quot;)
+    private List&lt;ContactInfo&gt; contactInfoSets;
+</div><p id="o43vv8_68"><span class="control" id="o43vv8_78"><code class="code" id="o43vv8_79">ContactInfo.java</code></span></p><div class="code-block" data-lang="none">
+import Employee;
+
+// ...
+    @Persistent
+    private Employee employee;
+</div><p id="o43vv8_70">The collection types listed in <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/jdo/dataclasses#Collections" id="o43vv8_80" data-external="true" rel="noopener noreferrer" target="_blank">Defining Data Classes: Collections</a> are supported for one-to-many relationships. However, arrays are <span class="emphasis" id="o43vv8_81">not</span> supported for one-to-many relationships.</p><p id="o43vv8_71">App Engine does not support join queries: you cannot query a parent entity using an attribute of a child entity. (You can query a property of an embedded class, because embedded classes store properties on the parent entity. See <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/jdo/dataclasses#Embedded_Classes" id="o43vv8_82" data-external="true" rel="noopener noreferrer" target="_blank">Defining Data Classes: Embedded Classes</a>.)</p><section class="chapter"><h3 id="how-ordered-collections-maintain-their-order" data-toc="how-ordered-collections-maintain-their-order">How Ordered Collections Maintain Their Order</h3><p id="o43vv8_83">Ordered collections, such as <code class="code" id="o43vv8_89">List&lt;...&gt;</code>, preserve the order of objects when the parent object is saved. JDO requires that databases preserve this order by storing the position of each object as a property of the object. App Engine stores this as a property of the corresponding entity, using a property name equal to the name of the parent's field followed by <code class="code" id="o43vv8_90">_INTEGER_IDX</code>. <span class="control" id="o43vv8_91">Position properties are inefficient.</span> If an element is added, removed or moved in the collection, all entities subsequent to the modified place in the collection must be updated. This can be slow, and error prone if not performed in a transaction.</p><p id="o43vv8_84">If you do not need to preserve an arbitrary order in a collection, but need to use an ordered collection type, you can specify an ordering based on properties of the elements using an annotation, an extension to JDO provided by DataNucleus:</p><div class="code-block" data-lang="none">
+import java.util.List;
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.Order;
+import javax.jdo.annotations.Persistent;
+
+// ...
+    @Persistent
+    @Order(extensions = @Extension(vendorName=&quot;datanucleus&quot;,key=&quot;list-ordering&quot;, value=&quot;state asc, city asc&quot;))
+    private List&lt;ContactInfo&gt; contactInfoSets = new ArrayList&lt;ContactInfo&gt;();
+</div><p id="o43vv8_86">The <code class="code" id="o43vv8_92">@Order</code> annotation (using the <code class="code" id="o43vv8_93">list-ordering</code> extension) specifies the desired order of the elements of the collection as a JDOQL ordering clause. The ordering uses values of properties of the elements. As with queries, all elements of a collection must have values for the properties used in the ordering clause.</p><p id="o43vv8_87">Accessing a collection performs a query. If the ordering clause of a field uses more than one sort order, the query requires a Datastore index; see the <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/indexes" id="o43vv8_94" data-external="true" rel="noopener noreferrer" target="_blank">Datastore Indexes</a> page for more information.</p><p id="o43vv8_88">For efficiency, always use an explicit ordering clause for one-to-many relationships of ordered collection types, if possible.</p></section></section><section class="chapter"><h2 id="unowned-relationships" data-toc="unowned-relationships">Unowned Relationships</h2><p id="o43vv8_95">In addition to owned relationships, the JDO API also provides a facility for managing unowned relationships. This facility works differently depending on which version of the DataNucleus plugin for App Engine you are using:</p><ul class="list _bullet" id="o43vv8_96"><li class="list__item" id="o43vv8_101"><p id="o43vv8_103"><a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/jdo/overview" id="o43vv8_105" data-external="true" rel="noopener noreferrer" target="_blank">Version 1</a> of the DataNucleus plugin does not implement unowned relationships using a natural syntax, but you can still manage these relationships using <code class="code" id="o43vv8_106">Key</code> values in place of instances (or Collections of instances) of your model objects. You can think of storing Key objects as modeling an arbitrary &quot;foreign key&quot; between two objects. The datastore does not guarantee referential integrity with these Key references, but the use of Key makes it very easy to model (and then fetch) any relationship between two objects.</p><p id="o43vv8_104">However, if you go this route, you must ensure that the keys are of the appropriate kind. JDO and the compiler do not check <code class="code" id="o43vv8_107">Key</code> types for you.</p></li><li class="list__item" id="o43vv8_102"><p id="o43vv8_108"><a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/jdo/overview-dn2" id="o43vv8_109" data-external="true" rel="noopener noreferrer" target="_blank">Version 2.x</a> of the DataNucleus plugin implements unowned relationships using a natural syntax.</p></li></ul><p id="o43vv8_97"><span class="control" id="o43vv8_110">Tip:</span> In some cases, you may find it necessary to model an owned relationship as if it is unowned. This is because all objects involved in an owned relationship are automatically placed in the same entity group, and an entity group can only support one to ten writes per second. So, for example, if a parent object is receiving .75 writes per second and a child object is receiving .75 writes per second, it may make sense to model this relationship as unowned so that both parent and child reside in their own, independent entity groups.</p><section class="chapter"><h3 id="unowned-one-to-one-relationships" data-toc="unowned-one-to-one-relationships">Unowned One-to-One Relationships</h3><p id="o43vv8_111">Suppose you want to model person and food, where a person can only have one favorite food but a favorite food does not belong to the person because it can be the favorite food of any number of people. This section shows how to do that.</p><section class="chapter"><h4 id="in-jdo-2-3" data-toc="in-jdo-2-3">In JDO 2.3</h4><p id="o43vv8_114">In this example, we give <code class="code" id="o43vv8_119">Person</code> a member of type <code class="code" id="o43vv8_120">Key</code>, where the <code class="code" id="o43vv8_121">Key</code> is the unique identifier of a <code class="code" id="o43vv8_122">Food</code> object. If an instance of <code class="code" id="o43vv8_123">Person</code> and the instance of <code class="code" id="o43vv8_124">Food</code> referred to by <code class="code" id="o43vv8_125">Person.favoriteFood</code> are <span class="emphasis" id="o43vv8_126">not</span> in the same entity group, you cannot update the person and that person's favorite food in a single transaction unless your JDO configuration is set to <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/transactions#Cross_Group_Transactions" id="o43vv8_127" data-external="true" rel="noopener noreferrer" target="_blank">enable cross-group (XG) transactions</a>.</p><p id="o43vv8_115"><span class="control" id="o43vv8_128"><code class="code" id="o43vv8_129">Person.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Person {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private Key favoriteFood;
+
+    // ...
+}
+</div><p id="o43vv8_117"><span class="control" id="o43vv8_130"><code class="code" id="o43vv8_131">Food.java</code></span></p><div class="code-block" data-lang="none">
+import Person;
+// ... imports ...
+
+@PersistenceCapable
+public class Food {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    // ...
+}
+</div></section><section class="chapter"><h4 id="in-jdo-3-0" data-toc="in-jdo-3-0">In JDO 3.0</h4><p id="o43vv8_132">In this example, rather than giving <code class="code" id="o43vv8_137">Person</code> a key representing their favorite food, we create a private member of type <code class="code" id="o43vv8_138">Food</code>:</p><p id="o43vv8_133"><span class="control" id="o43vv8_139"><code class="code" id="o43vv8_140">Person.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Person {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    @Unowned
+    private Food favoriteFood;
+
+    // ...
+}
+</div><p id="o43vv8_135"><span class="control" id="o43vv8_141"><code class="code" id="o43vv8_142">Food.java</code></span></p><div class="code-block" data-lang="none">
+import Person;
+// ... imports ...
+
+@PersistenceCapable
+public class Food {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    // ...
+}
+</div></section></section><section class="chapter"><h3 id="unowned-one-to-many-relationships" data-toc="unowned-one-to-many-relationships">Unowned One-to-Many Relationships</h3><p id="o43vv8_143">Now suppose we want to let a person have multiple favorite foods. Again, a favorite food does not belong to the person because it can be the favorite food of any number of people.</p><section class="chapter"><h4 id="in-jdo-2-3" data-toc="in-jdo-2-3">In JDO 2.3</h4><p id="o43vv8_146">In this example, rather than giving Person a member of type <code class="code" id="o43vv8_149">Set&lt;Food&gt;</code> to represent the person's favorite foods, we instead give Person a member of type <code class="code" id="o43vv8_150">Set&lt;Key&gt;</code>, where the set contains the unique identifiers of <code class="code" id="o43vv8_151">Food</code> objects. Note that, if an instance of <code class="code" id="o43vv8_152">Person</code> and an instance of <code class="code" id="o43vv8_153">Food</code> contained in <code class="code" id="o43vv8_154">Person.favoriteFoods</code> are not in the same entity group, you must set your JDO configuration to <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/transactions#Cross_Group_Transactions" id="o43vv8_155" data-external="true" rel="noopener noreferrer" target="_blank">enable cross-group (XG) transactions</a> if you want to update them in the same transaction.</p><p id="o43vv8_147"><span class="control" id="o43vv8_156"><code class="code" id="o43vv8_157">Person.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Person {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private Set&lt;Key&gt; favoriteFoods;
+
+    // ...
+}
+</div></section><section class="chapter"><h4 id="in-jdo-3-0" data-toc="in-jdo-3-0">In JDO 3.0</h4><p id="o43vv8_158">In this example, we give Person a member of type <code class="code" id="o43vv8_161">Set&lt;Food&gt;</code> where the set represents the Person's favorite foods.</p><p id="o43vv8_159"><span class="control" id="o43vv8_162"><code class="code" id="o43vv8_163">Person.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Person {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private Set&lt;Food&gt; favoriteFoods;
+
+    // ...
+}
+</div></section></section><section class="chapter"><h3 id="many-to-many-relationships" data-toc="many-to-many-relationships">Many-to-Many Relationships</h3><p id="o43vv8_164">We can model a many-to-many relationship by maintaining collections of keys on both sides of the relationship. Let's adjust our example to let <code class="code" id="o43vv8_174">Food</code> keep track of the people that consider it a favorite:</p><p id="o43vv8_165"><span class="control" id="o43vv8_175"><code class="code" id="o43vv8_176">Person.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.Set;
+import com.google.appengine.api.datastore.Key;
+
+// ...
+    @Persistent
+    private Set&lt;Key&gt; favoriteFoods;
+</div><p id="o43vv8_167"><span class="control" id="o43vv8_177"><code class="code" id="o43vv8_178">Food.java</code></span></p><div class="code-block" data-lang="none">
+import java.util.Set;
+import com.google.appengine.api.datastore.Key;
+
+// ...
+    @Persistent
+    private Set&lt;Key&gt; foodFans;
+</div><p id="o43vv8_169">In this example, the <code class="code" id="o43vv8_179">Person</code> maintains a Set of <code class="code" id="o43vv8_180">Key</code> values that uniquely identify the <code class="code" id="o43vv8_181">Food</code> objects that are favorites, and the <code class="code" id="o43vv8_182">Food</code> maintains a Set of <code class="code" id="o43vv8_183">Key</code> values that uniquely identify the <code class="code" id="o43vv8_184">Person</code> objects that consider it a favorite.</p><p id="o43vv8_170">When modeling a many-to-many using <code class="code" id="o43vv8_185">Key</code> values, be aware that it is the app's responsibility to maintain both sides of the relationship:</p><p id="o43vv8_171"><span class="control" id="o43vv8_186"><code class="code" id="o43vv8_187">Album.java</code></span></p><div class="code-block" data-lang="none">
+
+// ...
+public void addFavoriteFood(Food food) {
+    favoriteFoods.add(food.getKey());
+    food.getFoodFans().add(getKey());
+}
+
+public void removeFavoriteFood(Food food) {
+    favoriteFoods.remove(food.getKey());
+    food.getFoodFans().remove(getKey());
+}
+</div><p id="o43vv8_173">If an instance of <code class="code" id="o43vv8_188">Person</code> and an instance of <code class="code" id="o43vv8_189">Food</code> contained in <code class="code" id="o43vv8_190">Person.favoriteFoods</code> are not in the same entity group, and you want to update them in a single transaction, you must set your JDO configuration to <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/transactions#Cross_Group_Transactions" id="o43vv8_191" data-external="true" rel="noopener noreferrer" target="_blank">enable cross-group (XG) transactions</a>.</p></section></section><section class="chapter"><h2 id="relationships-entity-groups-and-transactions" data-toc="relationships-entity-groups-and-transactions">Relationships, Entity Groups, and Transactions</h2><p id="o43vv8_192">When your application saves an object with owned relationships to the datastore, all other objects that can be reached via relationships and need to be saved (they are new or have been modified since they were last loaded) are saved automatically. This has important implications for transactions and entity groups.</p><p id="o43vv8_193">Consider the following example using a unidirectional relationship between the <code class="code" id="o43vv8_200">Employee</code> and <code class="code" id="o43vv8_201">ContactInfo</code> classes above:</p><div class="code-block" data-lang="none">
+    Employee e = new Employee();
+    ContactInfo ci = new ContactInfo();
+    e.setContactInfo(ci);
+
+    pm.makePersistent(e);
+</div><p id="o43vv8_195">When the new <code class="code" id="o43vv8_202">Employee</code> object is saved using the <code class="code" id="o43vv8_203">pm.makePersistent()</code> method, the new related <code class="code" id="o43vv8_204">ContactInfo</code> object is saved automatically. Since both objects are new, App Engine creates two new entities in the same entity group, using the <code class="code" id="o43vv8_205">Employee</code> entity as the parent of the <code class="code" id="o43vv8_206">ContactInfo</code> entity. Similarly, if the <code class="code" id="o43vv8_207">Employee</code> object has already been saved and the related <code class="code" id="o43vv8_208">ContactInfo</code> object is new, App Engine creates the <code class="code" id="o43vv8_209">ContactInfo</code> entity using the existing <code class="code" id="o43vv8_210">Employee</code> entity as the parent.</p><p id="o43vv8_196">Notice, however, that the call to <code class="code" id="o43vv8_211">pm.makePersistent()</code> in this example does not use a transaction. Without an explicit transaction, both entities are created using separate atomic actions. In this case, it is possible for the creation of the Employee entity to succeed, but the creation of the ContactInfo entity to fail. To ensure that either both entities are created successfully or neither entity is created, you must use a transaction:</p><div class="code-block" data-lang="none">
+    Employee e = new Employee();
+    ContactInfo ci = new ContactInfo();
+    e.setContactInfo(ci);
+
+    try {
+        Transaction tx = pm.currentTransaction();
+        tx.begin();
+        pm.makePersistent(e);
+        tx.commit();
+    } finally {
+        if (tx.isActive()) {
+            tx.rollback();
+        }
+    }
+</div><p id="o43vv8_198">If both objects were saved <span class="emphasis" id="o43vv8_212">before</span> the relationship was established, App Engine cannot &quot;move&quot; the existing <code class="code" id="o43vv8_213">ContactInfo</code> entity into the <code class="code" id="o43vv8_214">Employee</code> entity's entity group, because entity groups can only be assigned when the entities are created. App Engine can establish the relationship with a reference, but the related entities will not be in the same group. In this case, the two entities can be updated or deleted in the same transaction if you set your JDO configuration to <a href="https://web.archive.org/web/20160424225913/https://cloud.google.com/appengine/docs/java/datastore/transactions#Cross_Group_Transactions" id="o43vv8_215" data-external="true" rel="noopener noreferrer" target="_blank">enable cross-group (XG) transactions</a>. If you don't use XG transactions, the attempt to update or delete entities of different groups in the same transaction will throw a <a href="https://web.archive.org/web/20160424225913/http://db.apache.org/jdo/api20/apidocs/javax/jdo/JDOFatalUserException.html" id="o43vv8_216" data-external="true" rel="noopener noreferrer" target="_blank">JDOFatalUserException</a>.</p><p id="o43vv8_199">Saving a parent object whose child objects have been modified will save the changes to the child objects. It's a good idea to allow parent objects to maintain persistence for all related child objects in this way, and to use transactions when saving changes.</p></section><section class="chapter"><h2 id="dependent-children-and-cascading-deletes" data-toc="dependent-children-and-cascading-deletes">Dependent Children and Cascading Deletes</h2><p id="o43vv8_217">An owned relationship can be &quot;dependent,&quot; meaning that the child cannot exist without its parent. If a relationship is dependent and a parent object is deleted, all child objects are also deleted. Breaking an owned, dependent relationship by assigning a new value to the dependent field on the parent also deletes the old child. You can declare an owned one-to-one relationship to be dependent by adding <code class="code" id="o43vv8_223">dependent=&quot;true&quot;</code> to the <code class="code" id="o43vv8_224">Persistent</code> annotation of the field on the parent object that refers to the child:</p><div class="code-block" data-lang="none">
+// ...
+    @Persistent(dependent = &quot;true&quot;)
+    private ContactInfo contactInfo;
+</div><p id="o43vv8_219">You can declare an owned one-to-many relationship to be dependent by adding an <code class="code" id="o43vv8_225">@Element(dependent = &quot;true&quot;)</code> annotation to the field on the parent object that refers to the child collection:</p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.Element;
+// ...
+    @Persistent
+    @Element(dependent = &quot;true&quot;)
+    private List contactInfos;
+</div><p id="o43vv8_221">As with creating and updating objects, if you need every delete in a cascading delete to occur in a single atomic action, you must perform the delete in a transaction.</p><p id="o43vv8_222"><span class="control" id="o43vv8_226">Note:</span> The JDO implementation does the work to delete dependent child objects, <span class="emphasis" id="o43vv8_227">not</span> the datastore. If you delete a parent entity using the low-level API or the Google Cloud Platform Console, the related child objects will not be deleted.</p></section><section class="chapter"><h2 id="polymorphic-relationships" data-toc="polymorphic-relationships">Polymorphic Relationships</h2><p id="o43vv8_228">Even though the JDO specification includes support for polymorphic relationships, polymorhpic relationships are not yet supported in the App Engine DO implementation. This is a limitation we hope to remove in future releases of the product. If you need to refer to multiple types of objects via a common base class, we recommend the same strategy used for implementing unowned relationships: store a Key reference. For example, if you have a <code class="code" id="o43vv8_243">Recipe</code> base class with <code class="code" id="o43vv8_244">Appetizer</code>, <code class="code" id="o43vv8_245">Entree</code>, nd <code class="code" id="o43vv8_246">Dessert</code> specializations, and you want to model the favorite <code class="code" id="o43vv8_247">Recipe</code> of a <code class="code" id="o43vv8_248">Chef</code>, you can model it as follows:</p><p id="o43vv8_229"><span class="control" id="o43vv8_249"><code class="code" id="o43vv8_250">Recipe.java</code></span></p><div class="code-block" data-lang="none">
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+@PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
+public abstract class Recipe {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private int prepTime;
+}
+</div><p id="o43vv8_231"><span class="control" id="o43vv8_251"><code class="code" id="o43vv8_252">Appetizer.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Appetizer extends Recipe {
+// ... appetizer-specific fields
+}
+</div><p id="o43vv8_233"><span class="control" id="o43vv8_253"><code class="code" id="o43vv8_254">Entree.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Entree extends Recipe {
+// ... entree-specific fields
+}
+</div><p id="o43vv8_235"><span class="control" id="o43vv8_255"><code class="code" id="o43vv8_256">Dessert.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Dessert extends Recipe {
+// ... dessert-specific fields
+}
+</div><p id="o43vv8_237"><span class="control" id="o43vv8_257"><code class="code" id="o43vv8_258">Chef.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Chef {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent(dependent = &quot;true&quot;)
+    private Recipe favoriteRecipe;
+}
+</div><p id="o43vv8_239">Unfortunately, if you instantiate an <code class="code" id="o43vv8_259">Entree</code> and assign it to <code class="code" id="o43vv8_260">Chef.favoriteRecipe</code> you will get an <code class="code" id="o43vv8_261">UnsupportedOperationException</code> when you try to persist the <code class="code" id="o43vv8_262">Chef</code> object. This is because the runtime type of the object, <code class="code" id="o43vv8_263">Entree</code>, does not match the declared type of relationship field, <code class="code" id="o43vv8_264">Recipe</code>. The workaround is to change the type of <code class="code" id="o43vv8_265">Chef.favoriteRecipe</code> from a <code class="code" id="o43vv8_266">Recipe</code> to a <code class="code" id="o43vv8_267">Key</code>:</p><p id="o43vv8_240"><span class="control" id="o43vv8_268"><code class="code" id="o43vv8_269">Chef.java</code></span></p><div class="code-block" data-lang="none">
+// ... imports ...
+
+@PersistenceCapable
+public class Chef {
+    @PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
+
+    @Persistent
+    private Key favoriteRecipe;
+}
+</div><p id="o43vv8_242">Since <code class="code" id="o43vv8_270">Chef.favoriteRecipe</code> is no longer a relationship field, it can refer to an object of any type. The downside is that, as with an unowned relationship, you need to manage this relationship manually.</p></section><div class="last-modified">10 April 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="creating-getting-and-deleting-data-in-jdo.html" class="navigation-links__prev">Creating, Getting and Deleting Data in JDO</a><a href="datastore-queries-in-jdo.html" class="navigation-links__next">Datastore Queries in JDO</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>
