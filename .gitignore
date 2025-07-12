@@ -1,0 +1,51 @@
+# IDEs and editors
+/.idea/
+/*.iml
+*.class
+*.log
+
+# Maven / Gradle / Ant
+/target/
+/build/
+/out/
+*.war
+*.ear
+*.jar
+
+# GWT specific
+.gwt/
+.gwt-tmp/
+*.gwt.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Environment and tool specific
+.aider*
+.env
+
+# Eclipse
+*.launch
+.project
+.classpath
+.settings/
+
+# IntelliJ
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+
+# Logs and temp files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Node/npm
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
