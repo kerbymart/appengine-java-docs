@@ -3,7 +3,7 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <variables></variables>
-    <build-profile instance="gae-java-docs">
+    <build-profile instance="hi">
         <variables>
             <noindex-content>true</noindex-content>
             <offline-docs>false</offline-docs>
